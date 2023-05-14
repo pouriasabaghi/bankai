@@ -1,0 +1,21 @@
+@font-face {
+    font-family: shabnam;
+    font-style: normal;
+    font-weight: 500;
+    src: url("./../../../assets/typo_fonts/Shabnam-FD.eot");
+    src: url("./../../../assets/typo_fonts/Shabnam-FD.eot?#iefix") format("embedded-opentype"),
+        url("./../../../assets/typo_fonts/Shabnam-FD.woff2") format("woff2"),
+        url("./../../../assets/typo_fonts/Shabnam-FD.woff") format("woff"),
+        url("./../../../assets/typo_fonts/Shabnam-FD.ttf") format("truetype");
+}
+
+body{
+    font-family: 'shabnam';
+}
+#sidebar .sidebar-nav .sidebar-item{
+    text-align: right;
+}
+
+
+
+
