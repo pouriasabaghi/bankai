@@ -8,10 +8,10 @@
     <meta name="description" content="حسابداری">
     <title>وب اپلیکیشن</title>
 
-    <link href="{{ mix('css/admin/app.css') }}" rel="stylesheet">
+    @vite(['resources/css/admin/app.css'])
 </head>
 
-<body data-sidebar-position="right" >
+<body data-sidebar-position="right">
     <div class="wrapper">
         <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar">
@@ -245,8 +245,9 @@
 
                             <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
                                 data-bs-toggle="dropdown">
-                                <img src="{{ asset('assets/img/avatars/avatar.jpg') }}" class="avatar img-fluid rounded me-1"
-                                    alt="Charles Hall" /> <span class="text-dark">Charles Hall</span>
+                                <img src="{{ asset('assets/img/avatars/avatar.jpg') }}"
+                                    class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span
+                                    class="text-dark">Charles Hall</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"
@@ -304,10 +305,7 @@
         </div>
     </div>
 
-    <script src="{{ mix('js/admin/app.js') }}"></script>
-
-
-
+    @vite(['resources/js/admin/app.js'])
 </body>
 
 </html>
