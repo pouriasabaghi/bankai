@@ -15,7 +15,9 @@ body{
 #sidebar .sidebar-nav .sidebar-item{
     text-align: right;
 }
-
+.pagination{
+    overflow: auto;
+}
 
 
 
