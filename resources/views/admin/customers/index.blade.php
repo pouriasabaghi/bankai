@@ -1,0 +1,49 @@
+@extends('admin.master')
+
+
+
+@section('content')
+    <x-ui.card.Card>
+        <x-slot name='header'>
+            <span data-feather="users"></span>
+            <span>مشتریان</span>
+        </x-slot>
+
+        <x-slot name='subtitle'>
+            لیستی از مشتریان شما
+        </x-slot>
+
+        <x-ui.table.Table :attr="['id' => 'customers-table']" :header="['#', 'نام', 'موبایل', 'تلفن', 'اقدامات']" >
+            <x-slot name="tbody">
+                @forelse($customers as $customer)
+                    <tr>
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>
+                            <a href="">
+                                {{ $customer->name }}
+                            </a>
+                        </td>
+                        <td>{{ $customer->mobile }}</td>
+                        <td>{{ $customer->phone }}</td>
+                        <td>
+                            <div class="d-flex">
+                                <x-ui.button.Delete />
+
+                                <x-ui.button.Edit href="{{ route('customers.edit', $customer->id) }}" />
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        @foreach (range(1, 5) as $item)
+                            <td>-</td>
+                        @endforeach
+                    </tr>
+                @endforelse
+            </x-slot>
+        </x-ui.table.Table>
+
+        <x-ui.paginate.Paginate class="mt-3 px-3" :paginate="$customers"/>
+
+    </x-ui.card.Card>
+@endsection

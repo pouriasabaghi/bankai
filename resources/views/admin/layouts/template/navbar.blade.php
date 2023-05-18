@@ -82,7 +82,7 @@
                         <i class="align-middle" data-feather="message-square"></i>
                     </div>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
+                <div class="dropdown-menu dropdown-menu-lg  py-0"
                     aria-labelledby="messagesDropdown">
                     <div class="dropdown-menu-header">
                         <div class="position-relative">
@@ -164,7 +164,7 @@
                         class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span
                         class="text-dark">Charles Hall</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end">
+                <div class="dropdown-menu ">
                     <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"
                             data-feather="user"></i> Profile</a>
                     <a class="dropdown-item" href="#"><i class="align-middle me-1"
