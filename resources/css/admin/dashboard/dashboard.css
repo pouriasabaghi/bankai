@@ -13543,7 +13543,7 @@ body[data-theme="colored"] a.sidebar-link svg {
     color: rgba(233, 236, 239, 0.5);
 }
 .sidebar-dropdown .sidebar-dropdown .sidebar-link {
-    padding: 0.625rem 1.5rem 0.625rem 4.5rem;
+    padding: 0.625rem 4.5rem 0.625rem 1.5rem;
 }
 .sidebar-dropdown .sidebar-dropdown .sidebar-dropdown .sidebar-link {
     padding: 0.625rem 1.5rem 0.625rem 5.75rem;
@@ -13674,7 +13674,7 @@ body[data-theme="colored"] .sidebar-item.active > .sidebar-link svg {
     color: #adb5bd;
     font-size: 90%;
     font-weight: 400;
-    padding: 0.625rem 1.5rem 0.625rem 3.25rem;
+    padding:0.625rem 3.25rem 0.625rem 1.5rem;
 }
 body[data-theme="dark"] .sidebar-dropdown .sidebar-link {
     color: #adb5bd;
@@ -13691,9 +13691,9 @@ body[data-theme="light"] .sidebar-dropdown .sidebar-link {
     background: transparent;
 }
 .sidebar-dropdown .sidebar-link:before {
-    content: "→";
+    content: "\2190";
     display: inline-block;
-    left: -14px;
+    left: 5px;
     position: relative;
     transform: translateX(0);
     transition: all 0.1s ease;
@@ -13752,7 +13752,7 @@ body[data-theme="light"] .sidebar-dropdown .sidebar-item.active .sidebar-link {
     display: inline-block;
     padding: 2px;
     position: absolute;
-    right: 1.5rem;
+    left: 1.5rem;
     top: 1.2rem;
     transform: rotate(45deg);
     transition: all 0.2s ease-out;

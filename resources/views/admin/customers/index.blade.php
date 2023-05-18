@@ -9,9 +9,6 @@
             <span>مشتریان</span>
         </x-slot>
 
-        <x-slot name='subtitle'>
-            لیستی از مشتریان شما
-        </x-slot>
 
         <x-ui.table.Table :attr="['id' => 'customers-table']" :header="['#', 'نام', 'موبایل', 'تلفن', 'اقدامات']" >
             <x-slot name="tbody">
