@@ -63,6 +63,10 @@ class CustomerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       $customer = Customer::query()->findOrFail($id);
+       $customer->delete();
+       //!!! if customer delete companies must delete to
+
+       return back();
     }
 }

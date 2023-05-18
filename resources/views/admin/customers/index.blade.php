@@ -27,7 +27,11 @@
                         <td>{{ $customer->phone }}</td>
                         <td>
                             <div class="d-flex">
-                                <x-ui.button.Delete />
+                                <form method="post" action='{{ route('customers.destroy', $customer->id) }}'>
+                                    @csrf
+                                    @method('DELETE')
+                                    <x-ui.button.Delete />
+                                </form>
 
                                 <x-ui.button.Edit href="{{ route('customers.edit', $customer->id) }}" />
                             </div>
