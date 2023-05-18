@@ -18,10 +18,24 @@ use Illuminate\Http\Request;
 
 // ? check if  current route is active
 if (!function_exists('is_route_active')) {
-    function is_route_active(...$route)
+    /**
+     * @param string|array $route
+     * @param bool $contains
+     * @return bool
+     */
+    function is_route_active(string|array $route, $contains = false, ...$routes) : bool
     {
-        if (in_array(request()->route()->getName(), $route)) {
-            return true;
+        if (!$contains) {
+            if (!is_array($route)) {
+                $route = [$route];
+            }
+            if (in_array(request()->route()->getName(), $route)) {
+                return true;
+            }
+        }else{
+            if (strpos(request()->route()->getName() , $route ) !== false) {
+                return true;
+            }
         }
 
         return false;
@@ -29,8 +43,9 @@ if (!function_exists('is_route_active')) {
 }
 
 // ? convert arabic and persian number to english
-if(!function_exists('fix_number')){
-    function fix_number($number) {
+if (!function_exists('fix_number')) {
+    function fix_number($number)
+    {
         $persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
         $arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
@@ -43,8 +58,8 @@ if(!function_exists('fix_number')){
 }
 
 
-if(!function_exists('get_device')){
-    function get_device(Request $request) : string
+if (!function_exists('get_device')) {
+    function get_device(Request $request): string
     {
         $userAgent = $request->header('User-Agent');
 
