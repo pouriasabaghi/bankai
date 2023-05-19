@@ -1,4 +1,4 @@
-<a href="{{ $herf ?? '#' }}" class="btn btn-sm text-info {{ $class ?? '' }}">
+<a href="{{ $href ?? '#' }}" class="btn btn-sm text-info {{ $class ?? '' }}">
 
     @if ($slot->isNotEmpty())
         {{ $slot }}
