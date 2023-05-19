@@ -40,7 +40,7 @@ class CustomerController extends Controller
         $service->storeOrUpdate($request->all());
         $this->successAlert(null, 'مشتری با موفقیت ثبت شد');
 
-        return $this->redirect(route('customers.index'), $request->stay_in_page );
+        return $this->redirect(route('customers.index'));
 
     }
 
@@ -51,7 +51,7 @@ class CustomerController extends Controller
         return view('admin.customers.edit', compact('customer', 'formAttributes'));
     }
 
-  
+
     public function update(Request $request, Customer $customer)
     {
         $service = $this->service;

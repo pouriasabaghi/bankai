@@ -1,3 +1,4 @@
-<option {{ !empty($disabled) ? "disabled" : "" }} class="{{ $class ?? '' }}" value="{{ $value ?? '' }}">
+<option {{ !empty($disabled) ? 'disabled' : '' }} {{ $selected ? 'selected' : '' }} class="{{ $class ?? '' }}"
+    value="{{ $value ?? '' }}">
     {{ $slot }}
 </option>

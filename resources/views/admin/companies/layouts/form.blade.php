@@ -4,7 +4,9 @@
             :attr="['required' => 'required']" />
         <x-ui.form.Select class="form-control" name='customer_id' col='6' label='مشتری'>
             @forelse ($customers as $customer)
-                <x-ui.form.Option value="{{ $customer->id }}">{{ $customer->name }}</x-ui.form.Option>
+                <x-ui.form.Option
+                    selected="{{ !empty($company->customer->id) && $customer->id == $company->customer->id }}"
+                    value="{{ $customer->id }}">{{ $customer->name }}</x-ui.form.Option>
             @empty
                 <x-ui.form.Option :disabled='true' value='null'>مشتری وجود ندارد</x-ui.form.Option>
             @endforelse
