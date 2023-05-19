@@ -12,6 +12,8 @@
 </head>
 
 <body dir='rtl' data-sidebar-position="right">
+    @include('sweetalert::alert')
+
     <div class="wrapper">
         @include('admin.layouts.template.sidebar')
 
