@@ -68,7 +68,7 @@ class CompanyController extends Controller
     {
         $company = Company::query()->findOrFail($id);
         $company->delete();
-        $this->successAlert('مجموعه با موفقیت حذف شد');
+        $this->successAlert(null, 'مجموعه با موفقیت حذف شد');
         return back();
     }
 }
