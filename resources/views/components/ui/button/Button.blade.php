@@ -1,3 +1,9 @@
-<button class="btn  bg-primary text-white rounded {{ $class ?? '' }}" >
+@if (!empty($href))
+    <a href="{{ $href }}" class="btn  btn-{{ $btn ?? 'primary' }} text-white rounded {{ $class ?? '' }}">
         <span>{{ $slot }}</span>
-</button>
+    </a>
+@else
+    <button class="btn  btn-{{ $btn ?? 'primary' }} text-white rounded {{ $class ?? '' }}">
+        <span>{{ $slot }}</span>
+    </button>
+@endif
