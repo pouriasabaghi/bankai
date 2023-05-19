@@ -7874,10 +7874,10 @@ fieldset:disabled .btn {
     line-height: 1.5 !important;
 }
 .text-start {
-    text-align: left !important;
+    text-align: start !important;
 }
 .text-end {
-    text-align: right !important;
+    text-align: end !important;
 }
 .text-center {
     text-align: center !important;
