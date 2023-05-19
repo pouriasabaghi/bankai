@@ -213,5 +213,6 @@ return [
         'username'                 => 'نام کاربری',
         'year'                     => 'سال',
         'customer_id'              =>'مشتری',
+        'customer'                 =>'مشتری',
     ],
 ];
