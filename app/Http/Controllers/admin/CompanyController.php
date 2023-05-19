@@ -40,7 +40,7 @@ class CompanyController extends Controller
     {
         $service = $this->service;
         $service->storeOrUpdate($request->all());
-        $this->successAlert();
+        $this->successAlert(null, 'مجموعه با موفقیت ثبت شد');
         return $this->redirect(route('companies.index'));
     }
 
@@ -59,7 +59,7 @@ class CompanyController extends Controller
         dd($request->all());
         $service = $this->service;
         $service->storeOrUpdate($request->all(), $company);
-        $this->successAlert();
+        $this->successAlert(null, 'مجموعه با موفقیت ویرایش شد');
         return $this->redirect(route('companies.index'));
     }
 
@@ -68,7 +68,7 @@ class CompanyController extends Controller
     {
         $company = Company::query()->findOrFail($id);
         $company->delete();
-        $this->successAlert();
+        $this->successAlert('مجموعه با موفقیت حذف شد');
         return back();
     }
 }

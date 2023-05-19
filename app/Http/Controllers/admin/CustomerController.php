@@ -65,7 +65,6 @@ class CustomerController extends Controller
     {
         $customer = Customer::query()->findOrFail($id);
         $customer->delete();
-        //!!! if customer delete companies must delete to
         $this->successAlert(null, 'مشتری با موفقیت حذف شد');
         return back();
     }
