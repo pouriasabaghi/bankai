@@ -6,26 +6,26 @@
     <x-ui.card.Card>
         <x-slot name='header'>
             <span data-feather="star"></span>
-            <span>دسته بندی خدمات</span>
+            <span>خدمات</span>
         </x-slot>
         <x-slot name='subtitle'>
-           دسته بندی خدمات به طور مثال: بنر، سئو، طراحی سایت و...
+            خدمات هر دسته بندی مثال: بنر صفحه باغ تالار، بنر صفحه اصلی و...
         </x-slot>
         <x-slot name='body'>
-            @include('admin.types.layouts.form')
-            <x-ui.table.Table :attr="['id' => 'types-table']" :header="['#', 'نام', 'اقدامات']">
+            @include('admin.services.layouts.form')
+            <x-ui.table.Table :attr="['id' => 'services-table']" :header="['#', 'نام', 'اقدامات']">
                 <x-slot name="tbody">
-                    @forelse($types as $type)
+                    @forelse($services as $service)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>
                                 <a href="">
-                                    {{ $type->name }}
+                                    {{ $service->name }}
                                 </a>
                             </td>
                             <td>
                                 <div class="d-flex">
-                                    <form method="post" action='{{ route('types.destroy', $type->id) }}'>
+                                    <form method="post" action='{{ route('services.destroy', $service->id) }}'>
                                         @csrf
                                         @method('DELETE')
                                         <x-ui.button.Delete />
@@ -45,7 +45,7 @@
                 </x-slot>
             </x-ui.table.Table>
 
-            <x-ui.paginate.Paginate class="mt-3 px-3" :paginate="$types" />
+            <x-ui.paginate.Paginate class="mt-3 px-3" :paginate="$services" />
         </x-slot>
     </x-ui.card.Card>
 @endsection

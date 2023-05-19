@@ -17,11 +17,12 @@
                     'مدیریت مجموعه‌ها' => 'companies.index',
                 ]" />
 
-            <x-dashboard.SidebarItemMulti icon='star' active="{{ is_route_active(true, 'types', ) }}"
+            <x-dashboard.SidebarItemMulti icon='star' active="{{ is_route_active(true, 'types', 'services') }}"
                 id='services' title="خدمات" :items="[
-                    //'خدمات' => 'companies.index',
+                    'خدمات' => 'services.index',
                     'دسته بندی خدمات' => 'types.index',
                 ]" />
+
 
         </x-dashboard.SidebarNav>
     </div>

@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
 
 
         //\App\Models\Customer::factory(10)->has(Company::factory(3))->create();
-        \App\Models\Type::factory(10)->create();
+      //  \App\Models\Type::factory(10)->create();
+        \App\Models\Service::factory(10)->create();
     }
 }

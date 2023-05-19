@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\CustomerController;
+use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\TypeController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,5 +13,6 @@ Route::group([],function(){
    Route::resource('customers', CustomerController::class)->except('show');
    Route::resource('companies', CompanyController::class)->except('show');
    Route::resource('types', TypeController::class)->except('show','create', 'edit', 'update');
+   Route::resource('services', ServiceController::class)->except('show','create', 'edit', 'update');
 });
 
