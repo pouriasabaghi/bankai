@@ -7,14 +7,14 @@
 
             <x-dashboard.SidebarItemMulti icon='users' active="{{ is_route_active('customers', true) }}" id='customers' title="مشتریان"
                 :items="[
-                    'افزودن' => 'customers.create',
-                    'مدیریت' => 'customers.index',
+                    'افزودن مشتری' => 'customers.create',
+                    'مدیریت مشتریان' => 'customers.index',
                 ]" />
 
-            <x-dashboard.SidebarItemMulti icon='user-check' active="{{ is_route_active('companies', true) }}" id='companies'
+            <x-dashboard.SidebarItemMulti icon='umbrella' active="{{ is_route_active('companies', true) }}" id='companies'
                 title="مجموعه‌ها" :items="[
-                    'افزودن' => 'companies.create',
-                    'مدیریت' => 'companies.index',
+                    'افزودن مجموعه' => 'companies.create',
+                    'مدیریت مجموعه‌ها' => 'companies.index',
                 ]" />
 
         </x-dashboard.SidebarNav>

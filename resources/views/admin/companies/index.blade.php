@@ -5,7 +5,7 @@
 @section('content')
     <x-ui.card.Card>
         <x-slot name='header'>
-            <span data-feather="user-check"></span>
+            <span data-feather="umbrella"></span>
             <span>مجموعه ها</span>
         </x-slot>
         <x-slot name='subtitle'>

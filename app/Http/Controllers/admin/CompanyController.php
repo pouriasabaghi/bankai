@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Services\CompanyService;
@@ -36,7 +37,7 @@ class CompanyController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CompanyRequest $request)
     {
         $service = $this->service;
         $service->storeOrUpdate($request->all());
@@ -54,7 +55,7 @@ class CompanyController extends Controller
     }
 
 
-    public function update(Request $request, Company $company)
+    public function update(CompanyRequest $request, Company $company)
     {
         dd($request->all());
         $service = $this->service;

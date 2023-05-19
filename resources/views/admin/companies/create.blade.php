@@ -3,7 +3,7 @@
 @section('content')
     <x-ui.card.Card>
         <x-slot name='header'>
-            <span data-feather="user-plus"></span>
+            <span data-feather="plus-circle"></span>
             <span>افزودن مجموعه</span>
         </x-slot>
         <x-slot name='body'>
