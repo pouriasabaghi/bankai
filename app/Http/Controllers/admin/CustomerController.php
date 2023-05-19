@@ -19,31 +19,23 @@ class CustomerController extends Controller
         $this->service = new CustomerService();
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-
         $customers = Customer::query()->latest()->paginate(50);
         return view('admin.customers.index', compact('customers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         $formAttributes = (new CustomerService())->formAttributes();
         return view('admin.customers.create', compact('formAttributes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-
         $service = $this->service;
         $service->storeOrUpdate($request->all());
         $this->successAlert(null, 'مشتری با موفقیت ثبت شد');
@@ -52,25 +44,14 @@ class CustomerController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Customer $customer)
     {
         $formAttributes = (new CustomerService())->formAttributes($customer);
         return view('admin.customers.edit', compact('customer', 'formAttributes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+  
     public function update(Request $request, Customer $customer)
     {
         $service = $this->service;
@@ -79,9 +60,7 @@ class CustomerController extends Controller
         return back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         $customer = Customer::query()->findOrFail($id);
