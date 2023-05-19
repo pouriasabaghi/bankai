@@ -12,7 +12,7 @@
 </head>
 
 <body dir='rtl' data-sidebar-position="right">
-    @include('sweetalert::alert')
+
 
     <div class="wrapper">
         @include('admin.layouts.template.sidebar')
@@ -29,7 +29,7 @@
             @include('admin.layouts.template.footer')
         </div>
     </div>
-
+    @include('sweetalert::alert')
     @vite(['resources/js/admin/app.js'])
 </body>
 
