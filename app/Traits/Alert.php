@@ -6,7 +6,7 @@ namespace App\Traits;
 
 trait Alert
 {
-    protected static function successAlert($title = null, $text = null)
+    protected  function successAlert($title = null, $text = null)
     {
 
         $title = $title ?? 'عملیات موفق';

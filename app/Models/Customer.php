@@ -15,7 +15,7 @@ class Customer extends Model
     protected function mobile(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) => fix_number($value),
+            set: fn (?string $value) => fix_number($value),
         );
     }
 }

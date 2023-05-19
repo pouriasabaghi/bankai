@@ -18,12 +18,14 @@ class CustomerService
         if ($customer) {
             $action = route('customers.update', $customer->id);
             $method = 'PUT';
+            $form = 'update';
         }else{
             $action = route('customers.store');
             $method = 'POST';
+            $form = 'store';
         }
 
-        return compact('action', 'method');
+        return compact('action', 'method', 'form');
     }
 
 

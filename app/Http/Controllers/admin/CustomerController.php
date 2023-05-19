@@ -6,11 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Services\CustomerService;
 use App\Traits\Alert;
+use App\Traits\Redirect;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    use Alert ;
+    use Alert, Redirect;
     protected CustomerService $service;
 
     public function __construct()
@@ -42,10 +43,13 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+
         $service = $this->service;
         $service->storeOrUpdate($request->all());
         $this->successAlert(null, 'مشتری با موفقیت ثبت شد');
-        return redirect(route('customers.index'));
+
+        return $this->redirect(route('customers.index'), $request->stay_in_page );
+
     }
 
     /**

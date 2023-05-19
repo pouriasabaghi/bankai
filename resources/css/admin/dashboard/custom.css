@@ -18,6 +18,8 @@ body{
 .pagination{
     overflow: auto;
 }
-
+input[type='checkbox'],input[type='radio']{
+    vertical-align: middle;
+}
 
 
