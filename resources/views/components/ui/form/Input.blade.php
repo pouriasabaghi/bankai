@@ -1,4 +1,4 @@
-<div class="col-{{ $col ?? '12' }} mb-3">
+<div class="col-md-{{ $col ?? '12' }} mb-3">
     <div class="form-group">
         @if (!empty($label))
             <label class='form-label' for="{{ !empty($id) ? $id : $name }}">{{ $label }}</label>

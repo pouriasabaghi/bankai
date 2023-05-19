@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\CustomerController;
+use App\Http\Controllers\admin\TypeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -9,7 +10,7 @@ Route::group([],function(){
     Route::get('/dashboard', fn()=> view('admin.dashboard.index'))->name('dashboard');
 
    Route::resource('customers', CustomerController::class)->except('show');
-
    Route::resource('companies', CompanyController::class)->except('show');
+   Route::resource('types', TypeController::class)->except('show','create', 'edit', 'update');
 });
 

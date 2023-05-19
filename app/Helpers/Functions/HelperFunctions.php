@@ -23,18 +23,17 @@ if (!function_exists('is_route_active')) {
      * @param bool $contains
      * @return bool
      */
-    function is_route_active(string|array $route, $contains = false, ...$routes) : bool
+    function is_route_active($contains = false, ...$routes): bool
     {
         if (!$contains) {
-            if (!is_array($route)) {
-                $route = [$route];
-            }
-            if (in_array(request()->route()->getName(), $route)) {
+            if (in_array(request()->route()->getName(), $routes)) {
                 return true;
             }
-        }else{
-            if (strpos(request()->route()->getName() , $route ) !== false) {
-                return true;
+        } else {
+            foreach ($routes as $route) {
+                if (strpos(request()->route()->getName(), $route) !== false) {
+                    return true;
+                }
             }
         }
 
