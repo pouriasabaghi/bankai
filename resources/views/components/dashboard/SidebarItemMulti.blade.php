@@ -1,6 +1,6 @@
 <li class="sidebar-item {{ !empty($active) ? 'active' : '' }}">
     <a data-bs-target="#{{ $id }}" data-bs-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
-        <span data-feather="users"></span>
+        <span data-feather="{{ $icon ?? 'circle' }}"></span>
         <span class="align-middle">{{ $title }}</span>
     </a>
 

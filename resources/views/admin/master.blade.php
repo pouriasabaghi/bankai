@@ -31,6 +31,18 @@
     </div>
     @include('sweetalert::alert')
     @vite(['resources/js/admin/app.js'])
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            $(".advance-select").select2({
+                placeholder: 'انتخاب کنید',
+                language: {
+                    noResults: function() {
+                        return "موردی یافت نشد";
+                    }
+                }
+            });
+        })
+    </script>
 </body>
 
 </html>

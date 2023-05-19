@@ -22,4 +22,8 @@ input[type='checkbox'],input[type='radio']{
     vertical-align: middle;
 }
 
+.select2-container{
+    max-width: 100%;
+}
+
 

@@ -29,7 +29,7 @@ class CustomerService
     }
 
 
-    public function storeOrUpdate(array $data, ?Customer $customer = null)
+    public function storeOrUpdate(array $data, ?Customer $customer = null) : Customer
     {
         $preparedData = [
             'name'=>$data['name'],
@@ -44,5 +44,7 @@ class CustomerService
         }else{
             $customer = Customer::create($preparedData);
         }
+
+        return $customer ;
     }
 }

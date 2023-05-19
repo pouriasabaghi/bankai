@@ -1,7 +1,7 @@
 <div class="col-{{ $col ?? '12' }} mb-3">
     <div class="form-group">
         @if (!empty($label))
-            <label class='form-label' for="{{ !empty($id) ? $id : $name }}">{{ !empty($label) ? $label : '' }}</label>
+            <label class='form-label' for="{{ !empty($id) ? $id : $name }}">{{ $label }}</label>
         @endif
         <input
             @forelse ($attributes = !empty($attr) ? $attr : [] as $key => $attribute  )
