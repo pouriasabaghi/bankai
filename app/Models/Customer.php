@@ -12,6 +12,11 @@ class Customer extends Model
 
     protected $fillable = ['name', 'desc', 'phone', 'mobile'];
 
+    public function companies()
+    {
+        return $this->hasMany(Company::class);
+    }
+
     protected function mobile(): Attribute
     {
         return Attribute::make(

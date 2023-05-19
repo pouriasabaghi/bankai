@@ -10,4 +10,9 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'customer_id'];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }
