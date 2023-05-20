@@ -4,7 +4,7 @@
             :attr="['required' => 'required']" />
 
         <x-ui.form.Input name='number' value="{{ old('number', $card->number ?? '') }}" label='شماره حساب' col='6'
-            :attr="['required' => 'required']" type='number' />
+            :attr="['required' => 'required', 'data-separate'=>'true']" type='tel' />
 
         <x-ui.form.Input name='amount' value="{{ old('amount', $card->amount ?? '') }}" label='موجودی' col='6' />
 

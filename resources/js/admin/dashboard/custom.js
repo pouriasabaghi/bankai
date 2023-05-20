@@ -1,3 +1,5 @@
+import { fix_number } from "../helpers/helpers";
+
 const dataTable = (selector, options = {}) => {
     options.sortable = options.sortable ?? true;
     options.searchable = options.searchable ?? false;
@@ -94,6 +96,43 @@ const dataTable = (selector, options = {}) => {
     }
 };
 dataTable('table');
+
+/**
+ * Separate by 3 digits
+ */
+const numberInputs = document.querySelectorAll("input[data-separate]");
+numberInputs &&
+    numberInputs.forEach((input) =>
+        input.addEventListener("input", normalizeInputNumber)
+    );
+function normalizeInputNumber(e) {
+    let input = e.target;
+    let value = input.value
+
+    // remove "," from current value
+    value = replaceAll(',', '') ;
+
+    // change persian and  arabic numbers
+    value = fix_number(value);
+
+    // only numbers is valid
+    const pattern = /^[0-9]*$/
+    if (!pattern.test(value)) {
+        value = value.slice(0, -1);
+    }
+
+    if (value) {
+        // separate by 3 digits
+        value = parseInt(value);
+        input.value = value.toLocaleString();
+    } else {
+        // first value not matched to pattern
+        input.value = '';
+    }
+
+}
+
+
 
 
 /**
