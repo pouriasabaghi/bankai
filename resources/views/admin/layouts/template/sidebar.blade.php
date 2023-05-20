@@ -24,6 +24,13 @@
                 ]" />
 
 
+            <x-dashboard.SidebarItemMulti icon='credit-card' active="{{ is_route_active(true, 'cards') }}"
+            id='cards' title="حساب‌ها" :items="[
+                'افزودن حساب' => 'cards.create',
+                'مدیرت حساب‌ها' => 'cards.index',
+            ]" />
+
+
         </x-dashboard.SidebarNav>
     </div>
 </nav>

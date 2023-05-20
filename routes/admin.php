@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\CardController;
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\ServiceController;
@@ -14,5 +15,6 @@ Route::group([],function(){
    Route::resource('companies', CompanyController::class)->except('show');
    Route::resource('types', TypeController::class)->except('show','create', 'edit', 'update');
    Route::resource('services', ServiceController::class)->except('show','create', 'edit', 'update');
+   Route::resource('cards', CardController::class)->except('show');
 });
 
