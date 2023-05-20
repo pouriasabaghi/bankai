@@ -19,7 +19,7 @@
     @if ($attributes = !empty($attr) ? $attr : null) @foreach ($attributes as $key => $attribute)
             {{ $key . '=' . $attribute }}
         @endforeach @endif>
-    <x-UI.table.Thead>
+    <x-ui.table.Thead>
         @if (!empty($thead))
             {{ $thead }}
         @else
@@ -31,9 +31,9 @@
             @endforeach
         @endif
 
-    </x-UI.table.Thead>
+    </x-ui.table.Thead>
 
-    <x-UI.table.Tbody>
+    <x-ui.table.Tbody>
         {{ $tbody }}
-    </x-UI.table.Tbody>
+    </x-ui.table.Tbody>
 </table>
