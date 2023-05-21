@@ -30,6 +30,12 @@
                 'مدیرت حساب‌ها' => 'cards.index',
             ]" />
 
+            <x-dashboard.SidebarItemMulti icon='file-text' active="{{ is_route_active(true, 'contracts') }}"
+            id='contracts' title="قراردادها" :items="[
+                'افزودن قرارداد' => 'contracts.create',
+                'مدیرت قراردادها' => 'contracts.index',
+            ]" />
+
 
         </x-dashboard.SidebarNav>
     </div>
