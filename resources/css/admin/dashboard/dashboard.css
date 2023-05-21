@@ -12005,8 +12005,8 @@ fieldset:disabled .btn {
 }
 .alert-outline .alert-icon,
 .alert-outline-coloured .alert-icon {
-    border-bottom-left-radius: 0.2rem;
-    border-top-left-radius: 0.2rem;
+    border-bottom-right-radius: 0.2rem;
+    border-top-right-radius: 0.2rem;
     color: #fff;
 }
 .alert-outline-coloured.alert-primary .alert-icon,

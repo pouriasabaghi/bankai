@@ -11,6 +11,8 @@
             type="{{ !empty($type) ? $type : 'text' }}"
             class="form-control mt-1 text-start {{ !empty($class) ? $class : '' }}"
             placeholder="{{ !empty($placeholder) ? $placeholder : '' }}" autocomplete="off"
-            value="{{ !empty($value) ? $value : '' }}" style="{{ $style ?? '' }}">
+            value="{{ !empty($value) ? $value : '' }}" style="{{ $style ?? '' }}"
+            {{ $livewire ?? '' }}
+            >
     </div>
 </div>

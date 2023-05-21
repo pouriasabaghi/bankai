@@ -26,4 +26,9 @@ input[type='checkbox'],input[type='radio']{
     max-width: 100%;
 }
 
+.alert-outline-coloured .alert-message {
+    border-right: unset;
+    border-top-right-radius: unset;
+    border-bottom-right-radius: unset;
+}
 

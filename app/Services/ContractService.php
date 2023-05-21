@@ -18,13 +18,15 @@ class ContractService
             $action = route('contracts.update', $contract->id);
             $method = 'PUT';
             $form = 'update';
+            $isUpdate = true;
         }else{
             $action = route('contracts.store');
             $method = 'POST';
             $form = 'store';
+            $isUpdate = false;
         }
 
-        return compact('action', 'method', 'form');
+        return compact('action', 'method', 'form', 'isUpdate');
     }
 
 

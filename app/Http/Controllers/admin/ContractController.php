@@ -4,6 +4,8 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use App\Models\Service;
+use App\Models\Type;
 use App\Services\ContractService;
 use Illuminate\Http\Request;
 
@@ -26,6 +28,30 @@ class ContractController extends Controller
     {
         $service = $this->service;
         $formAttributes = $service->formAttributes();
-        return view('admin.contracts.create', compact('formAttributes'));
+        $types = Type::query()->latest()->get();
+        $services = Service::query()->latest()->get();
+        return view('admin.contracts.create', compact('formAttributes', 'types', 'services'));
+    }
+
+
+    public function store(Request $request)
+    {
+        dd($request->all());
+    }
+
+    public function edit(Contract $contract)
+    {
+
+    }
+
+
+    public function update(Request $request, Contract $contract)
+    {
+
+    }
+
+    public function destroy($id)
+    {
+
     }
 }

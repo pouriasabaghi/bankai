@@ -3,7 +3,8 @@
         <span>{{ $slot }}</span>
     </a>
 @else
-    <button class="btn  btn-{{ $btn ?? 'primary' }} text-white rounded {{ $class ?? '' }}">
+    <button {{ !empty($disabled) && $disabled == true ? 'disabled' : '' }} type="{{ $type ?? 'submit' }}"
+        class="btn  btn-{{ $btn ?? 'primary' }} text-white rounded {{ $class ?? '' }}" {{ $livewire ?? '' }}>
         <span>{{ $slot }}</span>
     </button>
 @endif
