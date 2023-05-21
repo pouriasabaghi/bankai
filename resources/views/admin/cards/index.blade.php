@@ -37,7 +37,7 @@
                         </tr>
                     @empty
                         <tr>
-                            @foreach (range(1, 4) as $item)
+                            @foreach (range(1, 5) as $item)
                                 <td>-</td>
                             @endforeach
                         </tr>
