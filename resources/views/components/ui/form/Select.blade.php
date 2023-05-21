@@ -3,12 +3,15 @@
         @if (!empty($label))
             <label class='form-label d-block'>{{ $label }}</label>
         @endif
-        <select name="{{ $name ?? '' }}" class="{{ empty($script) ? 'advance-select' : '' }} {{ $class ?? '' }}">
+        <select {{ $livewire ?? '' }} name="{{ $name ?? '' }}"
+            class="{{ empty($script) ? 'advance-select' : '' }} {{ $class ?? '' }}">
             {{ $slot }}
         </select>
     </div>
 </div>
 
 @if (!empty($script))
-    {{ $script }}
+    @if ($script != 'no')
+        {{ $script }}
+    @endif
 @endif

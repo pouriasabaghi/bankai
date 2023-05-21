@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="حسابداری">
     <title>وب اپلیکیشن</title>
-    @livewireStyles
     @vite(['resources/css/admin/app.css'])
+    @livewireStyles
 </head>
 
 <body dir='rtl' data-sidebar-position="right">
@@ -44,6 +44,7 @@
             });
         })
     </script>
+    @stack('scripts')
 </body>
 
 </html>
