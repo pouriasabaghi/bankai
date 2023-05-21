@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="حسابداری">
     <title>وب اپلیکیشن</title>
-
+    @livewireStyles
     @vite(['resources/css/admin/app.css'])
 </head>
 
@@ -29,6 +29,7 @@
             @include('admin.layouts.template.footer')
         </div>
     </div>
+    @livewireScripts
     @include('sweetalert::alert')
     @vite(['resources/js/admin/app.js'])
     <script>
