@@ -49,7 +49,8 @@ if (!function_exists('fix_number')) {
         $arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
         $num = range(0, 9);
-        $convertedPersianNums = str_replace($persian, $num, $number);
+        $removeSeparate = str_replace(',' , '' , $number);
+        $convertedPersianNums = str_replace($persian, $num, $removeSeparate);
         $englishNumbersOnly = str_replace($arabic, $num, $convertedPersianNums);
 
         return $englishNumbersOnly;
