@@ -22,7 +22,7 @@
                                 </a>
                             </td>
                             <td>{{ $card->number}}</td>
-                            <td>{{ $card->amount }}</td>
+                            <td>{{ $card->amountStr }}</td>
                             <td>
                                 <div class="d-flex">
                                     <form method="post" action='{{ route('cards.destroy', $card->id) }}'>
