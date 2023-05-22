@@ -7,12 +7,15 @@
             @forelse ($attributes = !empty($attr) ? $attr : [] as $key => $attribute  )
                 {{ $key . '=' . $attribute }}
             @empty @endforelse
-            name="{{ !empty($name) ? $name : '' }}" {{ !empty($type) && $type == 'number' ? 'data-number' : '' }}
+            name="{{ !empty($name) ? $name : '' }}"
             type="{{ !empty($type) ? $type : 'text' }}"
             class="form-control mt-1 text-start {{ !empty($class) ? $class : '' }}"
             placeholder="{{ !empty($placeholder) ? $placeholder : '' }}" autocomplete="off"
-            value="{{ !empty($value) ? $value : '' }}" style="{{ $style ?? '' }}"
-            {{ $livewire ?? '' }}
+            value="{{ !empty($value) ? $value : '' }}" style="{{ $style ?? '' }}" {{ $livewire ?? '' }}
             >
     </div>
+
+    @if (!empty($datalist))
+        {{ $datalist }}
+    @endif
 </div>

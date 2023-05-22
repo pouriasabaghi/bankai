@@ -1,6 +1,6 @@
 <div class="row position-relative">
     <x-ui.loader.Loader livewire="wire:loading.flex" />
-    <x-ui.form.Select class="form-control _services-select" name='services[]' col='12' label='خدمات' multiple='true'
+    <x-ui.form.Select class="form-control _services-select" name='services[]' col='10 col-10' label='خدمات' multiple='true'
         script='no'>
         @forelse ($services as $service)
             <x-ui.form.Option value="{{ $service->id }}">{{ $service->name }}</x-ui.form.Option>
@@ -9,22 +9,31 @@
         @endforelse
     </x-ui.form.Select>
 
-    <div class="row">
-        <x-ui.form.Input livewire="wire:model.debounce.500ms=service_name" name='service_name' label='عنوان خدمت جدید'
-            col='10' />
+    <div class="col-md-2 col-3 mt-auto mb-3 " wire:ignore>
+        <x-ui.button.Button class="add-new-service__button" type='button' btn='success'>
+            <i class="fa-solid fa-plus"></i>
+        </x-ui.button.Button>
+    </div>
 
-        <div class="col-2 mt-auto mb-3">
-            <x-ui.button.Button disabled="{{ empty($this->service_name) }}" type='button' livewire="wire:click=store" btn='success'>
+    <div class="row add-new-service__box" wire:ignore.self>
+        <x-ui.form.Input livewire="wire:model.debounce.500ms=service_name" name='service_name' label='عنوان خدمت جدید'
+            col='10 col-9' />
+
+        <div class="col-md-2 col-3 mt-auto mb-3">
+            <x-ui.button.Button type='button' livewire="wire:click=store" btn='success'>
                 افزودن
             </x-ui.button.Button>
         </div>
 
-        @if (session()->has('message'))
-           <x-ui.alert.Alert>
-                {{ session('message') }}
-           </x-ui.alert.Alert>
-        @endif
+
     </div>
+
+    @if (session()->has('message'))
+        <x-ui.alert.Alert>
+            {{ session('message') }}
+        </x-ui.alert.Alert>
+    @endif
+
 
     @push('scripts')
         <script>
@@ -61,6 +70,20 @@
 
                 })
             });
+
+            const addNewServiceButton = document.querySelector('.add-new-service__button')
+            addNewServiceButton && addNewServiceButton.addEventListener('click', (e) => {
+                const newServiceBox = document.querySelector('.add-new-service__box');
+                const icon = e.target.closest('button').querySelector('i');
+                newServiceBox && newServiceBox.classList.toggle('active')
+                if (newServiceBox.classList.contains('active')) {
+                    icon.classList.remove('fa-plus')
+                    icon.classList.add('fa-minus')
+                } else {
+                    icon.classList.add('fa-plus')
+                    icon.classList.remove('fa-minus')
+                }
+            })
         </script>
     @endpush
 </div>

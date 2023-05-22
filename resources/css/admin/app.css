@@ -3,3 +3,12 @@
 @import './components/components.css';
 @import './plugins/plugins.css';
 
+.add-new-service__box{
+    height: 0;
+    overflow: hidden;
+    transition: height 500ms;
+}
+
+.add-new-service__box.active{
+    height: 82px;
+}

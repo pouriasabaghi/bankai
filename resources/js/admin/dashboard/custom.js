@@ -108,9 +108,8 @@ numberInputs &&
 function normalizeInputNumber(e) {
     let input = e.target;
     let value = input.value
-
     // remove "," from current value
-    value = replaceAll(',', '') ;
+    value = value.replace(/,/g, '') ;
 
     // change persian and  arabic numbers
     value = fix_number(value);

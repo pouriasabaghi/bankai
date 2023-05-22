@@ -31,4 +31,10 @@ input[type='checkbox'],input[type='radio']{
     border-top-right-radius: unset;
     border-bottom-right-radius: unset;
 }
+i{
+    vertical-align: middle;
+}
 
+select[multiple]{
+    max-height: 32px;
+}

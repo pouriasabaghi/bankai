@@ -4,9 +4,9 @@
             :attr="['required' => 'required']" />
 
         <x-ui.form.Input name='number' value="{{ old('number', $card->number ?? '') }}" label='شماره حساب' col='6'
-            :attr="['required' => 'required', 'data-separate'=>'true']" type='tel' />
+            :attr="['required' => 'required']" type='number' />
 
-        <x-ui.form.Input name='amount' value="{{ old('amount', $card->amount ?? '') }}" label='موجودی' col='6' />
+        <x-ui.form.Input name='amount' value="{{ old('amount', $card->amount ?? '') }}" label='موجودی' col='6' type='number' />
 
         <div class="col-md-12">
             @if ($formAttributes['form'] == 'store')

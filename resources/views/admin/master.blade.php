@@ -31,6 +31,8 @@
     </div>
     @livewireScripts
     @include('sweetalert::alert')
+    <script src="{{asset('assets/plugins/jquery.js')}}"></script>
+    <script src="{{asset('assets/plugins/persian-datepicker.js')}}"></script>
     @vite(['resources/js/admin/app.js'])
     <script>
         document.addEventListener('DOMContentLoaded', () => {
