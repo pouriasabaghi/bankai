@@ -42,17 +42,17 @@ class ContractController extends Controller
 
     public function store(ContractRequest $request)
     {
-        $service = $this->service;
-        $service->storeOrUpdate($request->all());
+        $ContractService = $this->service;
+        $contract =$ContractService->storeOrUpdate($request->all());
         $this->successAlert(null, 'قرارداد با موفقیت ثبت شد');
 
-        return $this->redirect(route('contracts.index'));
+        return $this->redirect(route('installments.create' , $contract->id));
     }
 
     public function edit(Contract $contract)
     {
-        $service = $this->service;
-        $formAttributes = $service->formAttributes($contract);
+        $ContractService = $this->service;
+        $formAttributes = $ContractService->formAttributes($contract);
         $types = Type::query()->latest()->get();
         $services = Service::query()->latest()->get();
         $contractServices = $contract->services->pluck('id') ?? null;

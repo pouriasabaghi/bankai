@@ -13,6 +13,20 @@ class Contract extends Model
     protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'financial_status', 'contract_status', 'total_price', 'type', 'contract_number', 'period', 'signed_at', 'canceled_at'];
 
 
+    protected function totalPrice() : Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) =>  fix_number($value),
+        );
+    }
+
+    protected function totalPriceStr() : Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => number_format($attributes['total_price']),
+        );
+    }
+
     protected function signedAt() : Attribute
     {
         return Attribute::make(
@@ -41,5 +55,11 @@ class Contract extends Model
     public function services()
     {
         return $this->belongsToMany(Service::class);
+    }
+
+
+    public function installments()
+    {
+        return $this->hasMany(Installment::class);
     }
 }

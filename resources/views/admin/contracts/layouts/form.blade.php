@@ -47,7 +47,7 @@
 
         {{-- Total_price --}}
         <x-ui.form.Input label='مبلغ کل قرارداد' name='total_price' col='8' :attr="['data-separate' => 'true']"
-            value="{{ $contract->total_price ?? '' }}" />
+            value="{{ $contract->total_price_str ?? '' }}" />
 
         {{-- Periods --}}
         <x-ui.form.Input :attr="['list' => 'periods-list']" label='بازه زمانی' name='period' col='4'
