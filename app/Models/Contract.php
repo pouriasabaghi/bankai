@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,14 @@ class Contract extends Model
     use HasFactory;
 
     protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'financial_status', 'contract_status', 'total_price', 'type', 'contract_number', 'period', 'signed_at', 'canceled_at'];
+
+
+    protected function signedAt() : Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) =>  jdate($value)->format('Y/m/d'),
+        );
+    }
 
 
     public function customer()
@@ -25,7 +34,6 @@ class Contract extends Model
 
     public function services()
     {
-        return $this->hasMany(Service::class);
+        return $this->belongsToMany(Service::class);
     }
-
 }

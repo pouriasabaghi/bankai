@@ -19,8 +19,8 @@ return new class extends Migration
 
             $table->string('name')->nullable();
             $table->text('desc')->nullable();
-            $table->enum('financial_status', ['paid', 'billed']);
-            $table->enum('contract_status', ['progress', 'finished', 'canceled', 'renewal']);
+            $table->enum('financial_status', ['paid', 'billed'])->default('billed');
+            $table->enum('contract_status', ['progress', 'finished', 'canceled', 'renewal'])->default('progress');
             $table->text('total_price')->nullable();
             $table->string('type')->nullable();
             $table->string('contract_number')->nullable() ;

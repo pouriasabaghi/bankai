@@ -17,10 +17,10 @@
 
     <div class="row add-new-service__box" wire:ignore.self>
         <x-ui.form.Input livewire="wire:model.debounce.500ms=service_name" name='service_name' label='عنوان خدمت جدید'
-            col='10 col-9' />
+            col='10 col-9' class="form-control-sm" />
 
-        <div class="col-md-2 col-3 mt-auto mb-3">
-            <x-ui.button.Button type='button' livewire="wire:click=store" btn='success'>
+        <div class="col-md-2 col-3 mt-auto mb-4">
+            <x-ui.button.Button type='button' livewire="wire:click=store" btn='success' class="btn-sm">
                 افزودن
             </x-ui.button.Button>
         </div>

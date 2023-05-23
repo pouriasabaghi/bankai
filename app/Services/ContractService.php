@@ -32,11 +32,19 @@ class ContractService
 
     public function storeOrUpdate(array $data, ?Contract $contract = null) : Contract
     {
-        dd($data);
+
+
         $preparedData = [
+            'customer_id'=>$data['customer_id'],
+            'company_id'=>$data['company_id'],
             'name'=>$data['name'],
-            'number'=>$data['number'],
-            'amount'=>$data['amount'] ?? 0,
+            'desc'=>$data['desc'],
+            'total_price'=>$data['total_price'],
+            'type'=>$data['type'],
+            'contract_number'=>$data['contract_number'],
+            'period'=>$data['period'],
+            'signed_at'=>!empty($data['signed_at']) ? jdate()->fromFormat('Y/m/d', $data['signed_at'] )->toCarbon() : null,
+            'services'=>$data['services'] ?? null,
         ];
 
         if ($contract) {
@@ -44,8 +52,10 @@ class ContractService
             $contract->save();
         }else{
             $contract = Contract::create($preparedData);
+            if ($preparedData['services']) {
+                $contract->services()->sync($preparedData['services']);
+            }
         }
-
         return $contract ;
     }
 }

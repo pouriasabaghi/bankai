@@ -37,4 +37,10 @@ i{
 
 select[multiple]{
     max-height: 32px;
+    opacity: 0.1;
+}
+select[name="company_id"],
+select[name="customer_id"]
+{
+    opacity: 0.1;
 }

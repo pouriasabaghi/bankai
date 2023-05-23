@@ -214,5 +214,7 @@ return [
         'year'                     => 'سال',
         'customer_id'              =>'مشتری',
         'customer'                 =>'مشتری',
+        'company_id'              =>'مجموعه',
+        'company'                 =>'مجموعه',
     ],
 ];

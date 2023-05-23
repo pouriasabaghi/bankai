@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ContractRequest;
 use App\Models\Contract;
 use App\Models\Service;
 use App\Models\Type;
 use App\Services\ContractService;
+use App\Traits\Alert;
+use App\Traits\Redirect;
 use Illuminate\Http\Request;
 
 class ContractController extends Controller
 {
-    protected ContractService $service ;
+    use Alert, Redirect;
+
+    protected ContractService $service;
 
     public function __construct()
     {
@@ -34,24 +39,35 @@ class ContractController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(ContractRequest $request)
     {
-        dd($request->all());
+        $service = $this->service;
+        $service->storeOrUpdate($request->all());
+        $this->successAlert(null, 'قرارداد با موفقیت ثبت شد');
+
+        return $this->redirect(route('contracts.index'));
     }
 
     public function edit(Contract $contract)
     {
-
+        $service = $this->service;
+        $formAttributes = $service->formAttributes($contract);
+        $types = Type::query()->latest()->get();
+        $services = Service::query()->latest()->get();
+        return view('admin.contracts.edit', compact('formAttributes', 'types', 'services', 'contract'));
     }
 
 
     public function update(Request $request, Contract $contract)
     {
-
+        dd($request->all());
     }
 
     public function destroy($id)
     {
-
+        $contract = Contract::query()->findOrFail($id);
+        $contract->delete();
+        $this->successAlert(null, 'قرارداد با موفقیت حذف شد');
+        return $this->redirect(route('contracts.index'));
     }
 }
