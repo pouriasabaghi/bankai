@@ -32,6 +32,7 @@ class CustomerAndCompany extends Component
         if ($companyId) {
             $company = Company::query()->firstWhere('id', $companyId);
             if ($company) {
+                $this->companyIsValid = true ;
                 $this->selectedCompany =  $companyId ;
             }else{
                 $this->companyIsValid = false ;

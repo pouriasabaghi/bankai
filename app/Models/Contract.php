@@ -20,6 +20,12 @@ class Contract extends Model
         );
     }
 
+    protected function canceledAt() : Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) =>  jdate($value)->format('Y/m/d'),
+        );
+    }
 
     public function customer()
     {

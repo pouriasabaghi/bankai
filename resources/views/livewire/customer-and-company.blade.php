@@ -19,7 +19,7 @@
 
     <x-ui.form.Select name='company_id' livewire="wire:model=selectedCompany" class="form-control _companies-select"
         col='6' label='مجموعه' script='no'>
-        @if (!$companyIsValid)
+        @if (!$companyIsValid && !empty($contractCustomerId))
             <x-ui.form.Option selected value="0">مجموعه نامعتبر</x-ui.form.Option>
         @endif
 
@@ -28,7 +28,7 @@
                 {{ $company->name }}
             </x-ui.form.Option>
         @empty
-            <x-ui.form.Option value='0'>مجموعه‌ای وجود ندارد</x-ui.form.Option>
+            <x-ui.form.Option :disabled='true'  value='0'>مجموعه‌ای وجود ندارد</x-ui.form.Option>
         @endforelse
     </x-ui.form.Select>
 

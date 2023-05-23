@@ -10,9 +10,17 @@ class SelectOrCreateService extends Component
     public $services;
     public $service_name;
     protected  $serviceObj;
+    public $servicesList ;
+    // previous value of services in edit form
+    public $selectedServices ;
+
     public function mount()
     {
         $this->services = Service::query()->latest()->get() ??  collect([]);
+
+        if (!empty($this->selectedServices)) {
+            $this->servicesList = $this->selectedServices ;
+        }
     }
 
     public function render()

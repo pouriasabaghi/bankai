@@ -1,7 +1,11 @@
 <x-ui.form.Form method="{{ $formAttributes['method'] }}" action="{{ $formAttributes['action'] }}">
     <x-ui.form.InputLayout>
         <x-ui.form.Input name="name" value="{{ old('name', $contract->name ?? '') }}" label="عنوان قرارداد"
-            :attr="['required' => 'required']" />
+            :attr="['required' => 'required']" col='10' />
+
+        {{-- Contract number --}}
+        <x-ui.form.Input col='2' label='شماره قرارداد' name='contract_number'
+            value="{{ $contract->contract_number ?? '' }}" />
 
         {{-- List of customers and companies  --}}
         <div class="col-md-12">
@@ -36,19 +40,18 @@
 
         {{-- Services --}}
         <div class="col-md-6">
-            <livewire:select-or-create-service />
+            <livewire:select-or-create-service :selectedServices="$contractServices" />
         </div>
 
-        {{-- Contract number --}}
-        <x-ui.form.Input col='6' label='شماره قرارداد' name='contract_number' />
 
 
-        {{-- Signed_at --}}
-        <x-ui.form.Datepicker col='6' value="{{ $contract->signed_at ?? '' }}" name='signed_at'
-            label='تاریخ امضای قرارداد' />
+        {{-- Total_price --}}
+        <x-ui.form.Input label='مبلغ کل قرارداد' name='total_price' col='8' :attr="['data-separate' => 'true']"
+            value="{{ $contract->total_price ?? '' }}" />
 
         {{-- Periods --}}
-        <x-ui.form.Input :attr="['list' => 'periods-list']" label='بازه زمانی' name='period' col='6'>
+        <x-ui.form.Input :attr="['list' => 'periods-list']" label='بازه زمانی' name='period' col='4'
+            value="{{ $contract->period ?? '' }}">
             <x-slot name='datalist'>
                 <datalist id="periods-list">
                     <option label="فصلی" value="3 ماهه"></option>
@@ -57,8 +60,19 @@
                 </datalist>
             </x-slot>
         </x-ui.form.Input>
-        <x-ui.form.Input label='مبلغ کل قرارداد' name='total_price' col='6' :attr="['data-separate' => 'true']" />
-        <x-ui.form.Input label='توضیحات' name='desc' col='12' />
+
+        {{-- Signed_at --}}
+        <x-ui.form.Datepicker col='6' value="{{ $contract->signed_at ?? '' }}" name='signed_at'
+            label='تاریخ امضای قرارداد' />
+
+        {{-- Canceled_at --}}
+        @if ($formAttributes['isUpdate'])
+            <x-ui.form.Datepicker col='6' value="{{ $contract->canceled_at }}" name='canceled_at'
+                label='تاریخ لغو قرارداد' />
+        @endif
+
+        <x-ui.form.Input label='توضیحات' name='desc' col=' col' value="{{ $contract->desc ?? '' }}" />
+
 
         <div class="col-md-12">
             <x-ui.button.Button>

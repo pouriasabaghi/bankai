@@ -35,7 +35,8 @@ class ContractController extends Controller
         $formAttributes = $service->formAttributes();
         $types = Type::query()->latest()->get();
         $services = Service::query()->latest()->get();
-        return view('admin.contracts.create', compact('formAttributes', 'types', 'services'));
+        $contractServices = null ;
+        return view('admin.contracts.create', compact('formAttributes', 'types', 'services', 'contractServices'));
     }
 
 
@@ -54,13 +55,18 @@ class ContractController extends Controller
         $formAttributes = $service->formAttributes($contract);
         $types = Type::query()->latest()->get();
         $services = Service::query()->latest()->get();
-        return view('admin.contracts.edit', compact('formAttributes', 'types', 'services', 'contract'));
+        $contractServices = $contract->services->pluck('id') ?? null;
+        return view('admin.contracts.edit', compact('formAttributes', 'types', 'services','contractServices', 'contract'));
     }
 
 
     public function update(Request $request, Contract $contract)
     {
-        dd($request->all());
+        $service = $this->service;
+        $contract = $service->storeOrUpdate($request->all(), $contract);
+        $this->successAlert(null, 'قرارداد با موفقیت ویرایش شد');
+
+        return $this->redirect(route('contracts.index'));
     }
 
     public function destroy($id)

@@ -1,6 +1,6 @@
 <div class="row position-relative">
     <x-ui.loader.Loader livewire="wire:loading.flex" />
-    <x-ui.form.Select class="form-control _services-select" name='services[]' col='10 col-10' label='خدمات' multiple='true'
+    <x-ui.form.Select livewire="wire:model=servicesList" class="form-control _services-select" name='services[]' col='10 col-10' label='خدمات' multiple='true'
         script='no'>
         @forelse ($services as $service)
             <x-ui.form.Option value="{{ $service->id }}">{{ $service->name }}</x-ui.form.Option>
@@ -24,8 +24,6 @@
                 افزودن
             </x-ui.button.Button>
         </div>
-
-
     </div>
 
     @if (session()->has('message'))
