@@ -10,16 +10,16 @@ class SelectOrCreateService extends Component
     public $services;
     public $service_name;
     protected  $serviceObj;
-    public $servicesList ;
+    public $servicesList = [];
     // previous value of services in edit form
-    public $selectedServices ;
-
+    public $selectedServices;
+    private $select2EventName = 'enable-select2-services';
     public function mount()
     {
         $this->services = Service::query()->latest()->get() ??  collect([]);
 
         if (!empty($this->selectedServices)) {
-            $this->servicesList = $this->selectedServices ;
+            $this->servicesList = $this->selectedServices;
         }
     }
 
@@ -28,18 +28,18 @@ class SelectOrCreateService extends Component
         return view('livewire.select-or-create-service');
     }
 
-    public function updatedServiceName($value)
+    public function updatedServiceName()
     {
-        $this->service_name =  trim($value);
-        $this->dispatchBrowserEvent('enable-select2');
+
+        $this->dispatchBrowserEvent($this->select2EventName);
     }
 
     public function store()
     {
-
+        $this->service_name =  trim($this->service_name);
         if (empty($this->service_name)) {
             session()->flash('message', 'عنوان نمی‌تواند خالی باشد');
-            $this->dispatchBrowserEvent('enable-select2');
+            $this->dispatchBrowserEvent($this->select2EventName);
             return;
         }
 
@@ -56,10 +56,18 @@ class SelectOrCreateService extends Component
         // push new service to previous services
         $this->services->push($newService);
 
+        // push new service to serviceList as selected
+        $this->servicesList[] = $newService->id;
         // empty input
         $this->service_name = '';
 
         // add new service to pervious services
-        $this->dispatchBrowserEvent('enable-select2', ['id' => $newService->id]);
+        $this->dispatchBrowserEvent($this->select2EventName);
+    }
+
+    public function keepSelectedServiceUpdate($value)
+    {
+        $this->servicesList = $value;
+        $this->dispatchBrowserEvent($this->select2EventName);
     }
 }

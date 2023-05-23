@@ -46,26 +46,21 @@
                 };
                 $('._services-select').select2(options);
 
-                // save previoues selected values ;
-                let values = [];
+                // // save previoues selected values ;
+                // let values = [];
 
-                // add selected items to values. this cuase save previous select if user fist choice some
-                // items then add new one
+                // // add selected items to values. this cuase save previous select if user fist choice some
+                // // items then add new one
                 $('._services-select').on('select2:select', function() {
-                    values = $(this).val();
+                    let selectedServices = $(this).val();
+
+                    @this.call('keepSelectedServiceUpdate', selectedServices);
                 });
 
 
-                // enable select to after response
-                window.addEventListener('enable-select2', (event) => {
-                    const {
-                        id
-                    } = event.detail;
-                    if (id) {
-                        values.push(id);
-                    }
-                    $('._services-select').select2(options).val(values ?? 0).trigger('change')
-
+                // // enable select to after response
+                window.addEventListener('enable-select2-services', (event) => {
+                    $('._services-select').select2(options)
                 })
             });
 
