@@ -22,6 +22,6 @@ Route::group([],function(){
    Route::resource('contracts', ContractController::class)->except('show');
 
    Route::get('installments/{contract}/create', [InstallmentController::class , 'create'])->name('installments.create');
-   Route::get('installments/{contract}/store', [InstallmentController::class , 'store'])->name('installments.store');
+   Route::post('installments/{contract}/store', [InstallmentController::class , 'store'])->name('installments.store');
 });
 

@@ -44,3 +44,24 @@ select[name="customer_id"]
 {
     opacity: 0.1;
 }
+
+.list-group-horizontal-md > .list-group-item:last-child{
+    border-right-width: 1px;
+    border-left-width: 1px;
+    border-top-width: var(--bs-list-group-border-width);
+
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.list-group-horizontal-md > .list-group-item:first-child{
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    border-left-width: 0;
+    border-top-width: var(--bs-list-group-border-width);
+}

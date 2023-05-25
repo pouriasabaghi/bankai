@@ -1,4 +1,11 @@
 <div class="row">
+    @if (isset($exception))
+        <div class="alert alert-danger">
+            {{ $exception->getMessage() }}
+        </div>
+    @endif
+
+
     @if ($errors->any())
         <div class="col-12">
             <div class="alert alert-danger">

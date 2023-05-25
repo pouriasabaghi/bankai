@@ -3,7 +3,7 @@
 @section('content')
     <x-ui.card.Card>
         <x-slot name='header'>
-            <span data-feather="user-plus"></span>
+            <span data-feather="book"></span>
             <span>مدیریت اقساط</span>
         </x-slot>
         <x-slot name='body'>
