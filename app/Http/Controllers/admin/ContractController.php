@@ -66,7 +66,8 @@ class ContractController extends Controller
         $contract = $service->storeOrUpdate($request->all(), $contract);
         $this->successAlert(null, 'قرارداد با موفقیت ویرایش شد');
 
-        return $this->redirect(route('contracts.index'));
+      //  return $this->redirect(route('contracts.index'));
+      return $this->redirect(route('installments.create' , $contract->id));
     }
 
     public function destroy($id)

@@ -4,7 +4,7 @@
             <div class="row manage-row__group">
                 @foreach ($installments as $installment)
                     <div class="col-12 manage-row__items {{ $loop->index == 0 ? '' : 'mt-3' }}
-                        {{ $loop->index < $installmentCount || !empty($deposit->created_at) ? '' : 'd-none' }}"
+                        {{ $loop->index < $installmentsCount || !empty($deposit->created_at) ? '' : 'd-none' }}"
                         data-row-count="{{ $loop->index + 1 }}">
                         <div class="d-flex align-items-center mb-2">
                             @if ($loop->index > -1)
@@ -20,7 +20,7 @@
                                     col='4' />
                             @else
                                 <x-ui.form.Input name="installment[{{ $loop->index }}][amount]"
-                                    value="{{ !empty($ins[$loop->index]) ? number_format($ins[$loop->index]) : '' }}" placeholder="مبلغ" :attr="['data-separate' => 'true']"
+                                    value="{{ !empty($installmentsAmount[$loop->index]) ? number_format($installmentsAmount[$loop->index]) : '' }}" placeholder="مبلغ" :attr="['data-separate' => 'true']"
                                     col='4' />
                             @endif
 
