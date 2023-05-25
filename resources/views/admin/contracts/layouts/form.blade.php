@@ -54,6 +54,7 @@
             value="{{ $contract->period ?? '' }}">
             <x-slot name='datalist'>
                 <datalist id="periods-list">
+                    <option label="ماهانه" value="1 ماهه"></option>
                     <option label="فصلی" value="3 ماهه"></option>
                     <option label="نیم ساله" value="6 ماهه"></option>
                     <option label="سالانه" value="12 ماهه"></option>
