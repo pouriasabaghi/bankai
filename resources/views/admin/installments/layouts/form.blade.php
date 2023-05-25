@@ -13,10 +13,10 @@
                         {{ $loop->index < $installmentsCount || !empty($installment->created_at) ? '' : 'd-none' }}"
                         data-row-count="{{ $loop->index + 1 }}">
                         <div class="d-flex align-items-center mb-2">
-                            @if ($loop->index > -1)
-                                <i role='button'
-                                    class="fa-solid fa-circle-xmark fa-lg align-items-center d-flex fa-solid  me-2 text-danger manage-row__button_delete"></i>
-                            @endif
+                            <i role='button'
+                                class="fa-solid fa-circle-xmark fa-lg align-items-center d-flex fa-solid  me-2
+                                {{ $loop->index == 0 ? 'text-secondary' : 'text-danger manage-row__button_delete' }}">
+                            </i>
                             <h6 class="mb-0">قسط شماره {{ $loop->index + 1 }}</h6>
                         </div>
                         <div class="row">
@@ -29,8 +29,8 @@
                                     value="{{ !empty($installmentsAmount[$loop->index]) ? number_format($installmentsAmount[$loop->index]) : '' }}"
                                     placeholder="مبلغ" :attr="['data-separate' => 'true']" col='2' />
                             @else
-                                <x-ui.form.Input name="installment[{{ $loop->index }}][amount]"
-                                    placeholder="مبلغ" :attr="['data-separate' => 'true']" col='2' />
+                                <x-ui.form.Input name="installment[{{ $loop->index }}][amount]" placeholder="مبلغ"
+                                    :attr="['data-separate' => 'true']" col='2' />
                             @endif
 
                             <x-ui.form.DatePicker name="installment[{{ $loop->index }}][due_at]" :attr="['tabindex' => '-1']"
@@ -42,7 +42,8 @@
 
                             <div class="col-md-2">
                                 <x-ui.form.InputCheckbox name='installment[{{ $loop->index }}][status]'
-                                    label='تسویه شده؟' value='paid' checked="{{ !empty($installment->status) && $installment->status == 'paid' ? true : false }}" />
+                                    label='تسویه شده؟' value='paid'
+                                    checked="{{ !empty($installment->status) && $installment->status == 'paid' ? true : false }}" />
                             </div>
 
                         </div>

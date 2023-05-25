@@ -62,4 +62,10 @@ class Contract extends Model
     {
         return $this->hasMany(Installment::class);
     }
+
+
+    public function receives()
+    {
+        return $this->hasMany(Receive::class);
+    }
 }

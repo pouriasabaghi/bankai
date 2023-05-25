@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Services;
-
 use App\Models\Contract;
-use App\Models\Installment;
 use Exception;
 use Illuminate\Support\Collection;
-use PHPUnit\TestRunner\TestResult\Collector;
+
 
 class InstallmentService
 {
@@ -17,7 +15,7 @@ class InstallmentService
     /**
      * Collection of attributes
      *
-     * @param Installment|null $installment
+     * @param Contract $contract
      * @return array
      */
     public function formAttributes(Contract $contract): array

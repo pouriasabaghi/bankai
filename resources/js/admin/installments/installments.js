@@ -11,10 +11,10 @@ addButton && addButton.addEventListener("click", add);
 
 const detail = document.querySelector("#installments-detail");
 const options = {
-    totalBox: detail.querySelector(".installments__total"),
-    creditorBox: detail.querySelector(".installments__creditor"),
-    totalPrice: detail.querySelector("[data-total]")?.dataset.total,
-    submitButton: document.querySelector('.submit-form'),
+    totalBox: detail?.querySelector(".installments__total"),
+    creditorBox: detail?.querySelector(".installments__creditor"),
+    totalPrice: detail?.querySelector("[data-total]")?.dataset.total,
+    submitButton: document.querySelector(".submit-form"),
 };
 const amountInputs = document.querySelectorAll(
     "input[name^='installment'][name$='[amount]']"
@@ -30,7 +30,7 @@ removeBtn &&
         );
     });
 
-calculate(amountInputs, options);
+detail && calculate(amountInputs, options);
 amountInputs &&
     amountInputs.forEach((input) => {
         input.addEventListener(

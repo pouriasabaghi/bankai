@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Services\InstallmentService;
 use App\Traits\Alert;
+use App\Traits\Redirect;
 use Exception;
 use Illuminate\Http\Request;
-use Throwable;
+
 
 class InstallmentController extends Controller
 {
-    use Alert;
+    use Alert, Redirect;
     protected InstallmentService $service;
     public function __construct()
     {
@@ -47,7 +48,7 @@ class InstallmentController extends Controller
             $service->sumInstallments($installments)->validate($contract->total_price);
             $service->sync($installments, $contract);
             $this->successAlert(null, 'اقساط با موفقیت ثبت شد');
-            return back();
+            return $this->redirect(route('receives.create', $contract)) ;
         } catch (Exception $exception) {
             return back()->withErrors($exception->getMessage());
         }
