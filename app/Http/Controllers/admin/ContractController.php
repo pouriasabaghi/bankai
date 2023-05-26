@@ -60,7 +60,7 @@ class ContractController extends Controller
     }
 
 
-    public function update(Request $request, Contract $contract)
+    public function update(ContractRequest $request, Contract $contract)
     {
         $service = $this->service;
         $contract = $service->storeOrUpdate($request->all(), $contract);
