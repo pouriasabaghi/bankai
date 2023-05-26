@@ -1,0 +1,62 @@
+{
+  "resources/assets/fonts/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400-fd05e2bb.ttf",
+    "src": "resources/assets/fonts/fa-brands-400.ttf"
+  },
+  "resources/assets/fonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-465040d1.woff2",
+    "src": "resources/assets/fonts/fa-brands-400.woff2"
+  },
+  "resources/assets/fonts/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400-125529a3.ttf",
+    "src": "resources/assets/fonts/fa-regular-400.ttf"
+  },
+  "resources/assets/fonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-2b7265fb.woff2",
+    "src": "resources/assets/fonts/fa-regular-400.woff2"
+  },
+  "resources/assets/fonts/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900-13da46f8.ttf",
+    "src": "resources/assets/fonts/fa-solid-900.ttf"
+  },
+  "resources/assets/fonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-a4ce2350.woff2",
+    "src": "resources/assets/fonts/fa-solid-900.woff2"
+  },
+  "resources/assets/typo_fonts/Shabnam-FD.eot": {
+    "file": "assets/Shabnam-FD-f5f3b80b.eot",
+    "src": "resources/assets/typo_fonts/Shabnam-FD.eot"
+  },
+  "resources/assets/typo_fonts/Shabnam-FD.ttf": {
+    "file": "assets/Shabnam-FD-0b951237.ttf",
+    "src": "resources/assets/typo_fonts/Shabnam-FD.ttf"
+  },
+  "resources/assets/typo_fonts/Shabnam-FD.woff": {
+    "file": "assets/Shabnam-FD-e0eb27a5.woff",
+    "src": "resources/assets/typo_fonts/Shabnam-FD.woff"
+  },
+  "resources/assets/typo_fonts/Shabnam-FD.woff2": {
+    "file": "assets/Shabnam-FD-d2c504d7.woff2",
+    "src": "resources/assets/typo_fonts/Shabnam-FD.woff2"
+  },
+  "resources/css/admin/app.css": {
+    "file": "assets/app-a3f997f8.css",
+    "isEntry": true,
+    "src": "resources/css/admin/app.css"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-d5a13ab8.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/js/admin/app.js": {
+    "file": "assets/app-07a9efb5.js",
+    "isEntry": true,
+    "src": "resources/js/admin/app.js"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-e7c8c463.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  }
+}
