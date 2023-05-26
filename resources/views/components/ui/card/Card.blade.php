@@ -1,4 +1,8 @@
-<div class="card">
+<div class="card"
+@if (!empty($id))
+    id="{{ $id }}"
+@endif
+>
     @if (!empty($header))
         <div class="card-header">
             <h5 class="card-title ">{{ $header }}</h5>

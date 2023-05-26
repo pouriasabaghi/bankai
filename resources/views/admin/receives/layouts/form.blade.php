@@ -26,21 +26,53 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <hr/>
+                                <hr />
                             </div>
-                            <div class="col-12" data-type='check'>
+                            <div class="col-12">
+                                <a class="nav-link dropdown-toggle toggle-type-container" href="#" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <span class="h6 mb-2 d-inline-block">اطلاعات
+                                        {{-- This is first time default value and will be change with js --}}
+                                        <span class="type-label">چک</span>
+                                    </span>
+                                </a>
+                                <div class="dropdown-menu text-start">
+                                    <span role="button" class="dropdown-item inside-toggle-type-buttons" data-toggle-type='deposit' >واریز</span>
+                                    <span role="button" class="dropdown-item inside-toggle-type-buttons" data-toggle-type='check' >چک</span>
+                                </div>
+                            </div>
+                            <div class="col-12 {{ $loop->index == 0 ? '' : 'd-none' }}" data-type='check'>
                                 <div class="row">
-                                    <h6>اطلاعات چک</h6>
                                     @include('admin.receives.layouts.check-inputs')
+                                </div>
+                            </div>
+                            <div class="col-12 d-none" data-type='deposit'>
+                                <div class="row">
+                                    @include('admin.receives.layouts.deposit-inputs')
                                 </div>
                             </div>
                         </div>
                     </div>
                 @endforeach
                 <div class="col-12 text-end mt-3">
-                    <x-ui.button.Button type='button' class="btn-sm manage-row__button" btn='success'>
-                        افزودن
-                    </x-ui.button.Button>
+                    <div class="btn-group add-receive-toggle-type-container">
+                        <div class="btn-group " role="group">
+                            <button type="button" class="btn btn-outline-success dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="type-label">چک</span>
+                            </button>
+                            <div class="dropdown-menu text-start ">
+                                <span role="button" class="dropdown-item toggle-type-buttons"
+                                    data-toggle-type='deposit'>واریز</span>
+                                <span role="button" class="dropdown-item toggle-type-buttons"
+                                    data-toggle-type='check'>چک</span>
+                            </div>
+                        </div>
+                        <x-ui.button.Button type='button' class="btn-sm manage-row__button no-rounded" btn='success'
+                            :attr="['data-type' => 'check']">
+                            افزودن
+                        </x-ui.button.Button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -18,4 +18,4 @@
 <x-ui.form.Input name="receives[{{ $loop->index }}][desc]" value="{{ $receive->desc ?? '' }}" placeholder="توضیحات"
     col='12' />
 
-<input type='hidden' name="receives[{{ $loop->index }}][type]" value="check" />
+

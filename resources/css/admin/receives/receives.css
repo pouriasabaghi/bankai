@@ -1,0 +1,12 @@
+input[name^='receives'][name$="_at]"]::placeholder{
+    font-size: 12px;
+}
+#receives .select2-container{
+    width: 100% !important;
+}
+
+#receives .manage-row__items{
+    background-color: #f5f5f5;
+    padding-top: 16px;
+    border: 1px dashed #6c757d;
+}

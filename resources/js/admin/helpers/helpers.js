@@ -37,7 +37,7 @@ export const fix_number = (str) => {
 };
 
 export const manageRow = (selector) => {
-    function add() {
+    function add(callback = null, e) {
         let row = document.querySelector(`${selector}[data-row-count='1']`);
         if (row) {
             while (!row.classList.contains("d-none")) {
@@ -46,23 +46,29 @@ export const manageRow = (selector) => {
             row.classList.remove("d-none");
             row.querySelector('input').focus();
         }
+
+
+        if (callback) {
+            callback(row, e);
+        }
     }
 
     function remove(e) {
         const container = e.target.closest(selector);
-
         const inputs = container.querySelectorAll("input");
 
         inputs && inputs.forEach((input) => {
             input.value = ""
             input.checked = false;
         });
+
         container.classList.add("d-none");
+
     }
 
     function calculate(amountInputs, options, e) {
         let { totalBox, creditorBox, totalPrice, submitButton } = options;
-        console.log(options);
+
         totalPrice = +totalPrice;
         let totalInstallmentsAmount = [...amountInputs].reduce(
             (total, input) => {

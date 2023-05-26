@@ -2,6 +2,7 @@
 @import './dashboard/custom.css';
 @import './components/components.css';
 @import './plugins/plugins.css';
+@import './receives/receives.css';
 
 .add-new-service__box{
     height: 0;

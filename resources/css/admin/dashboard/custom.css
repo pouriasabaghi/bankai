@@ -65,3 +65,21 @@ select[name="customer_id"]
     border-left-width: 0;
     border-top-width: var(--bs-list-group-border-width);
 }
+
+.form-select {
+    background-position: left 0.85rem center;
+    padding: 0.3rem 0.85rem 0.3rem 0.85rem;
+}
+.btn-group button.no-rounded{
+    border-top-right-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+}
+
+.btn-group > .btn-group:not(:last-child) > .btn, .btn-group > .btn.dropdown-toggle-split:first-child, .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 5px;
+}
+
+

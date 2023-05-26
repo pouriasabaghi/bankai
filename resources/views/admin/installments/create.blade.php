@@ -1,7 +1,7 @@
 @extends('admin.master')
 
 @section('content')
-    <x-ui.card.Card>
+    <x-ui.card.Card id="installments">
         <x-slot name='header'>
             <span data-feather="book"></span>
             <span>مدیریت اقساط</span>
