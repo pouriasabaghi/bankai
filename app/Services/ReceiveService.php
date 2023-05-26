@@ -62,7 +62,7 @@ class ReceiveService
     public function prepareReceives(Collection $receives): Collection
     {
         $contractReceives = $receives;
-        $emptyReceives = range($contractReceives->count(), 20 - $contractReceives->count());
+        $emptyReceives = range($contractReceives->count(), 30 - $contractReceives->count());
         $receives = collect($contractReceives)->merge($emptyReceives);
 
         return $receives;

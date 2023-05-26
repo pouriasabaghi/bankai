@@ -5,21 +5,20 @@
 @section('content')
     <x-ui.card.Card>
         <x-slot name='header'>
-            <span data-feather="users"></span>
-            <span>مشتریان</span>
+            <span data-feather="plus-circle"></span>
+            <span>قرارداد</span>
         </x-slot>
 
         <x-slot name='body'>
-            <x-ui.button.Button href="{{ route('contracts.create') }}" btn='success' class="mb-3">افزودن مشتری جدید</x-ui.button.Button>
+            <x-ui.button.Button href="{{ route('contracts.create') }}" btn='success' class="mb-3">افزودن قرارداد جدید
+            </x-ui.button.Button>
             <x-ui.table.Table :attr="['id' => 'contracts-table']" :header="['#', 'نام', 'اقدامات']">
                 <x-slot name="tbody">
                     @forelse($contracts as $contract)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>
-                                <a href="">
-                                    {{ $contract->name }}
-                                </a>
+                                {{ $contract->name }}
                             </td>
                             <td>
                                 <div class="d-flex">
@@ -30,6 +29,14 @@
                                     </form>
 
                                     <x-ui.button.Edit href="{{ route('contracts.edit', $contract->id) }}" />
+
+                                    <x-ui.button.Link class="ms-3" href="{{ route('installments.create', $contract->id) }}">
+                                        <i class="fa-regular fa-calendar-check fa-xl"></i>
+                                    </x-ui.button.Link>
+
+                                    <x-ui.button.Link class="ms-3" href="{{ route('receives.create', $contract->id) }}">
+                                        <i class="fa-solid fa-money-check-dollar fa-xl"></i>
+                                    </x-ui.button.Link>
                                 </div>
                             </td>
                         </tr>

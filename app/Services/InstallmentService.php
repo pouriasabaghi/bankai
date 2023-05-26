@@ -70,7 +70,7 @@ class InstallmentService
     public function prepareInstallments(Collection $installments): Collection
     {
         $contractInstallments = $installments;
-        $emptyInstallments = range($contractInstallments->count(), 60 - $contractInstallments->count());
+        $emptyInstallments = range($contractInstallments->count(), 24 - $contractInstallments->count());
         $installments = collect($contractInstallments)->merge($emptyInstallments);
 
         return $installments;

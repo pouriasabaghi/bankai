@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Contract;
 use App\Services\ReceiveService;
 use App\Traits\Alert;
+use Error;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,9 @@ class ReceiveController extends Controller
     }
     public function create(Contract $contract)
     {
+        if (!$this->valid($contract)) {
+            return redirect(route('installments.create', $contract->id))->withErrors('ابتدا اقساط را تعریف و ذخیره کنید');
+        }
         $service = $this->service;
         $cards = Card::query()->latest()->get();
         $companies =  $contract->customer->companies;
@@ -42,5 +46,11 @@ class ReceiveController extends Controller
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage())->withInput();
         }
+    }
+
+
+    public function valid(Contract $contract){
+        $installments = $contract->installments ;
+        return !$installments->isEmpty();
     }
 }
