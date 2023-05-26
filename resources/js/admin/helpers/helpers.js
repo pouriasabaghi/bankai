@@ -44,6 +44,7 @@ export const manageRow = (selector) => {
                 row = row.nextElementSibling;
             }
             row.classList.remove("d-none");
+            row.querySelector('input').focus();
         }
     }
 
