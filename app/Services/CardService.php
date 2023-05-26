@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Card;
-
+use Illuminate\Support\Collection;
 
 class CardService
 {
@@ -45,5 +45,27 @@ class CardService
         }
 
         return $card ;
+    }
+
+
+    /**
+     * Sum card amount form all receives or given
+     *
+     * @param Collection|null $receives
+     * @return Collection
+     */
+    public function sumCardsWithKey(?Collection $receives = null) : Collection
+    {
+        if (!$receives) {
+            $receives = \App\Models\Receive::query()->get();
+        }
+        $receives = $receives->groupBy('card_id')->map(function($receive, $cardId){
+            return [
+                'card_id'=>$cardId ,
+                'sum'=>$receive->sum('amount'),
+            ];
+        });
+
+        return $receives ;
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Card;
 use App\Models\Contract;
+use App\Models\Receive;
 use Exception;
 use Illuminate\Support\Collection;
 
@@ -35,12 +37,19 @@ class ReceiveService
      */
     public function sync(array $data, Contract $contract): Collection
     {
-
         $preparedData =  $this->filterByType($data) ;
-        //dd($preparedData);
         $contract->receives()->delete();
         $receives = $contract->receives()->createMany($preparedData);
-       return $receives;
+
+        // update cards amount ;
+        $cardService = new CardService();
+        $cards = $cardService->sumCardsWithKey() ;
+        foreach($cards as $card){
+            Card::query()->whereId($card['card_id'])->update([
+                'amount'=> $card['sum'],
+            ]);
+        }
+        return $receives;
     }
 
 

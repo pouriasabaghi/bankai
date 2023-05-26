@@ -1,7 +1,7 @@
 export const  toggleType = (containerSelector) => {
     const container = document.querySelector(containerSelector);
-    const label = container.querySelector(".type-label");
-    const button = container.querySelector(".manage-row__button");
+    const label = container?.querySelector(".type-label");
+    const button = container?.querySelector(".manage-row__button");
 
     function toggle(e) {
         const type = e.target.dataset.toggleType;

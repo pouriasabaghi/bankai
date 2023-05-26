@@ -34,7 +34,7 @@ removeBtn &&
 
 // toggle type before click on add receive button
 const { toggle } = toggleType(".add-receive-toggle-type-container");
-const addReceiveToggleButtons = document.querySelector('.add-receive-toggle-type-container').querySelectorAll(
+const addReceiveToggleButtons = document.querySelector('.add-receive-toggle-type-container')?.querySelectorAll(
     ".toggle-type-buttons"
 );
 addReceiveToggleButtons &&
@@ -45,7 +45,7 @@ addReceiveToggleButtons &&
 
 // toggle type from inside of receive
 
-const toggleReceiveTypeBtn = document.querySelector('.manage-row__group').querySelectorAll(
+const toggleReceiveTypeBtn = document.querySelector('.manage-row__group')?.querySelectorAll(
     ".inside-toggle-type-buttons"
 );
 toggleReceiveTypeBtn &&
