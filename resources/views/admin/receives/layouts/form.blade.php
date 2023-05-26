@@ -29,24 +29,29 @@
                                 <hr />
                             </div>
                             <div class="col-12">
-                                <a class="nav-link dropdown-toggle toggle-type-container" href="#" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
+                                <a class="nav-link dropdown-toggle toggle-type-container" href="#"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="h6 mb-2 d-inline-block">اطلاعات
                                         {{-- This is first time default value and will be change with js --}}
                                         <span class="type-label">چک</span>
                                     </span>
                                 </a>
                                 <div class="dropdown-menu text-start">
-                                    <span role="button" class="dropdown-item inside-toggle-type-buttons" data-toggle-type='deposit' >واریز</span>
-                                    <span role="button" class="dropdown-item inside-toggle-type-buttons" data-toggle-type='check' >چک</span>
+                                    <span role="button" class="dropdown-item inside-toggle-type-buttons"
+                                        data-toggle-type='deposit'>واریز</span>
+                                    <span role="button" class="dropdown-item inside-toggle-type-buttons"
+                                        data-toggle-type='check'>چک</span>
                                 </div>
                             </div>
-                            <div class="col-12 {{ $loop->index == 0 ? '' : 'd-none' }}" data-type='check'>
+                            <div class="col-12 {{ ($loop->index == 0 && ((!empty($receive->type) && $receive->type != 'deposit') || empty($receive->type))) ||
+                            (!empty($receive->type) && $receive->type == 'check') ? ''  : 'd-none' }}"
+                                data-type='check'>
                                 <div class="row">
                                     @include('admin.receives.layouts.check-inputs')
                                 </div>
                             </div>
-                            <div class="col-12 d-none" data-type='deposit'>
+                            <div class="col-12 {{ !empty($receive->type) && $receive->type == 'deposit' ? '' : 'd-none' }}"
+                                data-type='deposit'>
                                 <div class="row">
                                     @include('admin.receives.layouts.deposit-inputs')
                                 </div>
