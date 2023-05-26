@@ -33,7 +33,7 @@
                                     :attr="['data-separate' => 'true']" col='2' />
                             @endif
 
-                            <x-ui.form.DatePicker name="installment[{{ $loop->index }}][due_at]" :attr="['tabindex' => '-1']"
+                            <x-ui.form.Datepicker name="installment[{{ $loop->index }}][due_at]" :attr="['tabindex' => '-1']"
                                 value="{{ $installment->due_at ??jdate()->fromFormat('Y/m/d', $contract->signed_at)->addMonths($loop->index + 1)->format('Y/m/d') }}"
                                 placeholder="تاریخ سر رسید قسط" col='2' />
 
