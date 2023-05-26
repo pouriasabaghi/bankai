@@ -28,6 +28,7 @@ return new class extends Migration
             $table->dateTime('signed_at')->nullable();
             $table->dateTime('canceled_at')->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }
