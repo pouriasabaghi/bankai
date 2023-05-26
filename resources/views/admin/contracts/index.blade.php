@@ -5,8 +5,8 @@
 @section('content')
     <x-ui.card.Card>
         <x-slot name='header'>
-            <span data-feather="plus-circle"></span>
-            <span>قرارداد</span>
+            <span data-feather="file-text"></span>
+            <span>مدیریت قراردادها</span>
         </x-slot>
 
         <x-slot name='body'>
