@@ -6,15 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Card;
 use App\Models\Company;
 use App\Models\Contract;
+use App\Services\InstallmentService;
 use App\Services\ReceiveService;
 use App\Traits\Alert;
-use Error;
 use Exception;
 use Illuminate\Http\Request;
 
 class ReceiveController extends Controller
 {
-    use Alert ;
+    use Alert;
     private ReceiveService $service;
     public function __construct()
     {
@@ -30,8 +30,12 @@ class ReceiveController extends Controller
         $companies =  $contract->customer->companies;
         $formAttributes = $service->formAttributes($contract);
         $receives = $contract->receives;
-        $receives = $service->prepareReceives($receives);
-        return view('admin.receives.create', compact('cards', 'companies', 'formAttributes', 'receives', 'contract'));
+        $contractReceives =  $receives;
+        $receives = $service->prepareReceives($receives); // merge receives with ready to fill receives
+        $installments = $contract->installments;
+        $detail = $service->getDetail($contract);
+
+        return view('admin.receives.create', compact('cards', 'companies', 'formAttributes', 'receives', 'contract', 'detail', 'installments', 'contractReceives'));
     }
 
     public function store(Request $request, Contract $contract)
@@ -41,6 +45,7 @@ class ReceiveController extends Controller
             $receives =  $request->receives;
             $receives = $service->removeUnused($receives);
             $service->sync($receives, $contract);
+            (new InstallmentService())->updateInstallmentsByTotalReceives($contract, $contract->receives()->get()->sum('amount'));
             $this->successAlert(null, 'پرداخت با موفقیت ثبت شد');
             return back();
         } catch (Exception $e) {
@@ -49,8 +54,9 @@ class ReceiveController extends Controller
     }
 
 
-    public function valid(Contract $contract){
-        $installments = $contract->installments ;
+    public function valid(Contract $contract)
+    {
+        $installments = $contract->installments;
         return !$installments->isEmpty();
     }
 }

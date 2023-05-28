@@ -37,23 +37,23 @@ class ReceiveService
      */
     public function sync(array $data, Contract $contract): Collection
     {
-        $preparedData =  $this->filterByType($data) ;
+        $preparedData =  $this->filterByType($data);
         $contract->receives()->delete();
         $receives = $contract->receives()->createMany($preparedData);
 
         // update cards amount ;
         $cardService = new CardService();
-        $cards = $cardService->sumCardsWithKey() ;
-        foreach($cards as $card){
+        $cards = $cardService->sumCardsWithKey();
+        foreach ($cards as $card) {
             Card::query()->whereId($card['card_id'])->update([
-                'amount'=> $card['sum'],
+                'amount' => $card['sum'],
             ]);
         }
         return $receives;
     }
 
 
-        /**
+    /**
      * Get collection of receives and return 50 installment depend on current count
      *
      * @param Collection $receives
@@ -69,7 +69,7 @@ class ReceiveService
     }
 
 
-      /**
+    /**
      * remove unused (where amount or (due_at | paid_at ) is empty) receives
      *
      * @param array $receives
@@ -78,7 +78,7 @@ class ReceiveService
     public function removeUnused(array $arr): array
     {
         $arr = array_filter($arr, function ($item) {
-            return $item['amount'] != null ;
+            return $item['amount'] != null;
         });
         return $arr;
     }
@@ -90,51 +90,71 @@ class ReceiveService
      * @param array|Collection $arr
      * @return Collection
      */
-    public function filterByType(array|Collection $arr) : Collection
+    public function filterByType(array|Collection $arr): Collection
     {
-        if (! $arr instanceof Collection) {
-            $arr = collect($arr) ;
-
+        if (!$arr instanceof Collection) {
+            $arr = collect($arr);
         }
-        $arr = $arr->map(function($item){
+        $arr = $arr->map(function ($item) {
             if ($item['type'] == 'deposit') {
                 if (empty($item['paid_at'])) {
                     throw new Exception('تاریخ پرداخت نمی‌تواند خالی باشد.');
                 }
                 return [
-                    'paid_at'=> $item['paid_at'],
-                    'origin'=> $item['origin'],
-                    'type'=> $item['type'],
-                    'amount'=> $item['amount'],
-                    'customer_id'=> $item['customer_id'],
-                    'company_id'=> $item['company_id'],
-                    'contract_id'=> $item['contract_id'],
-                    'card_id'=> $item['card_id'],
+                    'paid_at' => $item['paid_at'],
+                    'origin' => $item['origin'],
+                    'type' => $item['type'],
+                    'amount' => $item['amount'],
+                    'customer_id' => $item['customer_id'],
+                    'company_id' => $item['company_id'],
+                    'contract_id' => $item['contract_id'],
+                    'card_id' => $item['card_id'],
                 ];
-            }elseif($item['type'] == 'check'){
+            } elseif ($item['type'] == 'check') {
                 if (empty($item['due_at']) || empty($item['received_at'])) {
                     throw new Exception('تاریخ دریافت و سررسید نمی‌تواند خالی باشد.');
                 }
                 return [
-                    'received_at'=>$item['received_at'],
-                    'desc'=>$item['desc'],
-                    'bank_name'=>$item['bank_name'],
-                    'branch_code'=>$item['branch_code'],
-                    'branch_name'=>$item['branch_name'],
-                    'due_at'=>$item['due_at'],
-                    'serial_number'=>$item['serial_number'],
-                    'type'=> $item['type'],
-                    'amount'=> $item['amount'],
-                    'customer_id'=> $item['customer_id'],
-                    'company_id'=> $item['company_id'],
-                    'contract_id'=> $item['contract_id'],
-                    'card_id'=> $item['card_id'],
+                    'received_at' => $item['received_at'],
+                    'desc' => $item['desc'],
+                    'bank_name' => $item['bank_name'],
+                    'branch_code' => $item['branch_code'],
+                    'branch_name' => $item['branch_name'],
+                    'due_at' => $item['due_at'],
+                    'serial_number' => $item['serial_number'],
+                    'type' => $item['type'],
+                    'amount' => $item['amount'],
+                    'customer_id' => $item['customer_id'],
+                    'company_id' => $item['company_id'],
+                    'contract_id' => $item['contract_id'],
+                    'card_id' => $item['card_id'],
                 ];
             }
-
         });
 
         return $arr;
     }
 
+
+    /**
+     * detail of installment like debtor, creditor, etc.
+     *
+     * @param Contract $contract
+     * @return array
+     */
+    public function getDetail(Contract $contract) : array
+    {
+        $debtor = $contract->installments()->where('due_at', '<=', now())->where('status', 'billed')->get()->sum('amount');
+
+        // this amount use for paying bills (updating status) ;
+        $usedAmount =     $contract->installments()->where('status', 'paid')->get()->sum('amount');
+        $paidAmount = $contract->receives()->get()->sum('amount');
+
+        $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
+        return [
+            'debtor' => number_format($debtor),
+            'creditor' => number_format($creditor),
+            'creditor_title'=>$creditor && $debtor  == 0 ? 'بستانکار' : 'استفاده نشده'
+        ];
+    }
 }

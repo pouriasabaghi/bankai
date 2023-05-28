@@ -49,4 +49,18 @@ class Receive extends Model
             get: fn ($value, $attributes) => !empty($value) ? jdate($value)->format('Y/m/d') : '',
         );
     }
+
+    public function date(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => $attributes['type'] == 'checked' ? jdate($attributes['due_at'])->format('Y/m/d') : jdate($attributes['paid_at'])->format('Y/m/d'),
+        );
+    }
+
+    public function typeStr(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => $attributes['type'] == 'check' ? 'چک' : 'واریز',
+        );
+    }
 }

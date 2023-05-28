@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\Contract;
 use Exception;
 use Illuminate\Support\Collection;
@@ -10,7 +11,7 @@ class InstallmentService
 {
 
     // summarize of installments;
-    private $sum ;
+    private $sum;
 
     /**
      * Collection of attributes
@@ -86,7 +87,7 @@ class InstallmentService
     public function removeUnusedInstallments(array $installments): array
     {
         $installments = array_filter($installments, function ($installment) {
-            return $installment['amount'] != null ;
+            return $installment['amount'] != null;
         });
 
         return $installments;
@@ -115,7 +116,7 @@ class InstallmentService
                 return fix_number($installment['amount']);
             }
         });
-        $this->sum = $sum ;
+        $this->sum = $sum;
         return $this;
     }
 
@@ -129,9 +130,28 @@ class InstallmentService
     {
         $totalPrice = fix_number($totalPrice);
         if ($this->sum == $totalPrice) {
-            return true ;
-        }else{
+            return true;
+        } else {
             throw new Exception('مانده اقساط نامعتبر است.', 1);
         }
+    }
+
+    public function updateInstallmentsByTotalReceives(Contract $contract, int|string $totalReceivesAmount)
+    {
+        // ابتدا کل دریافتی ها را محاسبه میکنیم سپس کل اقساط را دریافت میکنیم در هر دور حلقه
+        // مبلغ دریافت شده ها را از یک قسط کم میکنیم اگر باقی مانده ای باشد
+        // قسط پرداخت شده و مقدار باقی مانده نیز مجدد محساب می شود
+        $totalReceivesAmount = intval(fix_number($totalReceivesAmount));
+        $installments = $contract->installments;
+        $remainingAmount =  $totalReceivesAmount;
+        foreach ($installments as $installment) {
+            $remainingAmount = $remainingAmount -  $installment->amount;
+            if ($remainingAmount >= 0) {
+              $installment->update(['status' => 'paid']);
+            }else{
+              $installment->update(['status' => 'billed']);
+            }
+        }
+
     }
 }

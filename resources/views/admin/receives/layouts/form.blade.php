@@ -1,8 +1,9 @@
-{{-- @include('admin.installments.layouts.detail', [
-    'total_price' => $contract->total_price,
-    'total_price_str' => $contract->total_price_str,
-    'period' => $contract->period,
-]) --}}
+@include('admin.receives.layouts.detail', [
+    'debtor' => $detail['debtor'],
+    'creditor' => $detail['creditor'],
+    'creditorTitle' => $detail['creditor_title'],
+    'contractReceives' => $contractReceives,
+])
 
 <x-ui.form.Form method="{{ $formAttributes['method'] }}" action="{{ $formAttributes['action'] }}">
     <x-ui.form.InputLayout>
