@@ -12,6 +12,9 @@
             class="form-control mt-1 text-start {{ !empty($class) ? $class : '' }}"
             placeholder="{{ !empty($placeholder) ? $placeholder : '' }}" autocomplete="off"
             value="{{ !empty($value) ? $value : '' }}" style="{{ $style ?? '' }}" {{ $livewire ?? '' }}
+            title="{{ $label ?? '' }}"
+            oninvalid="this.setCustomValidity('این فیلد نمی‌تواند خالی باشد')"
+            oninput="setCustomValidity('')"
             >
     </div>
 

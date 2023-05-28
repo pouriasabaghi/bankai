@@ -1,1 +1,1 @@
-import './select2';
+// import './select2';

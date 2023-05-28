@@ -33,9 +33,10 @@
     @include('sweetalert::alert')
     <script src="{{asset('assets/plugins/jquery.js')}}"></script>
     <script src="{{asset('assets/plugins/persian-datepicker.js')}}"></script>
+    <script src="{{asset('assets/plugins/select2.js')}}"></script>
     @vite(['resources/js/admin/app.js'])
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('load', () => {
             $(".advance-select").select2({
                 placeholder: 'انتخاب کنید',
                 language: {

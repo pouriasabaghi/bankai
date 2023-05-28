@@ -216,5 +216,6 @@ return [
         'customer'                 =>'مشتری',
         'company_id'              =>'مجموعه',
         'company'                 =>'مجموعه',
+        'total_price'             =>'مبلغ کل',
     ],
 ];

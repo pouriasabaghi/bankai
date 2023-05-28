@@ -25,6 +25,7 @@ class ContractRequest extends FormRequest
             'name'=>'required',
             'customer_id'=>'required|not_in:0',
             'company_id'=>'required|not_in:0',
+            'total_price'=>'required',
         ];
     }
 }

@@ -15,6 +15,7 @@
 
 <x-ui.form.Datepicker name="receives[{{ $loop->index }}][due_at]" :attr="['tabindex' => '-1']"
     value="{{ $receive->due_at ?? '' }}" label="تاریخ سررسید چک" col='2' />
+
 <x-ui.form.Input name="receives[{{ $loop->index }}][desc]" value="{{ $receive->desc ?? '' }}" label="توضیحات"
     col='12' />
 

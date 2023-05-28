@@ -5,12 +5,12 @@
 
         {{-- Contract number --}}
         <x-ui.form.Input col='2' label='شماره قرارداد' name='contract_number'
-            value="{{ $contract->contract_number ?? '' }}" />
+            value="{{ old('contract_number', $contract->contract_number ?? '') }}" />
 
         {{-- List of customers and companies  --}}
         <div class="col-md-12">
-            <livewire:customer-and-company contractCompanyId="{{ $contract->company_id ?? 0 }}"
-                contractCustomerId="{{ $contract->customer_id ?? 0 }}" />
+            <livewire:customer-and-company contractCompanyId="{{ old('company_id', $contract->company_id ?? 0) }}"
+                contractCustomerId="{{ old('customer_id', $contract->customer_id ?? 0) }}" />
         </div>
 
         {{-- Types --}}
@@ -21,7 +21,7 @@
                 --}}
             @if ($formAttributes['isUpdate'])
                 @if ($contract->type)
-                    <x-ui.form.Option value="{{ $contract->type }}">{{ $contract->type }}</x-ui.form.Option>
+                    <x-ui.form.Option value="{{ old('type', $contract->type) }}">{{ $contract->type }}</x-ui.form.Option>
                 @endif
             @endif
             @forelse ($types as $type)
@@ -46,12 +46,12 @@
 
 
         {{-- Total_price --}}
-        <x-ui.form.Input label='مبلغ کل قرارداد' name='total_price' col='8' :attr="['data-separate' => 'true']"
-            value="{{ $contract->total_price_str ?? '' }}" />
+        <x-ui.form.Input label='مبلغ کل قرارداد' name='total_price' col='8' :attr="['data-separate' => 'true', 'required' => 'true']"
+            value="{{ old('totla_price', $contract->total_price_str ?? '') }}" />
 
         {{-- Periods --}}
         <x-ui.form.Input :attr="['list' => 'periods-list']" label='بازه زمانی' name='period' col='4'
-            value="{{ $contract->period ?? '' }}">
+            value="{{ old('period', $contract->period ?? '') }}">
             <x-slot name='datalist'>
                 <datalist id="periods-list">
                     <option label="ماهانه" value="1 ماهه"></option>
@@ -63,16 +63,16 @@
         </x-ui.form.Input>
 
         {{-- Signed_at --}}
-        <x-ui.form.Datepicker col='6' value="{{ $contract->signed_at ?? '' }}" name='signed_at'
+        <x-ui.form.Datepicker col='6' value="{{ old('signed_at', $contract->signed_at ?? '') }}" name='signed_at'
             label='تاریخ امضای قرارداد' />
 
         {{-- Canceled_at --}}
         @if ($formAttributes['isUpdate'])
-            <x-ui.form.Datepicker col='6' value="{{ $contract->canceled_at }}" name='canceled_at'
+            <x-ui.form.Datepicker col='6' value="{{ old('canceled_at' , $contract->canceled_at ?? '') }}" name='canceled_at'
                 label='تاریخ لغو قرارداد' />
         @endif
 
-        <x-ui.form.Input label='توضیحات' name='desc' col=' col' value="{{ $contract->desc ?? '' }}" />
+        <x-ui.form.Input label='توضیحات' name='desc' col=' col' value="{{ old('desc', $contract->desc ?? '') }}" />
 
 
         <div class="col-md-12">
