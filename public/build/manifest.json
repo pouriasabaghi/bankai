@@ -40,17 +40,17 @@
     "src": "resources/assets/typo_fonts/Shabnam-FD.woff2"
   },
   "resources/css/admin/app.css": {
-    "file": "assets/app-a3f997f8.css",
+    "file": "assets/app-ab81a935.css",
     "isEntry": true,
     "src": "resources/css/admin/app.css"
   },
   "resources/css/app.css": {
-    "file": "assets/app-d5a13ab8.css",
+    "file": "assets/app-0c448575.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/js/admin/app.js": {
-    "file": "assets/app-07a9efb5.js",
+    "file": "assets/app-c28464f7.js",
     "isEntry": true,
     "src": "resources/js/admin/app.js"
   },
