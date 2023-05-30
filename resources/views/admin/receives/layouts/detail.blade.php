@@ -41,7 +41,7 @@
                 <div class="row ">
                     <div class="col-6">
                         <i class="fa-regular fa-handshake"></i>
-                        تاریخ امضای قرارداد</div>
+                        تاریخ شروع قرارداد</div>
                     <div class="col-6">{{ $contract->signed_at }}</div>
                 </div>
                 @if ($contract->canceled_at)

@@ -64,7 +64,7 @@
 
         {{-- Signed_at --}}
         <x-ui.form.Datepicker col='6' value="{{ old('signed_at', $contract->signed_at ?? '') }}" name='signed_at'
-            label='تاریخ امضای قرارداد' />
+            label='تاریخ شروع قرارداد' />
 
         {{-- Canceled_at --}}
         @if ($formAttributes['isUpdate'])
