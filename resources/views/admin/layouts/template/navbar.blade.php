@@ -6,15 +6,13 @@
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav navbar-align">
             <li class="nav-item dropdown">
-                <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown"
-                    data-bs-toggle="dropdown">
+                <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                     <div class="position-relative">
                         <i class="align-middle" data-feather="bell"></i>
                         <span class="indicator">4</span>
                     </div>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg py-0"
-                    aria-labelledby="alertsDropdown">
+                <div class="dropdown-menu dropdown-menu-lg py-0" aria-labelledby="alertsDropdown">
                     <div class="dropdown-menu-header">
                         4 New Notifications
                     </div>
@@ -76,14 +74,12 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown"
-                    data-bs-toggle="dropdown">
+                <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
                     <div class="position-relative">
                         <i class="align-middle" data-feather="message-square"></i>
                     </div>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg  py-0"
-                    aria-labelledby="messagesDropdown">
+                <div class="dropdown-menu dropdown-menu-lg  py-0" aria-labelledby="messagesDropdown">
                     <div class="dropdown-menu-header">
                         <div class="position-relative">
                             4 New Messages
@@ -160,9 +156,10 @@
 
                 <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
                     data-bs-toggle="dropdown">
-                    <img src="{{ asset('assets/img/avatars/avatar.jpg') }}"
-                        class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span
-                        class="text-dark">Charles Hall</span>
+                    {{-- <img src="{{ asset('assets/img/avatars/avatar.jpg') }}"
+                        class="avatar img-fluid rounded me-1" alt="Charles Hall" />
+                        --}}
+                    <span class="text-dark">{{ auth()->user()->name }}</span>
                 </a>
                 <div class="dropdown-menu ">
                     <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"
