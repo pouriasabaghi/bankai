@@ -34,7 +34,11 @@
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="h6 mb-2 d-inline-block">اطلاعات
                                         {{-- This is first time default value and will be change with js --}}
-                                        <span class="type-label">چک</span>
+                                        @if (!empty($receive->type) && $receive->type == 'deposit')
+                                            <span class="type-label">واریز</span>
+                                        @else
+                                            <span class="type-label">چک</span>
+                                        @endif
                                     </span>
                                 </a>
                                 <div class="dropdown-menu text-start">
@@ -45,7 +49,9 @@
                                 </div>
                             </div>
                             <div class="col-12 {{ ($loop->index == 0 && ((!empty($receive->type) && $receive->type != 'deposit') || empty($receive->type))) ||
-                            (!empty($receive->type) && $receive->type == 'check') ? ''  : 'd-none' }}"
+                            (!empty($receive->type) && $receive->type == 'check')
+                                ? ''
+                                : 'd-none' }}"
                                 data-type='check'>
                                 <div class="row">
                                     @include('admin.receives.layouts.check-inputs')
