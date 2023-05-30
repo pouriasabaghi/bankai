@@ -20,6 +20,11 @@ class Installment extends Model
         });
     }
 
+    public function contract()
+    {
+        return $this->belongsTo(Contract::class);
+    }
+
     protected function amount(): Attribute
     {
         return Attribute::make(

@@ -3,7 +3,7 @@
         <x-dashboard.SidebarNav>
             <x-dashboard.SidebarTitle />
 
-            <x-dashboard.SidebarItem icon='sliders' title='داشبورد' route='dashboard' />
+            <x-dashboard.SidebarItem icon='sliders' title='داشبورد'  route="admin.dashboard" />
 
             <x-dashboard.SidebarItemMulti icon='users' active="{{ is_route_active(true, 'customers') }}" id='customers'
                 title="مشتریان" :items="[
