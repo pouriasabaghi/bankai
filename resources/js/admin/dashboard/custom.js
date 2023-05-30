@@ -109,7 +109,7 @@ function normalizeInputNumber(e) {
     let input = e.target;
     let value = input.value
     // remove "," from current value
-    value = value.replace(/,/g, '') ;
+    value = value.replace(/,/g, '');
 
     // change persian and  arabic numbers
     value = fix_number(value);
@@ -144,3 +144,20 @@ function shortcuts(event) {
         toggleSidebar.click();
     }
 }
+
+
+let doubleTapDelay = 300; // زمان مجاز بین دو تاچ برای شناسایی دبل تپ (به میلی‌ثانیه)
+let lastTapTime = 0;
+
+function handleDoubleTap(event) {
+    var currentTime = new Date().getTime();
+    var tapTimeDifference = currentTime - lastTapTime;
+
+    if (tapTimeDifference < doubleTapDelay) {
+        toggleSidebar.click();
+    }
+
+    lastTapTime = currentTime;
+}
+
+document.body.addEventListener('touchend', handleDoubleTap);

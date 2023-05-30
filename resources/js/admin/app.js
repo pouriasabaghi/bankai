@@ -18,4 +18,4 @@ function license() {
     console.log(textArt);
 }
 
-// // // // license();
+// license();
