@@ -39,7 +39,6 @@ class InstallmentNotification extends Notification
     {
 
         return [
-            'installment_id'=>$this->installment->id,
             'contract_name'=>$this->installment->contract->name,
             'amount'=>$this->installment->amount,
             'due_at'=>$this->installment->due_at,
