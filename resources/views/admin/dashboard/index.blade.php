@@ -7,7 +7,7 @@
     </x-dashboard.DashboardTitle>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-xxl-6">
             <x-ui.card.Card>
                 <x-slot name='header'>
                     اقساط پرداخت نشده

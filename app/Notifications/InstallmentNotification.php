@@ -37,8 +37,16 @@ class InstallmentNotification extends Notification
      */
     public function toDatabase  (object $notifiable): array
     {
-
+        $data = [
+            '%contract_name%' => $this->installment->contract->name,
+            '%amount%' => $this->installment->amount_str,
+            '%due_at%' => $this->installment->due_at,
+        ];
+        $message = 'موعد پرداخت قسط قرارداد %contract_name% به مبلغ %amount% در تاریخ %due_at% فرارسیده است';
+        $message = strtr($message , $data) ;
         return [
+            'title'=> $this->installment->contract->name  ,
+            'message' => $message ,
             'contract_name'=>$this->installment->contract->name,
             'amount'=>$this->installment->amount,
             'due_at'=>$this->installment->due_at,
