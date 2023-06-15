@@ -9,7 +9,6 @@
             @empty
             @endforelse
             id="{{ $name }}" class="mt-1  form-control" value="{{ $value }}" name="{{ $name }}"
-            readonly
             placeholder="{{ $placeholder ?? '' }}"
             />
     </div>
