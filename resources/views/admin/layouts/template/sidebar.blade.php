@@ -27,13 +27,13 @@
             <x-dashboard.SidebarItemMulti icon='credit-card' active="{{ is_route_active(true, 'cards') }}"
             id='cards' title="حساب‌ها" :items="[
                 'افزودن حساب' => 'cards.create',
-                'مدیرت حساب‌ها' => 'cards.index',
+                'مدیریت حساب‌ها' => 'cards.index',
             ]" />
 
             <x-dashboard.SidebarItemMulti icon='file-text' active="{{ is_route_active(true, 'contracts', 'installments', 'receives') }}"
             id='contracts' title="قراردادها" :items="[
                 'افزودن قرارداد' => 'contracts.create',
-                'مدیرت قراردادها' => 'contracts.index',
+                'مدیریت قراردادها' => 'contracts.index',
             ]" />
 
 
