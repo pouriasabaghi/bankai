@@ -33,7 +33,7 @@ class InstallmentController extends Controller
             $installmentsCount = -1;
             $installmentsAmount = [];
         } else {
-            list($installmentsAmount, $installmentsCount) = $service->calculateInstallments($contract->total_price, $contract->period);
+            list($installmentsAmount, $installmentsCount) = $service->calculateInstallments($contract->total_price, $contract->period, request()['step'] ?? 1000, request()['count'] ?? null);
         }
 
         return view('admin.installments.create', compact('contract', 'installments', 'formAttributes', 'installmentsCount', 'installmentsAmount'));
@@ -48,7 +48,7 @@ class InstallmentController extends Controller
             $service->sumInstallments($installments)->validate($contract->total_price);
             $service->sync($installments, $contract);
             $this->successAlert(null, 'اقساط با موفقیت ثبت شد');
-            return $this->redirect(route('receives.create', $contract)) ;
+            return $this->redirect(route('receives.create', $contract));
         } catch (Exception $exception) {
             return back()->withErrors($exception->getMessage());
         }

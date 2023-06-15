@@ -1,8 +1,15 @@
-@include('admin.installments.layouts.detail', [
-    'total_price' => $contract->total_price,
-    'total_price_str' => $contract->total_price_str,
-    'period' => $contract->period,
-])
+<div class="row">
+    <div class="col-xl-2 ms-auto mt-lg-n5 mb-5 mb-lg-0" >
+        @include('admin.installments.layouts.installments-settings')
+    </div>
+    <div class="col-12">
+        @include('admin.installments.layouts.detail', [
+            'total_price' => $contract->total_price,
+            'total_price_str' => $contract->total_price_str,
+            'period' => $contract->period,
+        ])
+    </div>
+</div>
 
 <x-ui.form.Form method="{{ $formAttributes['method'] }}" action="{{ $formAttributes['action'] }}">
     <x-ui.form.InputLayout>

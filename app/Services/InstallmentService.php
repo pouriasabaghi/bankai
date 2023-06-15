@@ -47,11 +47,15 @@ class InstallmentService
      * @param int            $step step of installments amount
      * @return array
      */
-    public function calculateInstallments(string|int $totalPrice, string|int|null $period = 1, ?int $step = 10000): array
+    public function calculateInstallments(string|int $totalPrice, string|int|null $period = 1, ?int $step = 10000, ?int $count = null): array
     {
 
         $totalPrice = intval($totalPrice);
-        $count = intval(fix_number($period)) == 0 ? 1 : intval(fix_number($period));
+
+        if (!$count) {
+            $count = intval(fix_number($period)) == 0 ? 1 : intval(fix_number($period));
+        }
+   
         $amount = floor($totalPrice / $count); // every installment without any rest
         $amount =  $amount - (intval($amount) % $step); // step is 100 thousand
         $remainingAmount = $totalPrice - ($amount * ($count - 1));  // last installment amount;
