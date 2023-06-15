@@ -50,10 +50,10 @@ class Receive extends Model
         );
     }
 
-    public function date(): Attribute
+    public function dateStr(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => $attributes['type'] == 'checked' ? jdate($attributes['due_at'])->format('Y/m/d') : jdate($attributes['paid_at'])->format('Y/m/d'),
+            get: fn ($value, $attributes) => $attributes['type'] == 'check' ? jdate($attributes['due_at'])->format('Y/m/d') : jdate($attributes['paid_at'])->format('Y/m/d'),
         );
     }
 
