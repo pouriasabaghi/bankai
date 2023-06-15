@@ -23,7 +23,7 @@ class CompanyRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'customer_id' => 'required',
+            'customers' => 'required',
         ];
     }
 }

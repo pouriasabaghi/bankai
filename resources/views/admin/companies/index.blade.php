@@ -13,7 +13,7 @@
         </x-slot>
         <x-slot name='body'>
             <x-ui.button.Button href="{{ route('companies.create') }}" btn='success' class="mb-3">افزودن مجموعه جدید</x-ui.button.Button>
-            <x-ui.table.Table :attr="['id' => 'companies-table']" :header="['#', 'نام', 'صاحب‌مجموعه','اقدامات']">
+            <x-ui.table.Table :attr="['id' => 'companies-table']" :header="['#', 'نام', 'صاحب(های)مجموعه','اقدامات']">
                 <x-slot name="tbody">
                     @forelse($companies as $company)
                         <tr>
@@ -23,7 +23,7 @@
                                     {{ $company->name }}
                                 </a>
                             </td>
-                            <td>{{ $company->customer->name }}</td>
+                            <td>{{ $company->customers_str }}</td>
                             <td>
                                 <div class="d-flex">
                                     <form method="post" action='{{ route('companies.destroy', $company->id) }}'>

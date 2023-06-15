@@ -37,9 +37,10 @@ class CompanyService
      */
     public function storeOrUpdate(array $data, Company $company = null): Company
     {
+
         $preparedData = [
             'name' => $data['name'],
-            'customer_id' => intval($data['customer_id']),
+            'customers' => $data['customers'],
         ];
 
         if ($company) {
@@ -48,7 +49,7 @@ class CompanyService
         } else {
             $company = Company::create($preparedData);
         }
-
+        $company->customers()->sync($preparedData['customers']);
         return $company;
     }
 }

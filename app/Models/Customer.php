@@ -14,7 +14,7 @@ class Customer extends Model
 
     public function companies()
     {
-        return $this->hasMany(Company::class);
+        return $this->belongsToMany(Company::class);
     }
 
     protected function mobile(): Attribute
