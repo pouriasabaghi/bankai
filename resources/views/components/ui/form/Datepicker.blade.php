@@ -24,5 +24,20 @@
             formatDate: "YYYY/0M/0D",
 
         })
+
     })
 </script>
+
+<style>
+    .pdp-header .nextArrow{
+        left: 0;
+        right: unset;
+        transform: rotate(180deg)
+    }
+
+    .pdp-header .prevArrow{
+        right: 0;
+        left: unset;
+        transform: rotate(180deg)
+    }
+</style>
