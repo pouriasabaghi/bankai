@@ -17,6 +17,9 @@
     value="{{ $receive->due_at ?? '' }}" label="تاریخ سررسید چک" col='2' />
 
 <x-ui.form.Input name="receives[{{ $loop->index }}][desc]" value="{{ $receive->desc ?? '' }}" label="توضیحات"
-    col='12' />
+    col='10' />
 
-
+<div class="col-md-2 d-flex ">
+    <x-ui.form.InputCheckbox labelClass="mt-auto" name="receives[{{ $loop->index }}][passed]" value="true" checked="{{ $receive->passed ?? false }}" label="پاس شد؟"
+        />
+</div>

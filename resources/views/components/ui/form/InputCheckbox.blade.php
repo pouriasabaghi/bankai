@@ -1,4 +1,4 @@
-<div class="form-check">
+<div class="form-check {{ $labelClass ?? '' }}">
     @if (!empty($label))
     <label class="form-check-label mb-3" for="{{ $id ?? ($name ?? '') }}">
         {{ $label }}

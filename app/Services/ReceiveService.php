@@ -38,6 +38,7 @@ class ReceiveService
     public function sync(array $data, Contract $contract): Collection
     {
         $preparedData =  $this->filterByType($data);
+
         $contract->receives()->delete();
         $receives = $contract->receives()->createMany($preparedData);
 
@@ -128,6 +129,7 @@ class ReceiveService
                     'company_id' => $item['company_id'],
                     'contract_id' => $item['contract_id'],
                     'card_id' => $item['card_id'],
+                    'passed'=>!empty($item['passed']) ? true :  false ,
                 ];
             }
         });
@@ -148,11 +150,12 @@ class ReceiveService
 
         // this amount use for paying bills (updating status) ;
         $usedAmount =     $contract->installments()->where('status', 'paid')->get()->sum('amount');
-        $paidAmount = $contract->receives()->get()->sum('amount');
+        $paidAmount = $contract->receivesInPocket()->get()->sum('amount');
 
         $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
+        $debtorTillNow = $debtor - $creditor > 0 ? $debtor - $creditor : 0;
         return [
-            'debtor' => number_format($debtor - $creditor),
+            'debtor' => number_format($debtorTillNow),
             'creditor' => number_format($creditor),
             'creditor_title'=>$creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب'
         ];

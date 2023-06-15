@@ -18,9 +18,12 @@
                                 class="fa-solid fa-circle-xmark fa-lg align-items-center d-flex fa-solid  me-2
                                 {{ $loop->index == 0 ? 'text-secondary' : 'text-danger manage-row__button_delete' }}">
                             </i>
+
                             <div class="d-flex justify-content-between w-100">
                                 <h6 class="mb-0">دریافتی شماره {{ $loop->index + 1 }}</h6>
-                                <small>ثبت: {{ $receive->created_at ?? '' }}</small>
+                                @if (!empty($receive->created_at))
+                                    <small>ثبت: {{ $receive->created_at }}</small>
+                                @endif
                             </div>
                         </div>
                         <div class="row mt-3">

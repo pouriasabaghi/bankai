@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Receive extends Model
 {
     use HasFactory;
-    protected $fillable = ['contract_id', 'card_id', 'company_id','customer_id', 'type', 'origin', 'amount', 'bank_name', 'branch_name', 'branch_code', 'desc', 'serial_number', 'paid_at', 'received_at', 'due_at'];
+    protected $fillable = ['contract_id', 'card_id', 'company_id','customer_id', 'type', 'origin', 'amount', 'bank_name', 'branch_name', 'branch_code', 'desc', 'passed', 'serial_number', 'paid_at', 'received_at', 'due_at'];
+
 
 
     public function amount(): Attribute
@@ -45,7 +46,6 @@ class Receive extends Model
     public function createdAt(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
             get: fn ($value, $attributes) => !empty($value) ? jdate($value)->format('Y/m/d') : '',
         );
     }

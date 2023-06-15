@@ -69,4 +69,11 @@ class Contract extends Model
     {
         return $this->hasMany(Receive::class);
     }
+
+    public function receivesInPocket()
+    {
+        return $this->receives()->where('passed', true)->orWhere('type', 'deposit');
+    }
+
+
 }
