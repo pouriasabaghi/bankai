@@ -13,3 +13,7 @@
 .add-new-service__box.active{
     height: 82px;
 }
+
+.pdp-default .day.cell, .pdp-default .dow.cell, .php-default .goToday {
+    font-family: 'shabnam';
+}
