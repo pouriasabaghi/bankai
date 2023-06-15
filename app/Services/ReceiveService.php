@@ -152,9 +152,9 @@ class ReceiveService
 
         $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
         return [
-            'debtor' => number_format($debtor),
+            'debtor' => number_format($debtor - $creditor),
             'creditor' => number_format($creditor),
-            'creditor_title'=>$creditor && $debtor  == 0 ? 'بستانکار' : 'استفاده نشده'
+            'creditor_title'=>$creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب'
         ];
     }
 }
