@@ -27,6 +27,8 @@ class InstallmentController extends Controller
 
         $installments = $service->prepareInstallments($contract->installments);
 
+        // installments start
+        $start = request()->start ?? $contract->signed_at ;
 
         // it's update form and contract didn't need auto installment calculate ;
         if (!$contract->installments->isEmpty()) {
@@ -36,7 +38,7 @@ class InstallmentController extends Controller
             list($installmentsAmount, $installmentsCount) = $service->calculateInstallments($contract->total_price, $contract->period, request()['step'] ?? 1000, request()['count'] ?? null);
         }
 
-        return view('admin.installments.create', compact('contract', 'installments', 'formAttributes', 'installmentsCount', 'installmentsAmount'));
+        return view('admin.installments.create', compact('contract', 'installments', 'formAttributes', 'installmentsCount', 'installmentsAmount', 'start'));
     }
 
     public function store(Request $request, Contract $contract)

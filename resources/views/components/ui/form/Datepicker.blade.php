@@ -8,7 +8,7 @@
                 {{ $key . '=' . $attribute }}
             @empty
             @endforelse
-            id="{{ $name }}" class="mt-1  form-control" value="{{ $value }}" name="{{ $name }}"
+            id="{{ $name }}" class="mt-1  form-control {{ $class ?? '' }}" value="{{ $value }}" name="{{ $name }}"
             placeholder="{{ $placeholder ?? '' }}"
             autocomplete='off'
             />
