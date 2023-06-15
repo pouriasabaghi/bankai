@@ -42,6 +42,14 @@ class Receive extends Model
         );
     }
 
+    public function createdAt(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
+            get: fn ($value, $attributes) => !empty($value) ? jdate($value)->format('Y/m/d') : '',
+        );
+    }
+
     public function receivedAt(): Attribute
     {
         return Attribute::make(
@@ -50,7 +58,7 @@ class Receive extends Model
         );
     }
 
-    public function dateStr(): Attribute
+    public function date(): Attribute
     {
         return Attribute::make(
             get: fn ($value, $attributes) => $attributes['type'] == 'check' ? jdate($attributes['due_at'])->format('Y/m/d') : jdate($attributes['paid_at'])->format('Y/m/d'),
