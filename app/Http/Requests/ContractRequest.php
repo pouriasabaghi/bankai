@@ -21,11 +21,20 @@ class ContractRequest extends FormRequest
      */
     public function rules(): array
     {
+        // $pattern = "/^(14[0-9][0-9]|15[0-9][0-9])\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])$/";
+        // if (!preg_match($pattern, $period['start']) || !preg_match($pattern, $period['end'])) {
+        //     throw new \Exception('فرمت تاریخ باید به صورت 1401/01/10 باشد', 1);
+        // }
         return [
-            'name'=>'required',
-            'customer_id'=>'required|not_in:0',
-            'company_id'=>'required|not_in:0',
-            'total_price'=>'required',
+            'name' => 'required',
+            'customer_id' => 'required|not_in:0',
+            'company_id' => 'required|not_in:0',
+            'total_price' => 'required',
+            'type' => 'required',
+            'services' => 'required',
+            'signed_at' => [
+                'regex:/^(14[0-9][0-9]|15[0-9][0-9])\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])$/',
+            ]
         ];
     }
 }

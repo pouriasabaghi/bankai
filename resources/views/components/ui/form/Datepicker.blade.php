@@ -10,6 +10,7 @@
             @endforelse
             id="{{ $name }}" class="mt-1  form-control" value="{{ $value }}" name="{{ $name }}"
             placeholder="{{ $placeholder ?? '' }}"
+            autocomplete='off'
             />
     </div>
 </div>
