@@ -28,7 +28,7 @@ class InstallmentController extends Controller
         $installments = $service->prepareInstallments($contract->installments);
 
         // installments start
-        $start = request()->start ?? $contract->signed_at ;
+        $start = request()->start ?? $contract->started_at ;
 
         // it's update form and contract didn't need auto installment calculate ;
         if (!$contract->installments->isEmpty()) {

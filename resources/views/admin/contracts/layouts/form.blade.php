@@ -63,16 +63,21 @@
         </x-ui.form.Input>
 
         {{-- Signed_at --}}
-        <x-ui.form.Datepicker col='6' value="{{ old('signed_at', $contract->signed_at ?? '') }}" name='signed_at'
-            label='تاریخ شروع قرارداد' />
+        <x-ui.form.Datepicker col='6' value="{{ old('signed_at', $contract->signed_at ?? '') }}"
+            name='signed_at' label='تاریخ امضای قرارداد' />
+
+        {{-- Start_at --}}
+        <x-ui.form.Datepicker col='6' value="{{ old('started_at', $contract->started_at ?? '') }}"
+            name='started_at' label='تاریخ شروع قرارداد' />
 
         {{-- Canceled_at --}}
         @if ($formAttributes['isUpdate'])
-            <x-ui.form.Datepicker col='6' value="{{ old('canceled_at' , $contract->canceled_at ?? '') }}" name='canceled_at'
-                label='تاریخ لغو قرارداد' />
+            <x-ui.form.Datepicker col='6' value="{{ old('canceled_at', $contract->canceled_at ?? '') }}"
+                name='canceled_at' label='تاریخ لغو قرارداد' />
         @endif
 
-        <x-ui.form.Input label='توضیحات' name='desc' col=' col' value="{{ old('desc', $contract->desc ?? '') }}" />
+        <x-ui.form.Input label='توضیحات' name='desc' col=' col'
+            value="{{ old('desc', $contract->desc ?? '') }}" />
 
 
         <div class="col-md-12">

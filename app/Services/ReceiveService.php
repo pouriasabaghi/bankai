@@ -38,7 +38,6 @@ class ReceiveService
     public function sync(array $data, Contract $contract): Collection
     {
         $preparedData =  $this->filterByType($data);
-
         $contract->receives()->delete();
         $receives = $contract->receives()->createMany($preparedData);
 

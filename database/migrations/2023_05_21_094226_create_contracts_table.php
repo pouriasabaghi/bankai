@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('contract_number')->nullable() ;
             $table->string('period')->nullable();
             $table->dateTime('signed_at')->nullable();
+            $table->dateTime('started_at')->nullable();
             $table->dateTime('canceled_at')->nullable();
 
             $table->softDeletes();

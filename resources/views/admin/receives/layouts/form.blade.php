@@ -11,7 +11,7 @@
             <div class="row manage-row__group">
                 @foreach ($receives as $receive)
                     <div class="col-12 manage-row__items {{ $loop->index == 0 ? '' : 'mt-3' }}
-                        {{ $loop->index == 0 || !empty($receive->created_at) ? '' : 'd-none' }}"
+                        {{ $loop->index == 0 || !empty($receive->created_at) ? '' : '' }}"
                         data-row-count="{{ $loop->index + 1 }}">
                         <div class="d-flex align-items-center mb-2">
                             <i role='button'

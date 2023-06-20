@@ -42,6 +42,7 @@ class ContractService
             'contract_number' => $data['contract_number'],
             'period' => $data['period'],
             'signed_at' => !empty($data['signed_at']) ? jdate()->fromFormat('Y/m/d', $data['signed_at'])->toCarbon() : null,
+            'started_at' => !empty($data['started_at']) ? jdate()->fromFormat('Y/m/d', $data['started_at'])->toCarbon() : null,
             'services' => $data['services'] ?? null,
         ];
 
