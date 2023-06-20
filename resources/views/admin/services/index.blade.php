@@ -12,7 +12,7 @@
             خدمات هر دسته بندی مثال: بنر صفحه باغ تالار، بنر صفحه اصلی و...
         </x-slot>
         <x-slot name='body'>
-            @include('admin.services.layouts.form')
+            <x-ui.button.Button href="{{ route('services.create') }}" btn='success' class="mb-3">افزودن خدمت جدید </x-ui.button.Button>
             <x-ui.table.Table :attr="['id' => 'services-table']" :header="['#', 'نام', 'اقدامات']">
                 <x-slot name="tbody">
                     @forelse($services as $service)
@@ -31,7 +31,7 @@
                                         <x-ui.button.Delete />
                                     </form>
 
-
+                                    <x-ui.button.Edit href="{{ route('services.edit', $service->id) }}" />
                                 </div>
                             </td>
                         </tr>

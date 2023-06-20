@@ -1,7 +1,11 @@
-<x-ui.form.Form method="post" action="{{ route('services.store') }}">
+<x-ui.form.Form method="{{ $formAttributes['method'] }}" action="{{ $formAttributes['action'] }}">
     <x-ui.form.InputLayout>
-        <x-ui.form.Input name='name' label='نام سرویس(خدمت)' col='8 col-8' :attr="['required' => 'required']" />
-        <div class="col-4 mt-auto mb-3">
+        <x-ui.form.Input value="{{ $service->name ?? '' }}" name='name' label='نام سرویس(خدمت)'
+            :attr="['required' => 'required']" />
+        @if (!$formAttributes['isUpdate'])
+            <x-ui.form.InputCheckbox name='stay_in_page' label='ماندن در صفحه' value='true' />
+        @endif
+        <div class="col-12 mt-auto mb-3">
             <x-ui.button.Button >
                 ذخیره
             </x-ui.button.Button>

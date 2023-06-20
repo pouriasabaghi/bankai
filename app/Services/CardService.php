@@ -10,7 +10,7 @@ class CardService
     /**
      * Collection of attributes
      *
-     * @param Customer|null $customer
+     * @param Card|null $card
      * @return array
      */
     public function formAttributes(?Card $card = null) : array
