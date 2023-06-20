@@ -11,7 +11,7 @@ class Contract extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'financial_status', 'contract_status', 'total_price', 'type', 'contract_number', 'period', 'signed_at', 'canceled_at'];
+    protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'financial_status', 'contract_status', 'total_price', 'type', 'contract_number', 'period','started_at', 'signed_at', 'canceled_at'];
 
 
     protected function totalPrice() : Attribute
@@ -29,6 +29,13 @@ class Contract extends Model
     }
 
     protected function signedAt() : Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) =>  jdate($value)->format('Y/m/d'),
+        );
+    }
+
+    protected function startedAt() : Attribute
     {
         return Attribute::make(
             get: fn ($value) =>  jdate($value)->format('Y/m/d'),
@@ -72,8 +79,9 @@ class Contract extends Model
 
     public function receivesInPocket()
     {
-        return $this->receives()->where('passed', true)->orWhere('type', 'deposit');
+        return $this->receives()->where(function($query){
+            $query->where('passed', true)
+            ->orWhere('type', 'deposit');
+        });
     }
-
-
 }
