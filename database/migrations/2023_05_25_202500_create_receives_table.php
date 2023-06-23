@@ -27,7 +27,8 @@ return new class extends Migration
             $table->string('branch_code')->nullable();
             $table->text('desc')->nullable();
             $table->string('serial_number')->nullable();
-            $table->boolval('passed')->nullable()->default(false);
+            $table->boolean('passed')->nullable()->default(false);
+            $table->boolean('advance_payment')->nullable()->default(false);
 
             $table->dateTime('paid_at')->nullable();
             $table->dateTime('received_at')->nullable();

@@ -30,6 +30,7 @@ class ContractRequest extends FormRequest
             'customer_id' => 'required|not_in:0',
             'company_id' => 'required|not_in:0',
             'total_price' => 'required',
+            'advance_payment' => 'required',
             'type' => 'required',
             'services' => 'required',
             'signed_at' => [

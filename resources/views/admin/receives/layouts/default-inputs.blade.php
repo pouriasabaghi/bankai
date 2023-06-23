@@ -17,3 +17,4 @@
 <input type='hidden' name="receives[{{ $loop->index }}][customer_id]" value="{{ $contract->customer->id }}" />
 <input type='hidden' name="receives[{{ $loop->index }}][company_id]" value="{{ $contract->company->id }}" />
 <input type='hidden' name="receives[{{ $loop->index }}][contract_id]" value="{{ $contract->id }}" />
+<input type='hidden' name="receives[{{ $loop->index }}][advance_payment]" value="{{ $receive->advance_payment ?? false }}" />

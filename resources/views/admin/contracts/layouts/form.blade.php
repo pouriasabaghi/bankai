@@ -46,11 +46,28 @@
 
 
         {{-- Total_price --}}
-        <x-ui.form.Input label='مبلغ کل قرارداد' name='total_price' col='8' :attr="['data-separate' => 'true', 'required' => 'true']"
+        <x-ui.form.Input label='مبلغ کل قرارداد' name='total_price' col='4' :attr="['data-separate' => 'true', 'required' => 'true']"
             value="{{ old('totla_price', $contract->total_price_str ?? '') }}" />
 
+
+        {{-- Total_price --}}
+        <x-ui.form.Input label='مبلغ پیش قرارداد' name='advance_payment' col='3' :attr="['data-separate' => 'true', 'required' => 'true']"
+            value="{{ old('advance_payment', $contract->advance_payment_str ?? '') }}" />
+
+        <x-ui.form.Select class="form-control" name='card_id' col='3'
+            label='حساب پیش پرداخت'>
+            @forelse ($cards as $card)
+                <x-ui.form.Option
+                    selected="{{-- !empty($card->id)&&!empty($receive->card_id)&&$card->id==$receive->card_id --}}"
+                    value="{{ $card->id }}">{{ $card->name }}</x-ui.form.Option>
+            @empty
+                <x-ui.form.Option :disabled='true' value='null'>حساب وجود ندارد
+                </x-ui.form.Option>
+            @endforelse
+        </x-ui.form.Select>
+
         {{-- Periods --}}
-        <x-ui.form.Input :attr="['list' => 'periods-list']" label='بازه زمانی' name='period' col='4'
+        <x-ui.form.Input :attr="['list' => 'periods-list']" label='بازه زمانی' name='period' col='2'
             value="{{ old('period', $contract->period ?? '') }}">
             <x-slot name='datalist'>
                 <datalist id="periods-list">

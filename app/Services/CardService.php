@@ -7,19 +7,21 @@ use Illuminate\Support\Collection;
 
 class CardService
 {
+
+    public $summarizedCards;
     /**
      * Collection of attributes
      *
      * @param Card|null $card
      * @return array
      */
-    public function formAttributes(?Card $card = null) : array
+    public function formAttributes(?Card $card = null): array
     {
         if ($card) {
             $action = route('cards.update', $card->id);
             $method = 'PUT';
             $form = 'update';
-        }else{
+        } else {
             $action = route('cards.store');
             $method = 'POST';
             $form = 'store';
@@ -29,22 +31,22 @@ class CardService
     }
 
 
-    public function storeOrUpdate(array $data, ?Card $card = null) : Card
+    public function storeOrUpdate(array $data, ?Card $card = null): Card
     {
         $preparedData = [
-            'name'=>$data['name'],
-            'number'=>$data['number'],
-            'amount'=>$data['amount'] ?? 0,
+            'name' => $data['name'],
+            'number' => $data['number'],
+            'amount' => $data['amount'] ?? 0,
         ];
 
         if ($card) {
             $card->fill($preparedData);
             $card->save();
-        }else{
+        } else {
             $card = Card::create($preparedData);
         }
 
-        return $card ;
+        return $card;
     }
 
 
@@ -52,20 +54,30 @@ class CardService
      * Sum card amount form all receives or given
      *
      * @param Collection|null $receives
-     * @return Collection
+     * @return CardService
      */
-    public function sumCardsWithKey(?Collection $receives = null) : Collection
+    public function sumCardsWithKey(?Collection $receives = null): CardService
     {
         if (!$receives) {
             $receives = \App\Models\Receive::query()->get();
         }
-        $receives = $receives->groupBy('card_id')->map(function($receive, $cardId){
+        $this->summarizedCards = $receives->groupBy('card_id')->map(function ($receive, $cardId) {
             return [
-                'card_id'=>$cardId ,
-                'sum'=>$receive->sum('amount'),
+                'card_id' => $cardId,
+                'sum' => $receive->sum('amount'),
             ];
         });
 
-        return $receives ;
+        return $this;
+    }
+
+    public function updateCardsAmount()
+    {
+        $cards = $this->summarizedCards;
+        foreach ($cards as $card) {
+            Card::query()->whereId($card['card_id'])->update([
+                'amount' => $card['sum'],
+            ]);
+        }
     }
 }

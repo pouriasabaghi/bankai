@@ -38,6 +38,8 @@ class ContractService
             'name' => $data['name'],
             'desc' => $data['desc'],
             'total_price' => $data['total_price'],
+            'advance_payment' => $data['advance_payment'],
+            'installments_total_price' => fix_number($data['total_price']) -  fix_number($data['advance_payment']),
             'type' => $data['type'],
             'contract_number' => $data['contract_number'],
             'period' => $data['period'],

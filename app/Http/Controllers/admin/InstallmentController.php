@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Services\InstallmentService;
+use App\Services\ReceiveService;
 use App\Traits\Alert;
 use App\Traits\Redirect;
 use Exception;
@@ -30,12 +31,12 @@ class InstallmentController extends Controller
         // installments start
         $start = request()->start ?? $contract->started_at ;
 
-        // it's update form and contract didn't need auto installment calculate ;
+        // it's update form/page;  contract didn't need auto installment calculate ;
         if (!$contract->installments->isEmpty()) {
             $installmentsCount = -1;
             $installmentsAmount = [];
         } else {
-            list($installmentsAmount, $installmentsCount) = $service->calculateInstallments($contract->total_price, $contract->period, request()['step'] ?? 1000, request()['count'] ?? null);
+            list($installmentsAmount, $installmentsCount) = $service->calculateInstallments($contract->installments_total_price, $contract->period, request()['step'] ?? 1000, request()['count'] ?? null);
         }
 
         return view('admin.installments.create', compact('contract', 'installments', 'formAttributes', 'installmentsCount', 'installmentsAmount', 'start'));
@@ -47,7 +48,7 @@ class InstallmentController extends Controller
             $service = $this->service;
             $installments = $request->installment;
             $installments = $service->removeUnusedInstallments($installments);
-            $service->sumInstallments($installments)->validate($contract->total_price);
+            $service->sumInstallments($installments)->validate($contract->installments_total_price);
             $service->sync($installments, $contract);
             $this->successAlert(null, 'اقساط با موفقیت ثبت شد');
             return $this->redirect(route('receives.create', $contract));

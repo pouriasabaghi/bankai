@@ -6,12 +6,17 @@
     </li>
     <li class="col1 list-group-item list-group-item-primary">
         <span>مبلغ قرارداد:</span>
-        <span data-total='{{ $total_price }}'>{{ $total_price_str }}</span>
+        <span>{{ $total_price_str }}</span>
+        <small>تومان</small>
+    </li>
+    <li class="col1 list-group-item list-group-item-info">
+        <span>مبلغ پیش‌قرارداد:</span>
+        <span >{{ $advance_payment }}</span>
         <small>تومان</small>
     </li>
     <li class="col1 list-group-item list-group-item-success">
-        <span>جمع‌کل اقساط:</span>
-        <span class="installments__total">{{-- handle with js --}}</span>
+        <span>جمع کل‌اقساط:</span>
+        <span class="installments__total" data-total='{{ $installments_price }}'>{{-- handle with js --}}</span>
         <small>تومان</small>
     </li>
     <li class="col1 list-group-item list-group-item-danger">

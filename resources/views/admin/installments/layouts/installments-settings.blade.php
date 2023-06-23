@@ -1,4 +1,4 @@
-<form class="d-flex flex-column" method="get">
+<form class="d-flex flex-column mb-3" method="get">
     <x-ui.form.Datepicker class="form-control-sm" name='start' value="{{ request()->start }}"
         placeholder='تاریخ شروع اقساط' />
 

@@ -1,11 +1,14 @@
 <div class="row">
-    <div class="col-xl-2 ms-auto mt-lg-n5 mb-5 mb-lg-0" >
+    {{-- <div class="col-xl-2 ms-auto mb-5 mb-lg-0" >
         @include('admin.installments.layouts.installments-settings')
-    </div>
+    </div> --}}
     <div class="col-12">
         @include('admin.installments.layouts.detail', [
             'total_price' => $contract->total_price,
             'total_price_str' => $contract->total_price_str,
+            'installments_price' => $contract->installments_total_price,
+            'installments_price_str' => $contract->installments_total_price_str,
+            'advance_payment'=> $contract->advance_payment_str ,
             'period' => $contract->period,
         ])
     </div>
@@ -16,7 +19,7 @@
         <div class="col-12">
             <div class="row manage-row__group">
                 @foreach ($installments as $installment)
-                    <div class="col-12 manage-row__items {{ $loop->index == 0 ? '' : 'mt-3' }}
+                    <div  class="col-12 manage-row__items {{ $loop->index == 0 ? '' : 'mt-3' }}
                         {{ $loop->index < $installmentsCount || !empty($installment->created_at) ? '' : 'd-none' }}"
                         data-row-count="{{ $loop->index + 1 }}">
                         <div class="d-flex align-items-center mb-2">

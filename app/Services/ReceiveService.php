@@ -43,12 +43,8 @@ class ReceiveService
 
         // update cards amount ;
         $cardService = new CardService();
-        $cards = $cardService->sumCardsWithKey();
-        foreach ($cards as $card) {
-            Card::query()->whereId($card['card_id'])->update([
-                'amount' => $card['sum'],
-            ]);
-        }
+        $cardService->sumCardsWithKey()->updateCardsAmount();
+
         return $receives;
     }
 
@@ -109,6 +105,7 @@ class ReceiveService
                     'company_id' => $item['company_id'],
                     'contract_id' => $item['contract_id'],
                     'card_id' => $item['card_id'],
+                    'advance_payment'=>$item['advance_payment'] ?? false ,
                 ];
             } elseif ($item['type'] == 'check') {
                 if (empty($item['due_at']) || empty($item['received_at'])) {
@@ -128,7 +125,8 @@ class ReceiveService
                     'company_id' => $item['company_id'],
                     'contract_id' => $item['contract_id'],
                     'card_id' => $item['card_id'],
-                    'passed'=>!empty($item['passed']) ? true :  false ,
+                    'passed' => !empty($item['passed']) ? true :  false,
+                    'advance_payment'=>$item['advance_payment'] ?? false ,
                 ];
             }
         });
@@ -143,20 +141,67 @@ class ReceiveService
      * @param Contract $contract
      * @return array
      */
-    public function getDetail(Contract $contract) : array
+    public function getDetail(Contract $contract): array
     {
         $debtor = $contract->installments()->where('due_at', '<=', now())->where('status', 'billed')->get()->sum('amount');
 
         // this amount use for paying bills (updating status) ;
         $usedAmount =     $contract->installments()->where('status', 'paid')->get()->sum('amount');
-        $paidAmount = $contract->receivesInPocket()->get()->sum('amount');
+
+        $paidAmount = $contract->receivesInPocket(false)->get()->sum('amount');
 
         $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
         $debtorTillNow = $debtor - $creditor > 0 ? $debtor - $creditor : 0;
         return [
             'debtor' => number_format($debtorTillNow),
             'creditor' => number_format($creditor),
-            'creditor_title'=>$creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب'
+            'creditor_title' => $creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب'
         ];
+    }
+
+
+    /**
+     * Store advance payment as receive
+     *
+     * @param Contract $contract
+     * @param int $cardId
+     * @param int|string $amount
+     * @return Receive
+     */
+    public function storeAdvancePayment(Contract $contract, int $cardId, int|string $amount, $update = false): Receive
+    {
+        $preparedData = [
+            'contract_id' => $contract->id,
+            'amount' => $amount,
+            'card_id' => $cardId,
+            'customer_id' => $contract->customer_id,
+            'company_id' => $contract->company_id,
+            'advance_payment' => true,
+        ];
+
+        if (!$update) {
+            $receive = Receive::create($preparedData);
+        } else {
+            // Make instance from receive for update
+            $receive = new Receive();
+            $receive =  $receive->where([
+                'contract_id' => $contract->id,
+                'advance_payment' => true,
+            ])->first();
+
+            // there is no advance payment it's first time
+            if (!$receive) {
+                $receive = Receive::create($preparedData);
+            } else {
+                $receive->fill($preparedData);
+                $receive->save();
+            }
+        }
+
+        // update cards amount ;
+        $cardService = new CardService();
+        $cardService->sumCardsWithKey()->updateCardsAmount();
+
+        return $receive;
     }
 }

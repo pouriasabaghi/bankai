@@ -57,7 +57,6 @@ class CompanyController extends Controller
 
     public function update(CompanyRequest $request, Company $company)
     {
-        dd($request->all());
         $service = $this->service;
         $service->storeOrUpdate($request->all(), $company);
         $this->successAlert(null, 'مجموعه با موفقیت ویرایش شد');

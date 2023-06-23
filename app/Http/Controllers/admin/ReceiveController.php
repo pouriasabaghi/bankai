@@ -35,7 +35,9 @@ class ReceiveController extends Controller
         $installments = $contract->installments;
         $detail = $service->getDetail($contract);
 
-        return view('admin.receives.create', compact('cards', 'companies', 'formAttributes', 'receives', 'contract', 'detail', 'installments', 'contractReceives'));
+        $hasValidAdvancePayment = $contract->advancePaymentRel()->paid_at || $contract->advancePaymentRel()->due_at ? true : false;
+
+        return view('admin.receives.create', compact('cards', 'companies', 'formAttributes', 'receives', 'contract', 'detail', 'installments', 'contractReceives', 'hasValidAdvancePayment'));
     }
 
     public function store(Request $request, Contract $contract)
@@ -45,7 +47,7 @@ class ReceiveController extends Controller
             $receives =  $request->receives;
             $receives = $service->removeUnused($receives);
             $service->sync($receives, $contract);
-            (new InstallmentService())->updateInstallmentsByTotalReceives($contract, $contract->receives()->get()->sum('amount'));
+            (new InstallmentService())->updateInstallmentsByTotalReceives($contract, $contract->receivesInPocket(false)->get()->sum('amount'));
             $this->successAlert(null, 'پرداخت با موفقیت ثبت شد');
             return back();
         } catch (Exception $e) {

@@ -1,53 +1,63 @@
-input[name^='receives'][name$="_at]"]::placeholder{
+input[name^="receives"][name$="_at]"]::placeholder {
     font-size: 12px;
 }
-#receives .select2-container{
+#receives .select2-container {
     width: 100% !important;
 }
 
-#receives .manage-row__items{
+#receives .manage-row__items {
     background-color: #f5f5f5;
     padding-top: 16px;
     border: 1px dashed #6c757d;
 }
 
-
-.list-group-installments li{
+.list-group-installments li {
     border-radius: 0 !important;
     border: 1px solid var(--bs-list-group-border-color) !important;
     padding-top: 5px;
     padding-bottom: 5px;
     font-size: 12px;
 }
-.list-group-installments li:nth-child(1){
+.list-group-installments li:nth-child(1) {
     width: 60px;
 }
 
-.list-group-installments li:nth-child(2){
+.list-group-installments li:nth-child(2) {
     width: 120px;
 }
-.list-group-installments li:nth-child(3){
+.list-group-installments li:nth-child(3) {
     width: 120px;
 }
-.list-group-installments li:nth-child(4){
+.list-group-installments li:nth-child(4) {
     width: 64px;
 }
-.list-group-installments-customer-status{
+.list-group-installments-customer-status {
     width: 150px;
 }
-.receives-contract-information{
+
+.list-group-receive-result li {
+    border-radius: 0 !important;
+    border: 1px solid var(--bs-list-group-border-color) !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 12px;
+}
+
+
+
+
+.receives-contract-information {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
-
 }
-@media only screen and (min-width:1200px) {
-    .receives-contract-information{
-        padding-left: 30px ;
-        padding-right: 30px ;
+@media only screen and (min-width: 1200px) {
+    .receives-contract-information {
+        padding-left: 30px;
+        padding-right: 30px;
     }
 }
-.receives-contract-information > .row:not(:last-child){
-   border-bottom: 1px solid rgba(202, 196, 196, 0.514);
+.receives-contract-information > .row:not(:last-child) {
+    border-bottom: 1px solid rgba(202, 196, 196, 0.514);
     padding-bottom: 5px;
 }

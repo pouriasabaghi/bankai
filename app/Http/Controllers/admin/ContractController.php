@@ -4,10 +4,12 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContractRequest;
+use App\Models\Card;
 use App\Models\Contract;
 use App\Models\Service;
 use App\Models\Type;
 use App\Services\ContractService;
+use App\Services\ReceiveService;
 use App\Traits\Alert;
 use App\Traits\Redirect;
 use Illuminate\Http\Request;
@@ -35,18 +37,22 @@ class ContractController extends Controller
         $formAttributes = $service->formAttributes();
         $types = Type::query()->latest()->get();
         $services = Service::query()->latest()->get();
-        $contractServices = null ;
-        return view('admin.contracts.create', compact('formAttributes', 'types', 'services', 'contractServices'));
+        $contractServices = null;
+        $cards = Card::query()->get();
+        return view('admin.contracts.create', compact('formAttributes', 'types', 'services', 'contractServices', 'cards'));
     }
 
 
     public function store(ContractRequest $request)
     {
         $ContractService = $this->service;
-        $contract =$ContractService->storeOrUpdate($request->all());
+        $contract = $ContractService->storeOrUpdate($request->all());
+
+        (new ReceiveService())->storeAdvancePayment($contract, $request->card_id, fix_number($request->advance_payment));
+
         $this->successAlert(null, 'قرارداد با موفقیت ثبت شد');
 
-        return $this->redirect(route('installments.create' , $contract->id));
+        return $this->redirect(route('installments.create', $contract->id));
     }
 
     public function edit(Contract $contract)
@@ -56,7 +62,8 @@ class ContractController extends Controller
         $types = Type::query()->latest()->get();
         $services = Service::query()->latest()->get();
         $contractServices = $contract->services->pluck('id') ?? null;
-        return view('admin.contracts.edit', compact('formAttributes', 'types', 'services','contractServices', 'contract'));
+        $cards = Card::query()->get();
+        return view('admin.contracts.edit', compact('formAttributes', 'types', 'services', 'contractServices', 'contract','cards'));
     }
 
 
@@ -64,10 +71,13 @@ class ContractController extends Controller
     {
         $service = $this->service;
         $contract = $service->storeOrUpdate($request->all(), $contract);
+
+        (new ReceiveService())->storeAdvancePayment($contract, $request->card_id, fix_number($request->advance_payment), true);
+
         $this->successAlert(null, 'قرارداد با موفقیت ویرایش شد');
 
-      //  return $this->redirect(route('contracts.index'));
-      return $this->redirect(route('installments.create' , $contract->id));
+        //  return $this->redirect(route('contracts.index'));
+        return $this->redirect(route('installments.create', $contract->id));
     }
 
     public function destroy($id)

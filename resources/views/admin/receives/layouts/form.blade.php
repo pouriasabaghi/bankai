@@ -1,3 +1,9 @@
+@if (!$hasValidAdvancePayment)
+    <x-ui.alert.Alert alert='warning'>
+        لطفا ابتدا جزئیات دریافت پیش قرارداد را کامل کنید.
+    </x-ui.alert.Alert>
+@endif
+
 @include('admin.receives.layouts.detail', [
     'debtor' => $detail['debtor'],
     'creditor' => $detail['creditor'],
@@ -10,17 +16,21 @@
         <div class="col-12">
             <div class="row manage-row__group">
                 @foreach ($receives as $receive)
-                    <div class="col-12 manage-row__items {{ $loop->index == 0 ? '' : 'mt-3' }}
-                        {{ $loop->index == 0 || !empty($receive->created_at) ? '' : '' }}"
+                    <div id="receive-{{ $receive->id ?? $loop->index }}" class="col-12 manage-row__items {{ $loop->index == 0 ? '' : 'mt-3' }}
+                        {{ $loop->index == 0 || !empty($receive->created_at) ? '' : 'd-none' }}"
                         data-row-count="{{ $loop->index + 1 }}">
                         <div class="d-flex align-items-center mb-2">
                             <i role='button'
                                 class="fa-solid fa-circle-xmark fa-lg align-items-center d-flex fa-solid  me-2
-                                {{ $loop->index == 0 ? 'text-secondary' : 'text-danger manage-row__button_delete' }}">
+                                {{ !empty($receive->advance_payment) ? 'text-secondary' : 'text-danger manage-row__button_delete' }}">
                             </i>
 
                             <div class="d-flex justify-content-between w-100">
-                                <h6 class="mb-0">دریافتی شماره {{ $loop->index + 1 }}</h6>
+                                <h6 class="mb-0">دریافتی شماره {{ $loop->index + 1 }}
+                                    @if (!empty($receive->advance_payment))
+                                        <small class="badge bg-warning fw-normal">پیش قرارداد</small>
+                                    @endif
+                                </h6>
                                 @if (!empty($receive->created_at))
                                     <small>ثبت: {{ $receive->created_at }}</small>
                                 @endif

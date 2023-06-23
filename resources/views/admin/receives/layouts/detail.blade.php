@@ -7,72 +7,91 @@
             اطلاعات قرارداد
         </h6>
         <div class="row mx-0">
-           <div class="col-12 py-2 d-flex flex-column  bg-light receives-contract-information">
+            <div class="col-12 py-2 d-flex flex-column  bg-light receives-contract-information">
                 <div class="row ">
                     <div class="col-6">
                         <i class="fa-solid fa-file-invoice-dollar "></i>
-                        عنوان قرارداد:</div>
+                        عنوان قرارداد:
+                    </div>
                     <div class="col-6">{{ $contract->name }}</div>
                 </div>
                 <div class="row ">
                     <div class="col-6">
                         <i class="fa-solid fa-user-tie"></i>
-                        مشتری:</div>
+                        مشتری:
+                    </div>
                     <div class="col-6">{{ $contract->customer->name }}</div>
                 </div>
                 <div class="row ">
                     <div class="col-6">
                         <i class="fa-solid fa-building-columns"></i>
-                        مجموعه:</div>
+                        مجموعه:
+                    </div>
                     <div class="col-6">{{ $contract->company->name }}</div>
                 </div>
                 <div class="row ">
                     <div class="col-6">
                         <i class="fa-regular fa-star"></i>
-                        دسته بندی خدمات:</div>
+                        دسته بندی خدمات:
+                    </div>
                     <div class="col-6">{{ $contract->type }}</div>
                 </div>
                 <div class="row ">
                     <div class="col-6">
                         <i class="fa-regular fa-star"></i>
-                        خدمات</div>
+                        خدمات
+                    </div>
                     <div class="col-6">{{ $contract->services->pluck('name')->implode(', ') }}</div>
                 </div>
                 <div class="row ">
                     <div class="col-6">
-                        <i class="fa-regular fa-handshake"></i>
-                        تاریخ شروع قرارداد</div>
-                    <div class="col-6">{{ $contract->started_at }}</div>
-                </div>
-                <div class="row ">
-                    <div class="col-6">
-                        <i class="fa-regular fa-handshake"></i>
-                        تاریخ امضای قرارداد</div>
+                        <i class="fa-solid fa-file-signature"></i>
+                        تاریخ امضای قرارداد
+                    </div>
                     <div class="col-6">{{ $contract->signed_at }}</div>
                 </div>
-                @if ($contract->canceled_at)
                 <div class="row ">
                     <div class="col-6">
-                        <i class="fa-solid fa-power-off"></i>
-                        تاریخ لغو قرارداد</div>
-                    <div class="col-6">{{ $contract->canceled_at }}</div>
+                        <i class="fa-regular fa-handshake"></i>
+                        تاریخ شروع قرارداد
+                    </div>
+                    <div class="col-6">{{ $contract->started_at }}</div>
                 </div>
+                @if ($contract->canceled_at)
+                    <div class="row ">
+                        <div class="col-6">
+                            <i class="fa-solid fa-power-off"></i>
+                            تاریخ لغو قرارداد
+                        </div>
+                        <div class="col-6">{{ $contract->canceled_at }}</div>
+                    </div>
                 @endif
                 <div class="row ">
                     <div class="col-6">
                         <i class="fa-regular fa-calendar"></i>
-                     مدت قرارداد
+                        مدت قرارداد
                     </div>
                     <div class="col-6">{{ $contract->period }}</div>
                 </div>
                 <div class="row ">
                     <div class="col-6">
-                        <i class="fa-solid fa-sack-dollar"></i>
-                       مبلغ کل قرارداد
+                        <i class="fa-solid fa-coins"></i>
+                        پیش قرارداد
                     </div>
-                    <div class="col-6">{{ $contract->total_price_str }}</div>
+                    <div class="col-6">{{ $contract->advance_payment_str }}
+                        <small>تومان</small>
+                    </div>
                 </div>
-           </div>
+                <div class="row ">
+                    <div class="col-6">
+                        <i class="fa-solid fa-sack-dollar"></i>
+                        مبلغ کل قرارداد
+                    </div>
+                    <div class="col-6">{{ $contract->total_price_str }}
+                        <small>تومان</small>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -120,7 +139,7 @@
                     <span>{{ $loop->index + 1 }}</span>
                 </li>
                 <li class=" list-group-item list-group-item-success ">
-                    <span>{{ $receive->amount_str }}</span>
+                    <a href="#receive-{{ $receive->id }}">{{ $receive->amount_str }}</a>
                 </li>
                 <li class=" list-group-item list-group-item-success ">
                     <span>{{ $receive->date }}</span>
@@ -130,5 +149,17 @@
                 </li>
             </ul>
         @endforeach
+        <ul class="list-group list-group-horizontal list-group-receive-result mx-md-0" style="max-width: 364px">
+            <li class=" list-group-item list-group-item-success w-50">
+                <span>جمع‌کل</span>
+            </li>
+            <li class=" list-group-item list-group-item-success w-50">
+                <span>
+                    {{ number_format(collect($contractReceives)->sum('amount')) }}
+                    <small>تومان</small>
+                </span>
+            </li>
+
+        </ul>
     </div>
 </div>

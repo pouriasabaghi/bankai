@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Receive extends Model
 {
     use HasFactory;
-    protected $fillable = ['contract_id', 'card_id', 'company_id','customer_id', 'type', 'origin', 'amount', 'bank_name', 'branch_name', 'branch_code', 'desc', 'passed', 'serial_number', 'paid_at', 'received_at', 'due_at'];
+    protected $fillable = ['contract_id', 'card_id', 'company_id','customer_id', 'type', 'origin', 'amount', 'bank_name', 'branch_name', 'branch_code', 'desc', 'passed', 'serial_number', 'advance_payment', 'paid_at', 'received_at', 'due_at'];
 
 
 
