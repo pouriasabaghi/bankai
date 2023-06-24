@@ -158,4 +158,14 @@ class Contract extends Model
     {
         return $this->installments()->where('type', 'canceled')->first();
     }
+
+
+
+    protected static function boot(){
+        parent::boot();
+
+        static::deleting(function($contract){
+            $contract->installments()->delete();
+        });
+    }
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('contract_id');
+            $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('CASCADE');
 
             $table->string('amount')->nullable();
             $table->text('desc')->nullable();
@@ -23,6 +24,8 @@ return new class extends Migration
             $table->boolean('collectible')->default(true);
             $table->dateTime('due_at')->nullable();
             $table->dateTime('postponed_at')->nullable();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
