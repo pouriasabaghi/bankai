@@ -143,6 +143,12 @@ function shortcuts(event) {
     if (event.ctrlKey && event.code === "KeyB") {
         toggleSidebar.click();
     }
+
+    if (event.altKey && event.ctrlKey && event.code === 'KeyN') {
+        const calculatorBox = document.querySelector('.calculator-box')
+        calculatorBox.classList.toggle('active');
+
+    }
 }
 
 
