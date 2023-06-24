@@ -22,6 +22,7 @@ class ReceiveController extends Controller
     }
     public function create(Contract $contract)
     {
+
         if (!$this->valid($contract)) {
             return redirect(route('installments.create', $contract->id))->withErrors('ابتدا اقساط را تعریف و ذخیره کنید');
         }
@@ -35,9 +36,27 @@ class ReceiveController extends Controller
         $installments = $contract->installments;
         $detail = $service->getDetail($contract);
 
-        $hasValidAdvancePayment = $contract->advancePaymentRel()->paid_at || $contract->advancePaymentRel()->due_at ? true : false;
 
-        return view('admin.receives.create', compact('cards', 'companies', 'formAttributes', 'receives', 'contract', 'detail', 'installments', 'contractReceives', 'hasValidAdvancePayment'));
+        $messages = [];
+        if (empty($contract->advancePaymentRel()->paid_at) && empty($contract->advancePaymentRel()->due_at)) {
+            $messages[] = [
+                'type' => 'warning',
+                'text' => 'لطفا ابتدا جزئیات دریافت پیش قرارداد را کامل کنید.',
+            ];
+        }
+
+        if ($contract->canceledInstallment() && !$contract->canceled_at) {
+            $messages[] = [
+                'type' => 'danger',
+                'text' => 'در صورت کنسل شدن قرار داد حتما تاریخ کنسلی را از بخش ویرایش قرارداد ثبت کنید.',
+            ];
+        }
+
+        if (count($messages)) {
+            session()->flash('messages', $messages);
+        }
+
+        return view('admin.receives.create', compact('cards', 'companies', 'formAttributes', 'receives', 'contract', 'detail', 'installments', 'contractReceives'));
     }
 
     public function store(Request $request, Contract $contract)

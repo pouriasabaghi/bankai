@@ -146,7 +146,7 @@ function shortcuts(event) {
 }
 
 
-let doubleTapDelay = 300; // زمان مجاز بین دو تاچ برای شناسایی دبل تپ (به میلی‌ثانیه)
+/* let doubleTapDelay = 300; // delay between to touch for knowing it's double tap
 let lastTapTime = 0;
 
 function handleDoubleTap(event) {
@@ -160,4 +160,4 @@ function handleDoubleTap(event) {
     lastTapTime = currentTime;
 }
 
-document.body.addEventListener('touchend', handleDoubleTap);
+document.body.addEventListener('touchend', handleDoubleTap); */

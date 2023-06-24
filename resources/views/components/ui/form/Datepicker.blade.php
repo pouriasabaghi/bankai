@@ -11,6 +11,8 @@
             id="{{ $name }}" class="mt-1  form-control {{ $class ?? '' }}" value="{{ $value }}" name="{{ $name }}"
             placeholder="{{ $placeholder ?? '' }}"
             autocomplete='off'
+            oninvalid="this.setCustomValidity('این فیلد نمی‌تواند خالی باشد')"
+            oninput="setCustomValidity('')"
             />
     </div>
 </div>

@@ -60,23 +60,34 @@ class Contract extends Model
     protected function signedAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) =>  jdate($value)->format('Y/m/d'),
+            set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
+            get: fn ($value) => $value ? jdate($value)->format('Y/m/d') : null,
         );
     }
 
     protected function startedAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) =>  jdate($value)->format('Y/m/d'),
+            set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
+            get: fn ($value) => $value ? jdate($value)->format('Y/m/d') : null,
         );
     }
 
     protected function canceledAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) =>  jdate($value)->format('Y/m/d'),
+            set: fn ($value) => !empty($value) ? jdate()->fromFormat('Y/m/d', $value)->toCarbon() : null,
+            get: fn ($value) => $value ? jdate($value)->format('Y/m/d') : null,
         );
     }
+
+    protected function canceledAtCarbon(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) =>  $attributes['canceled_at'],
+        );
+    }
+
 
     public function customer()
     {
@@ -114,11 +125,11 @@ class Contract extends Model
      */
     public function receivesInPocket($advancePayment = null): HasMany
     {
-        $receives = $this->receives();
+        $receives = $this->hasMany(Receive::class);
         if (is_bool($advancePayment)) {
             $receivesInPocket = $receives->where('advance_payment', $advancePayment)->where(function ($query) use ($advancePayment) {
                 $query->where('passed', true)
-                ->orWhere('type', 'deposit');
+                    ->orWhere('type', 'deposit');
             });
         } else {
             $receivesInPocket = $receives->where(function ($query) {
@@ -131,8 +142,20 @@ class Contract extends Model
         return $receivesInPocket;
     }
 
+    public function installmentsCollectible(): HasMany
+    {
+        $installmentsCollectible = $this->hasMany(Installment::class);
+        $installmentsCollectible = $installmentsCollectible->where('collectible', true);
+        return $installmentsCollectible;
+    }
+
     public function advancePaymentRel()
     {
         return $this->receives()->where('advance_payment', true)->first();
+    }
+
+    public function canceledInstallment()
+    {
+        return $this->installments()->where('type', 'canceled')->first();
     }
 }

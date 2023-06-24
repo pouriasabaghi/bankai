@@ -58,7 +58,7 @@
             label='حساب پیش پرداخت'>
             @forelse ($cards as $card)
                 <x-ui.form.Option
-                    selected="{{-- !empty($card->id)&&!empty($receive->card_id)&&$card->id==$receive->card_id --}}"
+                    selected="{{ !empty($advancePaymentReceive) && $advancePaymentReceive->card_id == $card->id }}"
                     value="{{ $card->id }}">{{ $card->name }}</x-ui.form.Option>
             @empty
                 <x-ui.form.Option :disabled='true' value='null'>حساب وجود ندارد
@@ -81,11 +81,11 @@
 
         {{-- Signed_at --}}
         <x-ui.form.Datepicker col='6' value="{{ old('signed_at', $contract->signed_at ?? '') }}"
-            name='signed_at' label='تاریخ امضای قرارداد' />
+            name='signed_at' label='تاریخ امضای قرارداد' :attr="['required' => 'true']" />
 
         {{-- Start_at --}}
         <x-ui.form.Datepicker col='6' value="{{ old('started_at', $contract->started_at ?? '') }}"
-            name='started_at' label='تاریخ شروع قرارداد' />
+            name='started_at' label='تاریخ شروع قرارداد' :attr="['required' => 'true']" />
 
         {{-- Canceled_at --}}
         @if ($formAttributes['isUpdate'])

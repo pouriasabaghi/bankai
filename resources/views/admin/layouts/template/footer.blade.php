@@ -19,7 +19,7 @@
                     <a class="text-muted" rel="nofollow" href="https://talarkadeh.com"
                         target="_blank"><strong>Talarkadeh</strong></a> -
                     <a class="text-muted" href="https://talarkadeh.com" target="_blank">
-                        <strong>Hesabnegar</strong>
+                        <strong>Bankai</strong>
                     </a> &copy;
                 </p>
             </div>

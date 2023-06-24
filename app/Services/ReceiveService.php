@@ -105,7 +105,7 @@ class ReceiveService
                     'company_id' => $item['company_id'],
                     'contract_id' => $item['contract_id'],
                     'card_id' => $item['card_id'],
-                    'advance_payment'=>$item['advance_payment'] ?? false ,
+                    'advance_payment' => $item['advance_payment'] ?? false,
                 ];
             } elseif ($item['type'] == 'check') {
                 if (empty($item['due_at']) || empty($item['received_at'])) {
@@ -126,7 +126,7 @@ class ReceiveService
                     'contract_id' => $item['contract_id'],
                     'card_id' => $item['card_id'],
                     'passed' => !empty($item['passed']) ? true :  false,
-                    'advance_payment'=>$item['advance_payment'] ?? false ,
+                    'advance_payment' => $item['advance_payment'] ?? false,
                 ];
             }
         });
@@ -143,15 +143,23 @@ class ReceiveService
      */
     public function getDetail(Contract $contract): array
     {
-        $debtor = $contract->installments()->where('due_at', '<=', now())->where('status', 'billed')->get()->sum('amount');
+        $debtor = $contract->installmentsCollectible()->where(function ($query) {
+            $query->where('due_at', '<=', today())
+                ->where('status', 'billed');
+        })
+            ->orWhere(function ($query) {
+                $query->where('type','canceled')
+                    ->where('status', 'billed');
+            })->get()->sum('amount');
 
         // this amount use for paying bills (updating status) ;
-        $usedAmount =     $contract->installments()->where('status', 'paid')->get()->sum('amount');
+        $usedAmount = $contract->installments()->where('status', 'paid')->get()->sum('amount');
 
         $paidAmount = $contract->receivesInPocket(false)->get()->sum('amount');
 
         $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
         $debtorTillNow = $debtor - $creditor > 0 ? $debtor - $creditor : 0;
+
         return [
             'debtor' => number_format($debtorTillNow),
             'creditor' => number_format($creditor),

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Contract;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Collection;
 
@@ -55,7 +56,7 @@ class InstallmentService
         if (!$count) {
             $count = intval(fix_number($period)) == 0 ? 1 : intval(fix_number($period));
         }
-   
+
         $amount = floor($totalPrice / $count); // every installment without any rest
         $amount =  $amount - (intval($amount) % $step); // step is 100 thousand
         $remainingAmount = $totalPrice - ($amount * ($count - 1));  // last installment amount;
@@ -116,7 +117,7 @@ class InstallmentService
                 throw new Exception('تاریخ اقساط نامعبتر. دقت کنید تاریخ نمی‌تواند خالی باشد.');
             }
 
-            if (!empty($installment['amount'])) {
+            if (!empty($installment['amount']) && $installment['type'] == 'planned') {
                 return fix_number($installment['amount']);
             }
         });
@@ -146,16 +147,44 @@ class InstallmentService
         // مبلغ دریافت شده ها را از یک قسط کم میکنیم اگر باقی مانده ای باشد
         // قسط پرداخت شده و مقدار باقی مانده نیز مجدد محساب می شود
         $totalReceivesAmount = intval(fix_number($totalReceivesAmount));
-        $installments = $contract->installments;
+        $installments = $contract->installmentsCollectible()->get();
         $remainingAmount =  $totalReceivesAmount;
         foreach ($installments as $installment) {
-            $remainingAmount = $remainingAmount -  $installment->amount;
-            if ($remainingAmount >= 0) {
-              $installment->update(['status' => 'paid']);
-            }else{
-              $installment->update(['status' => 'billed']);
+            // temporary keep remain
+            $tempRemainAmount = $remainingAmount -  $installment->amount;
+            if ($tempRemainAmount >= 0) {
+                // temp can pay installment so update remain amount
+                $remainingAmount = $remainingAmount -  $installment->amount;
+                $installment->update(['status' => 'paid']);
+            } else {
+                $installment->update(['status' => 'billed']);
             }
         }
+    }
 
+    /**
+     * if contract canceled all installment after canceled_at are not collectible
+     *
+     * @param Contract $contract
+     * @param Carbon $canceledAt
+     * @return void
+     */
+    public function updateCollectibleInstallments(Contract $contract, ?Carbon $canceledAt = null): void
+    {
+        $installments =  $contract->installments;
+        foreach ($installments as $installment) {
+            $installment->update([
+                'collectible' => true,
+            ]);
+        }
+
+        if ($canceledAt) {
+            $installmentsAfterCanceledAt = $contract->installments()->where('due_at', '>', $canceledAt)->get();
+            foreach ($installmentsAfterCanceledAt as $installment) {
+                $installment->update([
+                    'collectible' => $installment->type == 'canceled' ? true : false,
+                ]);
+            }
+        }
     }
 }

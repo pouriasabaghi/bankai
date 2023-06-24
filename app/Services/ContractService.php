@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\ContractStatusEnum;
 use App\Models\Contract;
 
 class ContractService
@@ -43,14 +44,15 @@ class ContractService
             'type' => $data['type'],
             'contract_number' => $data['contract_number'],
             'period' => $data['period'],
-            'signed_at' => !empty($data['signed_at']) ? jdate()->fromFormat('Y/m/d', $data['signed_at'])->toCarbon() : null,
-            'started_at' => !empty($data['started_at']) ? jdate()->fromFormat('Y/m/d', $data['started_at'])->toCarbon() : null,
+            'signed_at' => $data['signed_at'],
+            'started_at' => $data['started_at'],
+            'canceled_at' => $data['canceled_at'],
             'services' => $data['services'] ?? null,
         ];
 
         if ($contract) {
-            $preparedData['canceled_at'] = !empty($data['canceled_at']) ? jdate()->fromFormat('Y/m/d', $data['canceled_at'])->toCarbon() : null;
             $contract->fill($preparedData);
+            //dd($contract, $data, $preparedData);
             $contract->save();
             $contract->services()->sync($preparedData['services']);
         } else {
@@ -60,5 +62,12 @@ class ContractService
             }
         }
         return $contract;
+    }
+
+    public function updateContractStatus(Contract $contract, ContractStatusEnum $status)
+    {
+        $contract->update([
+            'contract_status' => $status->value ,
+        ]);
     }
 }

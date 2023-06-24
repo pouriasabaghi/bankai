@@ -1,8 +1,4 @@
-@if (!$hasValidAdvancePayment)
-    <x-ui.alert.Alert alert='warning'>
-        لطفا ابتدا جزئیات دریافت پیش قرارداد را کامل کنید.
-    </x-ui.alert.Alert>
-@endif
+@include('admin.layouts.messages', ['class'=>'mb-5'])
 
 @include('admin.receives.layouts.detail', [
     'debtor' => $detail['debtor'],
@@ -16,7 +12,8 @@
         <div class="col-12">
             <div class="row manage-row__group">
                 @foreach ($receives as $receive)
-                    <div id="receive-{{ $receive->id ?? $loop->index }}" class="col-12 manage-row__items {{ $loop->index == 0 ? '' : 'mt-3' }}
+                    <div id="receive-{{ $receive->id ?? $loop->index }}"
+                        class="col-12 manage-row__items {{ $loop->index == 0 ? '' : 'mt-3' }}
                         {{ $loop->index == 0 || !empty($receive->created_at) ? '' : 'd-none' }}"
                         data-row-count="{{ $loop->index + 1 }}">
                         <div class="d-flex align-items-center mb-2">

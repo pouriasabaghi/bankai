@@ -1,6 +1,6 @@
 <div class="form-check {{ $labelClass ?? '' }}">
     @if (!empty($label))
-    <label class="form-check-label mb-3" for="{{ $id ?? ($name ?? '') }}">
+    <label class="form-check-label cursor-pointer {{ !empty($nomargin) ? 'mb-0' : 'mb-3' }}" for="{{ $id ?? ($name ?? '') }}">
         {{ $label }}
     </label>
 @endif

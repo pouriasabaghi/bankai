@@ -8,7 +8,7 @@
             'total_price_str' => $contract->total_price_str,
             'installments_price' => $contract->installments_total_price,
             'installments_price_str' => $contract->installments_total_price_str,
-            'advance_payment'=> $contract->advance_payment_str ,
+            'advance_payment' => $contract->advance_payment_str,
             'period' => $contract->period,
         ])
     </div>
@@ -19,7 +19,7 @@
         <div class="col-12">
             <div class="row manage-row__group">
                 @foreach ($installments as $installment)
-                    <div  class="col-12 manage-row__items {{ $loop->index == 0 ? '' : 'mt-3' }}
+                    <div class="col-12 manage-row__items {{ $loop->index == 0 ? '' : 'mt-3' }}
                         {{ $loop->index < $installmentsCount || !empty($installment->created_at) ? '' : 'd-none' }}"
                         data-row-count="{{ $loop->index + 1 }}">
                         <div class="d-flex align-items-center mb-2">
@@ -30,7 +30,7 @@
                             <h6 class="mb-0">قسط شماره {{ $loop->index + 1 }}</h6>
                         </div>
                         <div class="row">
-                            @if (!empty($installment->amount))
+                            @if (!empty($installment->amount) && !request()->has('start'))
                                 <x-ui.form.Input name="installment[{{ $loop->index }}][amount]"
                                     value="{{ $installment->amount_str }}" placeholder="مبلغ" :attr="['data-separate' => 'true']"
                                     col='2' />
@@ -45,10 +45,9 @@
 
                             <x-ui.form.Datepicker name="installment[{{ $loop->index }}][due_at]" :attr="['tabindex' => '-1']"
                                 value="{{ $installment->due_at ??
-                                ($loop->index == 0
-                                    ? jdate()->fromFormat('Y/m/d', $start)->format('Y/m/d')
-                                    : jdate()->fromFormat('Y/m/d', $start)->addMonths($loop->index)->format('Y/m/d'))
-                                }}"
+                                    ($loop->index == 0
+                                        ? jdate()->fromFormat('Y/m/d', $start)->format('Y/m/d')
+                                        : jdate()->fromFormat('Y/m/d', $start)->addMonths($loop->index)->format('Y/m/d')) }}"
                                 placeholder="تاریخ سر رسید قسط" col='2' />
 
                             <x-ui.form.Input name="installment[{{ $loop->index }}][desc]"
@@ -60,6 +59,8 @@
                                     checked="{{ !empty($installment->status) && $installment->status == 'paid' ? true : false }}" />
                             </div>
 
+                            <input name="installment[{{ $loop->index }}][type]" value="planned" type='hidden' />
+
                         </div>
                     </div>
                 @endforeach
@@ -69,6 +70,48 @@
                     </x-ui.button.Button>
                 </div>
             </div>
+
+            <hr>
+
+            <x-ui.collapse.Collapse parentClass="mb-3" id='canceled' :show="$contractStatus">
+                <div class="d-flex" style="max-width:max-content">
+                    <i class="fa-solid fa-ban me-2 text-danger"></i>
+
+                    <x-ui.form.InputCheckbox name='contract_status' label='قرارداد کنسل شده؟' value='canceled'
+                        checked="{{ $contractStatus }}" :nomargin="true" />
+                </div>
+
+                <x-slot name='content'>
+                    <div class="col-12  mt-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <h6 class="mb-0">مبلغ کنسلی قرارداد</h6>
+                        </div>
+                        <div class="row">
+                            @if (!empty($canceled->amount))
+                                <x-ui.form.Input name="canceled[amount]" value="{{ $canceled->amount_str }}"
+                                    placeholder="مبلغ" :attr="['data-separate' => 'true']" col='2' />
+                            @else
+                                <x-ui.form.Input name="canceled[amount]" placeholder="مبلغ" :attr="['data-separate' => 'true']"
+                                    col='2' />
+                            @endif
+
+                            <x-ui.form.Datepicker name="canceled[due_at]" :attr="['tabindex' => '-1']"
+                                value="{{ $canceled->due_at ?? '' }}" placeholder="تاریخ سر رسید قسط" col='2' />
+
+                            <x-ui.form.Input name="canceled[desc]" value="{{ $installment->desc ?? '' }}"
+                                placeholder="توضیحات" col='6' />
+
+                            <div class="col-md-2">
+                                <x-ui.form.InputCheckbox name='canceled[status]' label='تسویه شده؟' value='paid'
+                                    checked="{{ !empty($canceled->status) && $canceled->status == 'paid' ? true : false }}" />
+                            </div>
+
+                            <x-ui.form.Input name="canceled[type]" value="canceled" type='hidden' />
+
+                        </div>
+                    </div>
+                </x-slot>
+            </x-ui.collapse.Collapse>
         </div>
         <div class="col-md-6">
 

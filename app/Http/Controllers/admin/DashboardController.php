@@ -11,7 +11,8 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $debtorInstallments = Installment::query()->where('due_at', '<=', now())->where('status', 'billed')->with('contract')->get();
+        $debtorInstallments = Installment::query()->where('due_at', '<=', today())->where('status', 'billed')->with('contract')->get()->groupBy('due_at');
+        //dd($debtorInstallments);
         return view('admin.dashboard.index', compact('debtorInstallments'));
     }
 }

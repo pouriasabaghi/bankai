@@ -119,6 +119,9 @@
                 </li>
                 <li class=" list-group-item {{ $installment->status_class }}">
                     <span>{{ $installment->amount_str }}</span>
+                    @if ($installment->type == 'canceled')
+                        <span class="badge bg-warning">کنسلی</span>
+                    @endif
                 </li>
                 <li class=" list-group-item {{ $installment->status_date_class }}">
                     <span>{{ $installment->due_at }}</span>

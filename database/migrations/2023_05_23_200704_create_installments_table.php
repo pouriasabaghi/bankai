@@ -18,8 +18,9 @@ return new class extends Migration
 
             $table->string('amount')->nullable();
             $table->text('desc')->nullable();
-            $table->enum('status',['paid', 'billed'])->default('billed');
-            $table->enum('type',['planned', 'canceled'])->default('planned');
+            $table->enum('status', ['paid', 'billed'])->default('billed');
+            $table->enum('type', ['planned', 'canceled'])->default('planned');
+            $table->boolean('collectible')->default(true);
             $table->dateTime('due_at')->nullable();
             $table->dateTime('postponed_at')->nullable();
             $table->timestamps();
