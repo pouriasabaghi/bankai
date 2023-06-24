@@ -34,7 +34,7 @@ class InstallmentController extends Controller
         $canceled =  $contract->canceledInstallment();
 
         // contract status
-        $contractStatus = $contract->contract_status == 'canceled' ? true : false;
+        $contractStatus = $contract->contract_status == 'canceled' || !empty($canceled->amount) ? true : false;
 
         // installments start
         $start = request()->start ?? $contract->started_at;
