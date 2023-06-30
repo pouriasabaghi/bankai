@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\CardController;
-use App\Http\Controllers\Admin\CheckController;
+use App\Http\Controllers\admin\CheckController;
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ContractController;
 use App\Http\Controllers\admin\CustomerController;
