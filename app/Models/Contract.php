@@ -142,6 +142,11 @@ class Contract extends Model
         return $receivesInPocket;
     }
 
+    /**
+     * Installment that can be received. its not containing installments that are after canceled date
+     *
+     * @return HasMany
+     */
     public function installmentsCollectible(): HasMany
     {
         $installmentsCollectible = $this->hasMany(Installment::class);
@@ -159,11 +164,10 @@ class Contract extends Model
         return $this->installments()->where('type', 'canceled')->first();
     }
 
-
-
     protected static function boot(){
         parent::boot();
 
+        // soft delete installment after deleting contract
         static::deleting(function($contract){
             $contract->installments()->delete();
         });

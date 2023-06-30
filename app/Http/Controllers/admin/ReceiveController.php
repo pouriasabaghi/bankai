@@ -37,24 +37,7 @@ class ReceiveController extends Controller
         $detail = $service->getDetail($contract);
 
 
-        $messages = [];
-        if (empty($contract->advancePaymentRel()->paid_at) && empty($contract->advancePaymentRel()->due_at)) {
-            $messages[] = [
-                'type' => 'warning',
-                'text' => 'لطفا ابتدا جزئیات دریافت پیش قرارداد را کامل کنید.',
-            ];
-        }
-
-        if ($contract->canceledInstallment() && !$contract->canceled_at) {
-            $messages[] = [
-                'type' => 'danger',
-                'text' => 'در صورت کنسل شدن قرار داد حتما تاریخ کنسلی را از بخش ویرایش قرارداد ثبت کنید.',
-            ];
-        }
-
-        if (count($messages)) {
-            session()->flash('messages', $messages);
-        }
+        $this->messages($contract);
 
         return view('admin.receives.create', compact('cards', 'companies', 'formAttributes', 'receives', 'contract', 'detail', 'installments', 'contractReceives'));
     }
@@ -79,5 +62,35 @@ class ReceiveController extends Controller
     {
         $installments = $contract->installments;
         return !$installments->isEmpty();
+    }
+
+
+    public function messages(Contract $contract)
+    {
+        $messages = [];
+        if (empty($contract->advancePaymentRel()->paid_at) && empty($contract->advancePaymentRel()->due_at)) {
+            $messages[] = [
+                'type' => 'warning',
+                'text' => 'لطفا ابتدا جزئیات دریافت پیش قرارداد را کامل کنید.',
+            ];
+        }
+
+        if ($contract->canceledInstallment() && !$contract->canceled_at) {
+            $messages[] = [
+                'type' => 'danger',
+                'text' => 'در صورت کنسل شدن قرار داد حتما تاریخ کنسلی را از بخش ویرایش قرارداد ثبت کنید.',
+            ];
+        }
+
+        if (!$contract->canceledInstallment() && $contract->canceled_at) {
+            $messages[] = [
+                'type' => 'warning',
+                'text' => 'در صورت کنسل شدن قرارداد مبلغ کنسلی را وارد کنید.',
+            ];
+        }
+
+        if (count($messages)) {
+            session()->flash('messages', $messages);
+        }
     }
 }

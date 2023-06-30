@@ -1,18 +1,32 @@
-<div class="row">
-    {{-- <div class="col-xl-2 ms-auto mb-5 mb-lg-0" >
-        @include('admin.installments.layouts.installments-settings')
-    </div> --}}
-    <div class="col-12">
-        @include('admin.installments.layouts.detail', [
-            'total_price' => $contract->total_price,
-            'total_price_str' => $contract->total_price_str,
-            'installments_price' => $contract->installments_total_price,
-            'installments_price_str' => $contract->installments_total_price_str,
-            'advance_payment' => $contract->advance_payment_str,
-            'period' => $contract->period,
-        ])
-    </div>
-</div>
+@if (request()->has('step'))
+    <x-ui.alert.Alert alert='info'>
+        در صورت باز تولید اقساط موقتا نمایش اقساط به صورت تسویه نشده در ‌می‌آیند، پس از دخیره اقساط با تنظیمات
+        جدید مجدد وضعیت تسویه اقساط محاسبه می‌شود.
+    </x-ui.alert.Alert>
+@endif
+
+@if (request()->has('start') && !request()->filled('start'))
+    <x-ui.alert.Alert alert='info'>
+       در صورت خالی بودن فیلد تاریخ شروع اقساط، تاریخ شروع از زمان شروع قرارداد خواهد بود.
+    </x-ui.alert.Alert>
+@endif
+
+@if (request()->has('count') && !request()->filled('count'))
+    <x-ui.alert.Alert alert='info'>
+       در صورت خالی بودن فیلد تعداد اقساط، اقساط بر اساس تعداد ماه های قرارداد محسابه می‌شود.
+    </x-ui.alert.Alert>
+@endif
+
+
+@include('admin.installments.layouts.detail', [
+    'total_price' => $contract->total_price,
+    'total_price_str' => $contract->total_price_str,
+    'installments_price' => $contract->installments_total_price,
+    'installments_price_str' => $contract->installments_total_price_str,
+    'advance_payment' => $contract->advance_payment_str,
+    'period' => $contract->period,
+])
+
 
 <x-ui.form.Form method="{{ $formAttributes['method'] }}" action="{{ $formAttributes['action'] }}">
     <x-ui.form.InputLayout>
@@ -54,8 +68,12 @@
                                 value="{{ $installment->desc ?? '' }}" placeholder="توضیحات" col='6' />
 
                             <div class="col-md-2">
-                                <x-ui.form.InputCheckbox name='installment[{{ $loop->index }}][status]'
-                                    label='تسویه شده؟' value='paid'
+                                <span
+                                    class="{{ \App\Enums\InstallmentStatusEnum::tryFrom($installment->status ?? 'billed')->statusColor() }}">
+                                    {{ \App\Enums\InstallmentStatusEnum::tryFrom($installment->status ?? 'billed')->toString() }}
+                                </span>
+                                <x-ui.form.InputCheckbox labelClass="d-none"
+                                    name='installment[{{ $loop->index }}][status]' label='تسویه شده؟' value='paid'
                                     checked="{{ !empty($installment->status) && $installment->status == 'paid' ? true : false }}" />
                             </div>
 
@@ -102,7 +120,8 @@
                                 placeholder="توضیحات" col='6' />
 
                             <div class="col-md-2">
-                                <x-ui.form.InputCheckbox name='canceled[status]' label='تسویه شده؟' value='paid'
+                                <x-ui.form.InputCheckbox labelClass="d-none" name='canceled[status]' label='تسویه شده؟'
+                                    value='paid'
                                     checked="{{ !empty($canceled->status) && $canceled->status == 'paid' ? true : false }}" />
                             </div>
 

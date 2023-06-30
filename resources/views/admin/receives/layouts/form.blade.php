@@ -7,6 +7,7 @@
     'contractReceives' => $contractReceives,
 ])
 
+@include('admin.layouts.template.calculator')
 <x-ui.form.Form method="{{ $formAttributes['method'] }}" action="{{ $formAttributes['action'] }}">
     <x-ui.form.InputLayout>
         <div class="col-12">
