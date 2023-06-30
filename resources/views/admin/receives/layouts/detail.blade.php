@@ -158,11 +158,22 @@
             </li>
             <li class=" list-group-item list-group-item-success w-50">
                 <span>
-                    {{ number_format(collect($contractReceives)->sum('amount')) }}
+                    {{ number_format(collect($contractReceives)->sum('amount') - $contract->advance_payment) }}
                     <small>تومان</small>
                 </span>
             </li>
 
+        </ul>
+        <ul class="list-group list-group-horizontal list-group-receive-result mx-md-0" style="max-width: 364px">
+            <li class=" list-group-item list-group-item-success w-50">
+                <span>جمع‌کل با پیش‌پرداخت</span>
+            </li>
+            <li class=" list-group-item list-group-item-success w-50">
+                <span>
+                    {{ number_format(collect($contractReceives)->sum('amount') ) }}
+                    <small>تومان</small>
+                </span>
+            </li>
         </ul>
     </div>
 </div>

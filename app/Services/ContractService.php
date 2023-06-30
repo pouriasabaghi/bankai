@@ -46,7 +46,7 @@ class ContractService
             'period' => $data['period'],
             'signed_at' => $data['signed_at'],
             'started_at' => $data['started_at'],
-            'canceled_at' => $data['canceled_at'],
+            'canceled_at' => $data['canceled_at'] ?? null,
             'services' => $data['services'] ?? null,
         ];
 

@@ -2,73 +2,34 @@
 
 namespace App\Models;
 
+use App\Helpers\Receives\ReceiveAttribute;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Receive extends Model
 {
-    use HasFactory;
-    protected $fillable = ['contract_id', 'card_id', 'company_id','customer_id', 'type', 'origin', 'amount', 'bank_name', 'branch_name', 'branch_code', 'desc', 'passed', 'serial_number', 'advance_payment', 'paid_at', 'received_at', 'due_at'];
+    use HasFactory, ReceiveAttribute;
+    protected $fillable = ['contract_id', 'card_id', 'company_id', 'customer_id', 'type', 'origin', 'amount', 'bank_name', 'branch_name', 'branch_code', 'desc', 'passed', 'serial_number', 'advance_payment', 'paid_at', 'received_at', 'due_at'];
 
-
-
-    public function amount(): Attribute
+    public function __construct()
     {
-        return Attribute::make(
-            set: fn ($value) => fix_number($value),
-        );
+        $this->registerAttributes();
     }
 
-    public function amountStr(): Attribute
+
+    public function uncollectedChecks()
     {
-        return Attribute::make(
-            get: fn ($value, $attributes) => number_format($attributes['amount']),
-        );
+        return $this->where('due_at', '<=', today())->where('type', 'check')->where('passed', false);
     }
 
-    public function paidAt(): Attribute
+    public function checks()
     {
-        return Attribute::make(
-            set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
-            get: fn ($value, $attributes) => !empty($value) ? jdate($value)->format('Y/m/d') : '',
-        );
+        return $this->where('type', 'check');
     }
 
-    public function dueAt(): Attribute
+    public function contract()
     {
-        return Attribute::make(
-            set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
-            get: fn ($value, $attributes) => !empty($value) ? jdate($value)->format('Y/m/d') : '',
-        );
-    }
-
-    public function createdAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value, $attributes) => !empty($value) ? jdate($value)->format('Y/m/d') : '',
-        );
-    }
-
-    public function receivedAt(): Attribute
-    {
-        return Attribute::make(
-            set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
-            get: fn ($value, $attributes) => !empty($value) ? jdate($value)->format('Y/m/d') : '',
-        );
-    }
-
-    public function date(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value, $attributes) => $attributes['type'] == 'check' ? jdate($attributes['due_at'])->format('Y/m/d') : jdate($attributes['paid_at'])->format('Y/m/d'),
-        );
-    }
-
-    public function typeStr(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value, $attributes) => $attributes['type'] == 'check' ? 'چک' : 'واریز',
-        );
+        return $this->belongsTo(Contract::class);
     }
 }

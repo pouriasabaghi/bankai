@@ -30,8 +30,8 @@ class ReceiveController extends Controller
         $cards = Card::query()->latest()->get();
         $companies =  $contract->customer->companies;
         $formAttributes = $service->formAttributes($contract);
-        $receives = $contract->receivesInPocket()->get()->sortBy('date');
-        $contractReceives =  $receives;
+        $receives = $contract->receives->sortBy('date');
+        $contractReceives =  $contract->receivesInPocket()->get();
         $receives = $service->prepareReceives($receives); // merge receives with ready to fill receives
         $installments = $contract->installments;
         $detail = $service->getDetail($contract);

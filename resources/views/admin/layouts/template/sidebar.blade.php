@@ -3,7 +3,7 @@
         <x-dashboard.SidebarNav>
             <x-dashboard.SidebarTitle />
 
-            <x-dashboard.SidebarItem icon='sliders' title='داشبورد'  route="admin.dashboard" />
+            <x-dashboard.SidebarItem icon='sliders' title='داشبورد' route="admin.dashboard" />
 
             <x-dashboard.SidebarItemMulti icon='users' active="{{ is_route_active(true, 'customers') }}" id='customers'
                 title="مشتریان" :items="[
@@ -25,16 +25,19 @@
 
 
             <x-dashboard.SidebarItemMulti icon='credit-card' active="{{ is_route_active(true, 'cards') }}"
-            id='cards' title="حساب‌ها" :items="[
-                'افزودن حساب' => 'cards.create',
-                'مدیریت حساب‌ها' => 'cards.index',
-            ]" />
+                id='cards' title="حساب‌ها" :items="[
+                    'افزودن حساب' => 'cards.create',
+                    'مدیریت حساب‌ها' => 'cards.index',
+                ]" />
 
-            <x-dashboard.SidebarItemMulti icon='file-text' active="{{ is_route_active(true, 'contracts', 'installments', 'receives') }}"
-            id='contracts' title="قراردادها" :items="[
-                'افزودن قرارداد' => 'contracts.create',
-                'مدیریت قراردادها' => 'contracts.index',
-            ]" />
+            <x-dashboard.SidebarItemMulti icon='file-text'
+                active="{{ is_route_active(true, 'contracts', 'installments', 'receives') }}" id='contracts'
+                title="قراردادها" :items="[
+                    'افزودن قرارداد' => 'contracts.create',
+                    'مدیریت قراردادها' => 'contracts.index',
+                ]" />
+
+            <x-dashboard.SidebarItem icon='sliders' title='چک‌ها' route="checks.index" />
 
 
         </x-dashboard.SidebarNav>

@@ -35,9 +35,11 @@ class Installment extends Model
 
     public function getContract()
     {
-        return $this->contract ;
+        return $this->contract;
     }
 
-
-
+    public function debtorInstallments()
+    {
+        return $this->where('due_at', '<=', today())->where('status', 'billed');
+    }
 }
