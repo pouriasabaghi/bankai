@@ -37,7 +37,7 @@
                     'مدیریت قراردادها' => 'contracts.index',
                 ]" />
 
-            <x-dashboard.SidebarItem icon='sliders' title='چک‌ها' route="checks.index" />
+            <x-dashboard.SidebarItem icon='pen-tool' title='چک‌ها' route="checks.index" />
 
 
         </x-dashboard.SidebarNav>
