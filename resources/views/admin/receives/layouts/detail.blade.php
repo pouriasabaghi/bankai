@@ -105,6 +105,15 @@
                 </div>
             </div>
 
+             <div class="row mx-0 px-0 border-2 border-bottom py-3 ">
+                <div class="col-6">
+                    <span>پیش قرارداد:</span>
+                </div>
+                <div class="col-6">
+                    <span> {{ $contract->advance_payment_str }} </span>
+                    <small>تومان</small>
+                </div>
+            </div>
 
             <div class="row mx-0 px-0 border-2 border-bottom py-3">
                 <div class="col-6 ">
