@@ -160,10 +160,13 @@ class ReceiveService
         $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
         $debtorTillNow = $debtor - $creditor > 0 ? $debtor - $creditor : 0;
 
+        $rest = number_format($contract->total_price - $contract->receivesInPocket()->get()->sum('amount'));
+
         return [
             'debtor' => number_format($debtorTillNow),
             'creditor' => number_format($creditor),
-            'creditor_title' => $creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب'
+            'creditor_title' => $creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب',
+            'rest'=>$rest,
         ];
     }
 
