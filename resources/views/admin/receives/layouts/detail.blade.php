@@ -1,119 +1,136 @@
 {{-- Showing detail total_price, priods and sum current installments --}}
 
 <div class="row mb-3">
-    <div class="col-md-6 col-xl-4 mb-3 mb-md-0 d-flex flex-column">
+    <div class="col-md-6 col-xl-9 mb-3 mb-md-0 d-flex flex-column">
         <h6>
             <i class="fa-solid fa-circle-info fa-lg"></i>
-            اطلاعات قرارداد
+            {{ $contract->name }}
         </h6>
         <div class="row mx-0">
             <div class="col-12 py-2 d-flex flex-column  bg-light receives-contract-information">
-                <div class="row ">
-                    <div class="col-6">
-                        <i class="fa-solid fa-file-invoice-dollar "></i>
-                        عنوان قرارداد:
+                <div class="row" style="font-size: 12px">
+                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
+                        <i class="fa-solid fa-file-signature"></i>
+                         امضای قرارداد
                     </div>
-                    <div class="col-6">{{ $contract->name }}</div>
-                </div>
-                <div class="row ">
-                    <div class="col-6">
+                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->signed_at }}</div>
+
+
+                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
+                        <i class="fa-regular fa-handshake"></i>
+                         شروع قرارداد
+                    </div>
+                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->started_at }}</div>
+
+                    @if ($contract->canceled_at)
+                        <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
+                            <i class="fa-solid fa-power-off"></i>
+                             لغو قرارداد
+                        </div>
+                        <div class="col-6 col-xl-2 mb-3 ">{{ $contract->canceled_at }}</div>
+                    @endif
+
+
+                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2 ">
                         <i class="fa-solid fa-user-tie"></i>
                         مشتری:
                     </div>
-                    <div class="col-6">{{ $contract->customer->name }}</div>
-                </div>
-                <div class="row ">
-                    <div class="col-6">
+                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->customer->name }}</div>
+
+
+                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
                         <i class="fa-solid fa-building-columns"></i>
                         مجموعه:
                     </div>
-                    <div class="col-6">{{ $contract->company->name }}</div>
-                </div>
-                <div class="row ">
-                    <div class="col-6">
+                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->company->name }}</div>
+
+
+                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
                         <i class="fa-regular fa-star"></i>
                         دسته بندی خدمات:
                     </div>
-                    <div class="col-6">{{ $contract->type }}</div>
-                </div>
-                <div class="row ">
-                    <div class="col-6">
+                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->type }}</div>
+
+
+                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
                         <i class="fa-regular fa-star"></i>
                         خدمات
                     </div>
-                    <div class="col-6">{{ $contract->services->pluck('name')->implode(', ') }}</div>
-                </div>
-                <div class="row ">
-                    <div class="col-6">
-                        <i class="fa-solid fa-file-signature"></i>
-                        تاریخ امضای قرارداد
-                    </div>
-                    <div class="col-6">{{ $contract->signed_at }}</div>
-                </div>
-                <div class="row ">
-                    <div class="col-6">
-                        <i class="fa-regular fa-handshake"></i>
-                        تاریخ شروع قرارداد
-                    </div>
-                    <div class="col-6">{{ $contract->started_at }}</div>
-                </div>
-                @if ($contract->canceled_at)
-                    <div class="row ">
-                        <div class="col-6">
-                            <i class="fa-solid fa-power-off"></i>
-                            تاریخ لغو قرارداد
-                        </div>
-                        <div class="col-6">{{ $contract->canceled_at }}</div>
-                    </div>
-                @endif
-                <div class="row ">
-                    <div class="col-6">
+                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->services->pluck('name')->implode(', ') }}</div>
+
+                    <div class="col-6 col-xl-2 border-2 border-end pe-2">
                         <i class="fa-regular fa-calendar"></i>
                         مدت قرارداد
                     </div>
-                    <div class="col-6">{{ $contract->period }}</div>
-                </div>
-                <div class="row ">
-                    <div class="col-6">
-                        <i class="fa-solid fa-coins"></i>
-                        پیش قرارداد
-                    </div>
-                    <div class="col-6">{{ $contract->advance_payment_str }}
-                        <small>تومان</small>
-                    </div>
-                </div>
-                <div class="row ">
-                    <div class="col-6">
-                        <i class="fa-solid fa-sack-dollar"></i>
-                        مبلغ کل قرارداد
-                    </div>
-                    <div class="col-6">{{ $contract->total_price_str }}
-                        <small>تومان</small>
-                    </div>
+                    <div class="col-6 col-xl-2 ">{{ $contract->period }}</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-6 col-xl-4 mb-3 mb-md-0  d-flex flex-column">
+    <div class="col-md-6 col-xl-3 mb-3 mb-md-0  d-flex flex-column">
         <h6>
             <i class="fa-solid fa-file-invoice-dollar fa-lg"></i>
-            اقساط
+            ترازمالی
         </h6>
-        <ul class="list-group list-group-horizontal list-group-normalize list-group-thin mx-md-0">
-            <li class="list-group-item list-group-item-danger list-group-installments-customer-status">
-                <div>بدهکار تا به الآن:</div>
-                <span>{{ $debtor }}</span>
-                <small>تومان</small>
-            </li>
-            <li class="list-group-item list-group-item-info list-group-installments-customer-status">
-                <div>{{ $creditorTitle }}:</div>
-                <span>{{ $creditor }}</span>
-                <small>تومان</small>
-            </li>
-        </ul>
+
+        <div class="row mx-0 p-2 bg-light " style="font-size: 12px">
+            <div class="row mx-0 px-0 border-2 border-bottom">
+                <div class="col-6 pb-3">
+                    <span>مبلغ کل قرارداد:</span>
+                </div>
+                <div class="col-6">
+                    <span>{{ $contract->total_price_str }}</span>
+                    <small>تومان</small>
+                </div>
+            </div>
+
+            <div class="row mx-0 px-0 border-2 border-bottom py-3 ">
+                <div class="col-6">
+                    <span>بدهی تا به الان:</span>
+                </div>
+                <div class="col-6">
+                    <span>{{ $debtor }}</span>
+                    <small>تومان</small>
+                </div>
+            </div>
+
+            <div class="row mx-0 px-0 border-2 border-bottom py-3">
+                <div class="col-6 ">
+                    <span>{{ $creditorTitle }}:</span>
+                </div>
+                <div class="col-6">
+                    <span>{{ $creditor }}</span>
+                    <small>تومان</small>
+                </div>
+            </div>
+
+
+            <div class="row mx-0 px-0 border-2 border-bottom py-3">
+                <div class="col-6 ">
+                    <span>جمع کل دریافتی‌ها:</span>
+                </div>
+                <div class="col-6">
+                    <span> {{ number_format(collect($contractReceives)->sum('amount')) }} </span>
+                    <small>تومان</small>
+                </div>
+            </div>
+
+
+            <div class="row mx-0 px-0 pt-3 ">
+                <div class="col-6">
+                    <span>مانده حساب‌ها</span>
+                </div>
+                <div class="col-6">
+                    <span> {{ $rest }} </span>
+                    <small>تومان</small>
+                </div>
+            </div>
+        </div>
+
+
         @foreach ($installments as $installment)
-            <ul class="list-group list-group-horizontal list-group-installments mx-md-0">
+            <ul class="list-group list-group-horizontal list-group-installments mx-md-0 ">
                 <li class=" list-group-item {{ $installment->status_class }}">
                     <span>{{ $loop->index + 1 }}</span>
                 </li>
@@ -170,7 +187,7 @@
             </li>
             <li class=" list-group-item list-group-item-success w-50">
                 <span>
-                    {{ number_format(collect($contractReceives)->sum('amount') ) }}
+                    {{ number_format(collect($contractReceives)->sum('amount')) }}
                     <small>تومان</small>
                 </span>
             </li>

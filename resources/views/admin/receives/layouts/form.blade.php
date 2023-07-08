@@ -4,6 +4,7 @@
     'debtor' => $detail['debtor'],
     'creditor' => $detail['creditor'],
     'creditorTitle' => $detail['creditor_title'],
+    'rest'=>$detail['rest'],
     'contractReceives' => $contractReceives,
 ])
 
