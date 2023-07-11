@@ -6,12 +6,13 @@
     <x-ui.card.Card>
         <x-slot name='header'>
             <span data-feather="credit-card"></span>
-            <span>حساب ها</span>
+            <span>حساب‌ها</span>
         </x-slot>
 
         <x-slot name='body'>
-            <x-ui.button.Button href="{{ route('cards.create') }}" btn='success' class="mb-3">افزودن حساب جدید</x-ui.button.Button>
-            <x-ui.table.Table :attr="['id' => 'card-table']" :header="['#', 'نام', 'شماره‌حساب','موجودی' ,'اقدامات']">
+            <x-ui.button.Button href="{{ route('cards.create') }}" btn='success' class="mb-3">افزودن حساب جدید
+            </x-ui.button.Button>
+            <x-ui.table.Table :attr="['id' => 'card-table']" :header="['#', 'نام', 'شماره‌حساب', 'موجودی', 'اقدامات']">
                 <x-slot name="tbody">
                     @forelse($cards as $card)
                         <tr>
@@ -21,15 +22,21 @@
                                     {{ $card->name }}
                                 </a>
                             </td>
-                            <td>{{ $card->number}}</td>
+                            <td>{{ $card->number }}</td>
                             <td>{{ $card->amountStr }}</td>
                             <td>
                                 <div class="d-flex">
-                                    <form method="post" action='{{ route('cards.destroy', $card->id) }}'>
-                                        @csrf
-                                        @method('DELETE')
-                                        <x-ui.button.Delete />
-                                    </form>
+                                    @if ($card->type == 'incognito')
+                                        <button class="btn btn-sm">
+                                            <x-ui.icon.Delete class="text-muted" />
+                                        </button>
+                                    @else
+                                        <form method="post" action='{{ route('cards.destroy', $card->id) }}'>
+                                            @csrf
+                                            @method('DELETE')
+                                            <x-ui.button.Delete />
+                                        </form>
+                                    @endif
 
                                     <x-ui.button.Edit href="{{ route('cards.edit', $card->id) }}" />
                                 </div>
