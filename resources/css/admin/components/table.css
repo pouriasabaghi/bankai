@@ -72,6 +72,9 @@ th {
     }
 
     td:empty{
-        display: none;
+        display: none !important;
+    }
+    td:empty::after{
+        content: unset !important;
     }
 }
