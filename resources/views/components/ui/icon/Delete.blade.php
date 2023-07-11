@@ -1,1 +1,1 @@
-<span data-feather='trash'></span>
+<span class="{{ $class ?? '' }}" data-feather='trash'></span>
