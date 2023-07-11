@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('desc')->nullable();
             $table->enum('status', ['paid', 'billed'])->default('billed');
             $table->enum('type', ['planned', 'canceled'])->default('planned');
+            $table->enum('kind', ['check', 'deposit'])->default('deposit');
             $table->boolean('collectible')->default(true);
             $table->dateTime('due_at')->nullable();
             $table->dateTime('postponed_at')->nullable();

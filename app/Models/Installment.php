@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 class Installment extends Model
 {
     use HasFactory, Notifiable, SoftDeletes, InstallmentAttribute;
-    protected $fillable = ['contract_id', 'amount', 'desc', 'status', 'type', 'collectible', 'due_at', 'postponed_at'];
+    protected $fillable = ['contract_id', 'amount', 'desc', 'status', 'type', 'kind', 'collectible', 'due_at', 'postponed_at'];
 
     public function __construct()
     {

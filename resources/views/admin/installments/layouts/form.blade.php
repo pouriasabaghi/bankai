@@ -7,13 +7,13 @@
 
 @if (request()->has('start') && !request()->filled('start'))
     <x-ui.alert.Alert alert='info'>
-       در صورت خالی بودن فیلد تاریخ شروع اقساط، تاریخ شروع از زمان شروع قرارداد خواهد بود.
+        در صورت خالی بودن فیلد تاریخ شروع اقساط، تاریخ شروع از زمان شروع قرارداد خواهد بود.
     </x-ui.alert.Alert>
 @endif
 
 @if (request()->has('count') && !request()->filled('count'))
     <x-ui.alert.Alert alert='info'>
-       در صورت خالی بودن فیلد تعداد اقساط، اقساط بر اساس تعداد ماه های قرارداد محسابه می‌شود.
+        در صورت خالی بودن فیلد تعداد اقساط، اقساط بر اساس تعداد ماه های قرارداد محسابه می‌شود.
     </x-ui.alert.Alert>
 @endif
 
@@ -65,7 +65,17 @@
                                 placeholder="تاریخ سر رسید قسط" col='2' />
 
                             <x-ui.form.Input name="installment[{{ $loop->index }}][desc]"
-                                value="{{ $installment->desc ?? '' }}" placeholder="توضیحات" col='6' />
+                                value="{{ $installment->desc ?? '' }}" placeholder="توضیحات" col='4' />
+
+                            <x-ui.form.Select name="installment[{{ $loop->index }}][kind]"  script='no' col="2" class="form-select form-select-sm" >
+                                <x-ui.form.Option selected="{{ !empty($installment->kind) && $installment->kind == 'deposit'  || !empty(request()['kind']) && request()['kind'] == 'deposit' }}" value="deposit">
+                                    واریز
+                                </x-ui.form.Option>
+                                <x-ui.form.Option selected="{{ !empty($installment->kind) && $installment->kind == 'check'  || !empty(request()['kind']) && request()['kind'] == 'check' }}" value="check">
+                                    چک
+                                </x-ui.form.Option>
+
+                            </x-ui.form.Select>
 
                             <div class="col-md-2">
                                 <span

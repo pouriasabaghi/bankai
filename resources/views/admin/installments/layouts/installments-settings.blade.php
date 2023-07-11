@@ -18,6 +18,16 @@
             تومان</x-ui.form.Option>
     </x-ui.form.Select>
 
+    <x-ui.form.Select name='kind' class="form-select form-select-sm" script='no'>
+        <x-ui.form.Option selected="{{ request()['kind'] == 'deposit' ? true : false }}" value='deposit'>
+            واریز
+        </x-ui.form.Option>
+        <x-ui.form.Option selected="{{ request()['kind'] == 'check' ? true : false }}" value='check'>
+            چک
+        </x-ui.form.Option>
+
+    </x-ui.form.Select>
+
 
     <x-ui.button.Button class="btn-sm">اعمال</x-ui.button.Button>
 
