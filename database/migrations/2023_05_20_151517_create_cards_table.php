@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('number');
+            $table->string('number')->nullable();
+            $table->string('sheba')->nullable();
             $table->string('amount')->nullable()->default(0);
+            $table->enum('type', ['incognito', 'primary'])->default('primary') ;
             $table->timestamps();
         });
     }
