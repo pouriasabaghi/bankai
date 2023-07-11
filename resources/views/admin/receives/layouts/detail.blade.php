@@ -11,21 +11,21 @@
                 <div class="row" style="font-size: 12px">
                     <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
                         <i class="fa-solid fa-file-signature"></i>
-                         امضای قرارداد
+                        امضای قرارداد
                     </div>
                     <div class="col-6 col-xl-2 mb-3 ">{{ $contract->signed_at }}</div>
 
 
                     <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
                         <i class="fa-regular fa-handshake"></i>
-                         شروع قرارداد
+                        شروع قرارداد
                     </div>
                     <div class="col-6 col-xl-2 mb-3 ">{{ $contract->started_at }}</div>
 
                     @if ($contract->canceled_at)
                         <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
                             <i class="fa-solid fa-power-off"></i>
-                             لغو قرارداد
+                            لغو قرارداد
                         </div>
                         <div class="col-6 col-xl-2 mb-3 ">{{ $contract->canceled_at }}</div>
                     @endif
@@ -105,7 +105,7 @@
                 </div>
             </div>
 
-             <div class="row mx-0 px-0 border-2 border-bottom py-3 ">
+            <div class="row mx-0 px-0 border-2 border-bottom py-3 ">
                 <div class="col-6">
                     <span>پیش قرارداد:</span>
                 </div>
@@ -138,68 +138,68 @@
         </div>
 
 
-        @foreach ($installments as $installment)
-            <ul class="list-group list-group-horizontal list-group-installments mx-md-0 ">
-                <li class=" list-group-item {{ $installment->status_class }}">
-                    <span>{{ $loop->index + 1 }}</span>
-                </li>
-                <li class=" list-group-item {{ $installment->status_class }}">
-                    <span>{{ $installment->amount_str }}</span>
-                    @if ($installment->type == 'canceled')
-                        <span class="badge bg-warning">کنسلی</span>
-                    @endif
-                </li>
-                <li class=" list-group-item {{ $installment->status_date_class }}">
-                    <span>{{ $installment->due_at }}</span>
-                </li>
-            </ul>
-        @endforeach
+
 
     </div>
 
-    <div class="col-md-6 col-xl-4 mb-3 mb-md-0 px-0  d-flex flex-column">
-        <h6>
-            <i class="fa-regular fa-money-bill-transfer fa-lg"></i>
-            دریافتی‌ها
-        </h6>
-        @foreach ($contractReceives as $receive)
-            <ul class="list-group list-group-horizontal list-group-installments mx-md-0">
-                <li class=" list-group-item list-group-item-success ">
-                    <span>{{ $loop->index + 1 }}</span>
-                </li>
-                <li class=" list-group-item list-group-item-success ">
-                    <a href="#receive-{{ $receive->id }}">{{ $receive->amount_str }}</a>
-                </li>
-                <li class=" list-group-item list-group-item-success ">
-                    <span>{{ $receive->date }}</span>
-                </li>
-                <li class=" list-group-item list-group-item-success ">
-                    <span>{{ $receive->type_str }}</span>
-                </li>
-            </ul>
-        @endforeach
-        <ul class="list-group list-group-horizontal list-group-receive-result mx-md-0" style="max-width: 364px">
-            <li class=" list-group-item list-group-item-success w-50">
-                <span>جمع‌کل</span>
-            </li>
-            <li class=" list-group-item list-group-item-success w-50">
-                <span>
-                    {{ number_format(collect($contractReceives)->sum('amount') - $contract->advance_payment) }}
-                    <small>تومان</small>
-                </span>
-            </li>
+    <div class="col-12 my-5 my-md-4">
+        <h3>اقساط</h3>
+        <x-ui.table.Table :header="['#', 'مبلغ', 'تاریخ‌سررسید', 'نوع‌پرداخت', 'توضیحات']">
+            <x-slot name="tbody">
+                @foreach ($installments as $installment)
+                    <tr>
+                        <td>
+                            {{ $loop->index + 1 }}
+                        </td>
 
-        </ul>
-        <ul class="list-group list-group-horizontal list-group-receive-result mx-md-0" style="max-width: 364px">
-            <li class=" list-group-item list-group-item-success w-50">
-                <span>جمع‌کل با پیش‌پرداخت</span>
-            </li>
-            <li class=" list-group-item list-group-item-success w-50">
-                <span>
-                    {{ number_format(collect($contractReceives)->sum('amount')) }}
-                    <small>تومان</small>
-                </span>
-            </li>
-        </ul>
+                        <td class="{{ $installment->status_class }}">
+                            {{ $installment->amount_str }}
+                            @if ($installment->type == 'canceled')
+                                <span class="badge bg-warning">کنسلی</span>
+                            @endif
+                            <small>تومان</small>
+                        </td>
+
+                        <td class="{{ $installment->status_date_class }}">
+                            {{ $installment->due_at }}
+                        </td>
+
+                        <td>
+                            {{ \App\Enums\InstallmentKindEnum::tryFrom($installment->kind)->toString() }}
+                        </td>
+
+                        <td>{{ $installment->desc }}</td>
+                    </tr>
+                @endforeach
+            </x-slot>
+        </x-ui.table.Table>
     </div>
+
+    <div class="col-12 my-5 mt-md-4 mb-md-5">
+        <h3>شرح دریافتی‌ها</h3>
+        <x-ui.table.Table :header="['#', 'مبلغ', 'تاریخ‌دریافت', 'نوع‌پرداخت', 'به حسابه']">
+            <x-slot name="tbody">
+                @foreach ($contractReceives as $receive)
+                <tr >
+                    <td>
+                        <span>{{ $loop->index + 1 }}</span>
+                    </td>
+                    <td>
+                        <a href="#receive-{{ $receive->id }}">{{ $receive->amount_str }}</a>
+                    </td>
+                    <td>
+                        <span>{{ $receive->date }}</span>
+                    </td>
+                    <td>
+                        <span>{{ $receive->type_str }}</span>
+                    </td>
+                    <td>
+                        {{ $receive->card->name }}
+                    </td>
+                </tr>
+            @endforeach
+            </x-slot>
+        </x-ui.table.Table>
+    </div>
+
 </div>
