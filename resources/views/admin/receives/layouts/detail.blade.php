@@ -8,61 +8,61 @@
         </h6>
         <div class="row mx-0">
             <div class="col-12 py-2 d-flex flex-column  bg-light receives-contract-information">
-                <div class="row" style="font-size: 12px">
-                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
+                <div class="row" style="font-size: 13px">
+                    <div class="col-6 col-xl-3 mb-3 border-2 border-end pe-2">
                         <i class="fa-solid fa-file-signature"></i>
                         امضای قرارداد
                     </div>
-                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->signed_at }}</div>
+                    <div class="col-6 col-xl-3 mb-3 ">{{ $contract->signed_at }}</div>
 
 
-                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
+                    <div class="col-6 col-xl-3 mb-3 border-2 border-end pe-2">
                         <i class="fa-regular fa-handshake"></i>
                         شروع قرارداد
                     </div>
-                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->started_at }}</div>
+                    <div class="col-6 col-xl-3 mb-3 ">{{ $contract->started_at }}</div>
 
                     @if ($contract->canceled_at)
-                        <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
+                        <div class="col-6 col-xl-3 mb-3 border-2 border-end pe-2">
                             <i class="fa-solid fa-power-off"></i>
                             لغو قرارداد
                         </div>
-                        <div class="col-6 col-xl-2 mb-3 ">{{ $contract->canceled_at }}</div>
+                        <div class="col-6 col-xl-3 mb-3 ">{{ $contract->canceled_at }}</div>
                     @endif
 
 
-                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2 ">
+                    <div class="col-6 col-xl-3 mb-3 border-2 border-end pe-2 ">
                         <i class="fa-solid fa-user-tie"></i>
                         مشتری:
                     </div>
-                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->customer->name }}</div>
+                    <div class="col-6 col-xl-3 mb-3 ">{{ $contract->customer->name }}</div>
 
 
-                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
+                    <div class="col-6 col-xl-3 mb-3 border-2 border-end pe-2">
                         <i class="fa-solid fa-building-columns"></i>
                         مجموعه:
                     </div>
-                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->company->name }}</div>
+                    <div class="col-6 col-xl-3 mb-3 ">{{ $contract->company->name }}</div>
 
 
-                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
+                    <div class="col-6 col-xl-3 mb-3 border-2 border-end pe-2">
                         <i class="fa-regular fa-star"></i>
                         دسته بندی خدمات:
                     </div>
-                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->type }}</div>
+                    <div class="col-6 col-xl-3 mb-3 ">{{ $contract->type }}</div>
 
 
-                    <div class="col-6 col-xl-2 mb-3 border-2 border-end pe-2">
+                    <div class="col-6 col-xl-3 mb-3 border-2 border-end pe-2">
                         <i class="fa-regular fa-star"></i>
                         خدمات
                     </div>
-                    <div class="col-6 col-xl-2 mb-3 ">{{ $contract->services->pluck('name')->implode(', ') }}</div>
+                    <div class="col-6 col-xl-3 mb-3 ">{{ $contract->services->pluck('name')->implode(', ') }}</div>
 
-                    <div class="col-6 col-xl-2 border-2 border-end pe-2">
+                    <div class="col-6 col-xl-3 border-2 border-end pe-2">
                         <i class="fa-regular fa-calendar"></i>
                         مدت قرارداد
                     </div>
-                    <div class="col-6 col-xl-2 ">{{ $contract->period }}</div>
+                    <div class="col-6 col-xl-3 ">{{ $contract->period }}</div>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
             ترازمالی
         </h6>
 
-        <div class="row mx-0 p-2 bg-light " style="font-size: 12px">
+        <div class="row mx-0 p-2 bg-light " style="font-size: 13px">
             <div class="row mx-0 px-0 border-2 border-bottom">
                 <div class="col-6 pb-3">
                     <span>مبلغ کل قرارداد:</span>
