@@ -32,4 +32,11 @@ class Receive extends Model
     {
         return $this->belongsTo(Contract::class);
     }
+
+
+    public function card(){
+        return $this->belongsTo(Card::class)->withDefault([
+            'name'=>'کارت نامعبتر'
+        ]);
+    }
 }
