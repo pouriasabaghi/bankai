@@ -13,7 +13,7 @@ enum InstallmentKindEnum: string
     public function toString()
     {
         return match ($this) {
-            self::Deposit => 'واریز',
+            self::Deposit => 'نقدی',
             self::Check => 'چک',
             default => 'ثبت نشده',
         };
