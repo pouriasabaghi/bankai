@@ -30,7 +30,9 @@ class Receive extends Model
 
     public function contract()
     {
-        return $this->belongsTo(Contract::class);
+        return $this->belongsTo(Contract::class)->withDefault([
+            'name'=>'قرارداد نامعتبر',
+        ]);
     }
 
 

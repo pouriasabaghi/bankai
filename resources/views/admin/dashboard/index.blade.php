@@ -84,10 +84,17 @@
                                             {{ $check->contract->customer->mobile }}
                                         </td>
                                         <td>
-                                            <x-ui.button.Link class="ms-3"
-                                                href="{{ route('receives.create', $check->contract->id) }}#receive-{{ $check->id }}">
-                                                مشاهده
-                                            </x-ui.button.Link>
+                                            @if (filled($check->contract->id))
+                                                <x-ui.button.Link class="ms-3"
+                                                    href="{{ route('receives.create', $check->contract->id) }}#receive-{{ $check->id }}">
+                                                    مشاهده
+                                                </x-ui.button.Link>
+                                            @else
+                                                <x-ui.button.Link class="ms-3 text-muted"
+                                                    href="#">
+                                                    مشاهده
+                                                </x-ui.button.Link>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

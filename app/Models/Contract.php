@@ -91,7 +91,10 @@ class Contract extends Model
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class)->withDefault([
+            'name' => 'نامعتبر',
+            'mobile' => 'نامعبتر',
+        ]);
     }
 
     public function company()
@@ -164,11 +167,12 @@ class Contract extends Model
         return $this->installments()->where('type', 'canceled')->first();
     }
 
-    protected static function boot(){
+    protected static function boot()
+    {
         parent::boot();
 
         // soft delete installment after deleting contract
-        static::deleting(function($contract){
+        static::deleting(function ($contract) {
             $contract->installments()->delete();
         });
     }
