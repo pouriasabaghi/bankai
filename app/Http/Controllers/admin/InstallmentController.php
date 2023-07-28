@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Enums\ContractStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use App\Models\Installment;
 use App\Services\ContractService;
 use App\Services\InstallmentService;
 use App\Services\ReceiveService;
@@ -24,9 +25,9 @@ class InstallmentController extends Controller
     }
     public function create(Contract $contract)
     {
+   //     dd(Installment::query()->get());
         $service = $this->service;
         $formAttributes = $service->formAttributes($contract);
-
 
         $installments = $service->prepareInstallments($contract->installments()->where('type', 'planned')->get());
 

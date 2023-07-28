@@ -6,7 +6,7 @@ use App\Helpers\Receives\ReceiveAttribute;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Builder;
 class Receive extends Model
 {
     use HasFactory, ReceiveAttribute;
@@ -14,6 +14,10 @@ class Receive extends Model
 
     public function __construct()
     {
+        parent::boot();
+        static::addGlobalScope('due_at', function (Builder $builder) {
+            $builder->orderBy('due_at');
+        });
         $this->registerAttributes();
     }
 

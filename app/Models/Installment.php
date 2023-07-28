@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Database\Eloquent\Builder;
 class Installment extends Model
 {
     use HasFactory, Notifiable, SoftDeletes, InstallmentAttribute;
@@ -15,16 +15,11 @@ class Installment extends Model
 
     public function __construct()
     {
-        $this->registerAttributes();
-    }
-
-    protected static function boot()
-    {
         parent::boot();
-
-        static::addGlobalScope('due_at', function ($query) {
-            $query->orderBy('due_at');
+        static::addGlobalScope('due_at', function (Builder $builder) {
+            $builder->orderBy('due_at');
         });
+        $this->registerAttributes();
     }
 
     public function contract()
@@ -40,6 +35,7 @@ class Installment extends Model
 
     public function debtorInstallments()
     {
+
         return $this->where('due_at', '<=', today())->where('status', 'billed');
     }
 }
