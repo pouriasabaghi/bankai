@@ -59,14 +59,17 @@ class CardService
     public function sumCardsWithKey(?Collection $receives = null): CardService
     {
         if (!$receives) {
-            $receives = \App\Models\Receive::query()->get();
+            $receives = \App\Models\Receive::query()->where('type', 'deposit')->orWhere('passed', true)->get();
         }
-        $this->summarizedCards = $receives->groupBy('card_id')->map(function ($receive, $cardId) {
-            return [
-                'card_id' => $cardId,
-                'sum' => $receive->sum('amount'),
-            ];
-        });
+
+        $this->summarizedCards = \App\Models\Receive::query()
+        ->where(function ($query) {
+            $query->where('type', 'deposit')
+            ->orWhere('passed', true);
+        })
+        ->selectRaw('card_id, CAST(SUM(amount) AS UNSIGNED) AS sum')
+            ->groupBy('card_id')
+            ->get();
 
         return $this;
     }
