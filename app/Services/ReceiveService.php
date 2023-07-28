@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Card;
+
 use App\Models\Contract;
 use App\Models\Receive;
 use Exception;
@@ -40,10 +40,6 @@ class ReceiveService
         $preparedData =  $this->filterByType($data);
         $contract->receives()->delete();
         $receives = $contract->receives()->createMany($preparedData);
-
-        // update cards amount ;
-        $cardService = new CardService();
-        $cardService->sumCardsWithKey()->updateCardsAmount();
 
         return $receives;
     }

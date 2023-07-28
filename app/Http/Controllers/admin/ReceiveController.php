@@ -4,8 +4,8 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Card;
-use App\Models\Company;
 use App\Models\Contract;
+use App\Services\CardService;
 use App\Services\InstallmentService;
 use App\Services\ReceiveService;
 use App\Traits\Alert;
@@ -18,7 +18,7 @@ class ReceiveController extends Controller
     private ReceiveService $service;
     public function __construct()
     {
-        $this->service = new ReceiveService();;
+        $this->service = new ReceiveService();
     }
     public function create(Contract $contract)
     {
@@ -28,10 +28,10 @@ class ReceiveController extends Controller
         }
         $service = $this->service;
         $cards = Card::query()->latest()->get();
-        $companies =  $contract->customer->companies;
+        $companies = $contract->customer->companies;
         $formAttributes = $service->formAttributes($contract);
         $receives = $contract->receives->sortBy('date');
-        $contractReceives =  $contract->receivesInPocket()->get();
+        $contractReceives = $contract->receivesInPocket()->get();
         $receives = $service->prepareReceives($receives); // merge receives with ready to fill receives
         $installments = $contract->installments;
         $detail = $service->getDetail($contract);
@@ -46,9 +46,14 @@ class ReceiveController extends Controller
     {
         try {
             $service = $this->service;
-            $receives =  $request->receives;
+            $receives = $request->receives;
             $receives = $service->removeUnused($receives);
             $service->sync($receives, $contract);
+
+            // update cards amount ;
+            (new CardService())->sumCardsWithKey()->updateCardsAmount();
+
+            // update installment status
             (new InstallmentService())->updateInstallmentsByTotalReceives($contract, $contract->receivesInPocket(false)->get()->sum('amount'));
             $this->successAlert(null, 'پرداخت با موفقیت ثبت شد');
             return back();
