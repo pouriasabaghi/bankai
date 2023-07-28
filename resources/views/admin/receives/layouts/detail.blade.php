@@ -63,6 +63,12 @@
                         مدت قرارداد
                     </div>
                     <div class="col-6 col-xl-3 ">{{ $contract->period }}</div>
+
+                    <div class="col-6 col-xl-3 border-2 border-end pe-2">
+                        <i class="fa-book-open fa-regular"></i>
+                        توضیحات
+                    </div>
+                    <div class="col-6 col-xl-9 ">{{ $contract->desc }}</div>
                 </div>
             </div>
         </div>

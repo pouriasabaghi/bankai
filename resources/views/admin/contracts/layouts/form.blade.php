@@ -51,7 +51,7 @@
 
 
         {{-- Total_price --}}
-        <x-ui.form.Input label='مبلغ پیش قرارداد' name='advance_payment' col='3' :attr="['data-separate' => 'true', 'required' => 'true']"
+        <x-ui.form.Input label='مبلغ پیش قرارداد' name='advance_payment' col='3' :attr="['data-separate' => 'true']"
             value="{{ old('advance_payment', $contract->advance_payment_str ?? '') }}" />
 
         <x-ui.form.Select class="form-control" name='card_id' col='3'

@@ -45,6 +45,7 @@ if (!function_exists('is_route_active')) {
 if (!function_exists('fix_number')) {
     function fix_number($number)
     {
+        $number = $number ?? 0 ;
         $persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
         $arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
