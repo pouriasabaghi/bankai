@@ -150,11 +150,11 @@ class InstallmentService
         $installments = $contract->installmentsCollectible()->get();
         $remainingAmount =  $totalReceivesAmount;
         foreach ($installments as $installment) {
-            // temporary keep remain
-            $tempRemainAmount = $remainingAmount -  $installment->amount;
-            if ($tempRemainAmount >= 0) {
-                // temp can pay installment so update remain amount
-                $remainingAmount = $remainingAmount -  $installment->amount;
+
+             $remainingAmount = $remainingAmount -  $installment->amount;
+            if ($remainingAmount >= 0) {
+
+               // $remainingAmount = $remainingAmount -  $installment->amount;
                 $installment->update(['status' => 'paid']);
             } else {
                 $installment->update(['status' => 'billed']);
