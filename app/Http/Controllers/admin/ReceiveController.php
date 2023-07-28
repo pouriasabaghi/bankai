@@ -68,7 +68,7 @@ class ReceiveController extends Controller
     public function messages(Contract $contract)
     {
         $messages = [];
-        if (empty($contract->advancePaymentRel()->paid_at) && empty($contract->advancePaymentRel()->due_at)) {
+        if (!empty($contract->advance_payment) && empty($contract->advancePaymentRel()->paid_at) && empty($contract->advancePaymentRel()->due_at)) {
             $messages[] = [
                 'type' => 'warning',
                 'text' => 'لطفا ابتدا جزئیات دریافت پیش قرارداد را کامل کنید.',

@@ -50,7 +50,9 @@ class ContractController extends Controller
         $ContractService = $this->service;
         $contract = $ContractService->storeOrUpdate($request->all());
 
-        (new ReceiveService())->storeAdvancePayment($contract, $request->card_id, fix_number($request->advance_payment));
+        if ($request->advance_payment) {
+            (new ReceiveService())->storeAdvancePayment($contract, $request->card_id, fix_number($request->advance_payment));
+        }
 
         $this->successAlert(null, 'قرارداد با موفقیت ثبت شد');
 
