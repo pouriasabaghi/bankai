@@ -51,11 +51,11 @@
 
 
         {{-- Total_price --}}
-        <x-ui.form.Input label='مبلغ پیش قرارداد' name='advance_payment' col='3' :attr="['data-separate' => 'true']"
+        <x-ui.form.Input label='مبلغ بیعانه(می‌تواند خالی باشد)' name='advance_payment' col='3' :attr="['data-separate' => 'true']"
             value="{{ old('advance_payment', $contract->advance_payment_str ?? '') }}" />
 
         <x-ui.form.Select class="form-control" name='card_id' col='3'
-            label='حساب پیش پرداخت'>
+            label='حساب مقصد بیعانه'>
             @forelse ($cards as $card)
                 <x-ui.form.Option
                     selected="{{ !empty($advancePaymentReceive) && $advancePaymentReceive->card_id == $card->id }}"

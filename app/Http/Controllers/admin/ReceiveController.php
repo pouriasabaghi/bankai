@@ -76,7 +76,7 @@ class ReceiveController extends Controller
         if (!empty($contract->advance_payment) && empty($contract->advancePaymentRel()->paid_at) && empty($contract->advancePaymentRel()->due_at)) {
             $messages[] = [
                 'type' => 'warning',
-                'text' => 'لطفا ابتدا جزئیات دریافت پیش قرارداد را کامل کنید.',
+                'text' => 'لطفا ابتدا جزئیات دریافت بیعانه را کامل کنید.',
             ];
         }
 

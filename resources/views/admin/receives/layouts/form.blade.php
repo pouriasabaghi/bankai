@@ -27,7 +27,7 @@
                             <div class="d-flex justify-content-between w-100">
                                 <h6 class="mb-0">دریافتی شماره {{ $loop->index + 1 }}
                                     @if (!empty($receive->advance_payment))
-                                        <small class="badge bg-warning fw-normal">پیش قرارداد</small>
+                                        <small class="badge bg-warning fw-normal">پیش بیعانه</small>
                                     @endif
                                 </h6>
                                 @if (!empty($receive->created_at))

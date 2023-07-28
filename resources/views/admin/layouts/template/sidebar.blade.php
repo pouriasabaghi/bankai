@@ -37,6 +37,23 @@
                     'مدیریت قراردادها' => 'contracts.index',
                 ]" />
 
+
+            <x-dashboard.SidebarItemMulti icon='file-text'
+                active="{{ is_route_active(true, 'contracts', 'installments', 'receives') }}" id='contracts'
+                title="قراردادها" :items="[
+                    'افزودن قرارداد' => 'contracts.create',
+                    'مدیریت قراردادها' => 'contracts.index',
+                ]" />
+
+
+            <x-dashboard.SidebarItemMulti icon='folder'
+                active="{{ is_route_active(true, 'contracts', 'installments', 'receives') }}" id='contracts'
+                title="گزارش گیری" :items="[
+                    'وصولی‌ها' => 'contracts.create',
+                    'مطالبات' => 'contracts.index',
+                    'حساب‌ها' => 'contracts.index',
+                ]" />
+
             <x-dashboard.SidebarItem icon='pen-tool' title='چک‌ها' route="checks.index" />
 
 

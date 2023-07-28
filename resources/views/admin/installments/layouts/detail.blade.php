@@ -10,7 +10,7 @@
         <small>تومان</small>
     </li>
     <li class="col1 list-group-item list-group-item-info">
-        <span>مبلغ پیش‌قرارداد:</span>
+        <span>مبلغ بیعانه:</span>
         <span >{{ $advance_payment }}</span>
         <small>تومان</small>
     </li>
