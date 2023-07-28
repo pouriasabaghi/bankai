@@ -78,7 +78,10 @@ class ContractController extends Controller
         $contract = $service->storeOrUpdate($request->all(), $contract);
 
         // store advance payment as receive
+
+        if ($request->advance_payment) {
         (new ReceiveService())->storeAdvancePayment($contract, $request->card_id, fix_number($request->advance_payment), true);
+        }
 
         // update contract status
         $status = $request->canceled_at ? ContractStatusEnum::Canceled : ContractStatusEnum::Progress;
