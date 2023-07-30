@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\InstallmentController;
 use App\Http\Controllers\admin\ReceiveController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\TypeController;
 
@@ -31,4 +32,6 @@ Route::group([], function () {
     Route::post('receives/{contract}/store', [ReceiveController::class, 'store'])->name('receives.store');
 
     Route::get('checks', [CheckController::class, 'index'])->name('checks.index');
+
+    Route::get('reports', [ReportController::class, 'getReports']);
 });
