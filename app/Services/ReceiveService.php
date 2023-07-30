@@ -141,12 +141,12 @@ class ReceiveService
     {
         $debtor = $contract->installmentsCollectible()->where(function ($query) {
             $query->where('due_at', '<=', today())
-                ->where('status', 'billed');
-        })
-            ->orWhere(function ($query) {
-                $query->where('type','canceled')
-                    ->where('status', 'billed');
-            })->get()->sum('amount');
+                ->where('status', 'billed')
+                ->orWhere(function ($query) {
+                    $query->where('type', 'canceled')
+                        ->where('status', 'billed');
+                });
+        })->get()->sum('amount');
 
         // this amount use for paying bills (updating status) ;
         $usedAmount = $contract->installments()->where('status', 'paid')->get()->sum('amount');
@@ -162,7 +162,7 @@ class ReceiveService
             'debtor' => number_format($debtorTillNow),
             'creditor' => number_format($creditor),
             'creditor_title' => $creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب',
-            'rest'=>$rest,
+            'rest' => $rest,
         ];
     }
 
