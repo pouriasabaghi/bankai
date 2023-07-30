@@ -16,8 +16,9 @@ class InstallmentAM
         // contract has canceled_at date so other installment that the time is farther than canceled_at date can't receive any more.
         // these logic check for this
         if ($contract->canceled_at) {
-            // due_at not arrived and it's not canceled: this installment is not collectible !!!
-            if ($attributes['due_at'] > $contract->canceled_at_carbon && $attributes['type'] != 'canceled') {
+            // due_at not arrived and it's not canceled_installment; the whole contract canceled and this installment is not collectible !!!
+            // $attributes['due_at'] > $contract->canceled_at_carbon && $attributes['type'] != 'canceled'
+            if ($attributes['collectible'] == false) {
                 return 'list-group-item-secondary opacity-50';
             }
             // due_at not arrived and it's canceled payment: this installment is  collectible +++

@@ -82,7 +82,7 @@ class InstallmentController extends Controller
 
             // handle installment collectible when contract canceled
             $canceledAt = $contract->canceled_at ? jdate()->fromFormat('Y/m/d', $contract->canceled_at)->toCarbon() : null;
-            $service->updateCollectibleInstallments($contract, $canceledAt);
+            $service->updateCollectibleInstallments($contract, $canceledAt, 'perday');
             $service->updateInstallmentsByTotalReceives($contract, $contract->receivesInPocket(false)->get()->sum('amount'));
             $this->successAlert(null, 'اقساط با موفقیت ثبت شد');
             return $this->redirect(route('receives.create', $contract));

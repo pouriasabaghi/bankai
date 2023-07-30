@@ -64,11 +64,15 @@
                     </div>
                     <div class="col-6 col-xl-3 ">{{ $contract->period }}</div>
 
-                    <div class="col-6 col-xl-3 border-2 border-end pe-2">
-                        <i class="fa-book-open fa-regular"></i>
-                        توضیحات
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6 col-xl-3 border-2 border-end pe-2">
+                                <i class="fa-book-open fa-regular"></i>
+                                توضیحات
+                            </div>
+                            <div class="col-6 col-xl-9 ">{{ $contract->desc }}</div>
+                        </div>
                     </div>
-                    <div class="col-6 col-xl-9 ">{{ $contract->desc }}</div>
                 </div>
             </div>
         </div>
@@ -186,24 +190,24 @@
         <x-ui.table.Table :header="['#', 'مبلغ', 'تاریخ‌دریافت', 'نوع‌پرداخت', 'به حسابه']">
             <x-slot name="tbody">
                 @foreach ($contractReceives as $receive)
-                <tr >
-                    <td>
-                        <span>{{ $loop->index + 1 }}</span>
-                    </td>
-                    <td>
-                        <a href="#receive-{{ $receive->id }}">{{ $receive->amount_str }}</a>
-                    </td>
-                    <td>
-                        <span>{{ $receive->date }}</span>
-                    </td>
-                    <td>
-                        <span>{{ $receive->type_str }}</span>
-                    </td>
-                    <td>
-                        {{ $receive->card->name }}
-                    </td>
-                </tr>
-            @endforeach
+                    <tr>
+                        <td>
+                            <span>{{ $loop->index + 1 }}</span>
+                        </td>
+                        <td>
+                            <a href="#receive-{{ $receive->id }}">{{ $receive->amount_str }}</a>
+                        </td>
+                        <td>
+                            <span>{{ $receive->date }}</span>
+                        </td>
+                        <td>
+                            <span>{{ $receive->type_str }}</span>
+                        </td>
+                        <td>
+                            {{ $receive->card->name }}
+                        </td>
+                    </tr>
+                @endforeach
             </x-slot>
         </x-ui.table.Table>
     </div>

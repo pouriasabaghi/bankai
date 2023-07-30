@@ -151,10 +151,10 @@ class InstallmentService
         $remainingAmount =  $totalReceivesAmount;
         foreach ($installments as $installment) {
 
-             $remainingAmount = $remainingAmount -  $installment->amount;
+            $remainingAmount = $remainingAmount -  $installment->amount;
             if ($remainingAmount >= 0) {
 
-               // $remainingAmount = $remainingAmount -  $installment->amount;
+                // $remainingAmount = $remainingAmount -  $installment->amount;
                 $installment->update(['status' => 'paid']);
             } else {
                 $installment->update(['status' => 'billed']);
@@ -167,9 +167,10 @@ class InstallmentService
      *
      * @param Contract $contract
      * @param Carbon $canceledAt
+     * @param string $type | perday, difference
      * @return void
      */
-    public function updateCollectibleInstallments(Contract $contract, ?Carbon $canceledAt = null): void
+    public function updateCollectibleInstallments(Contract $contract, ?Carbon $canceledAt = null, string $type): void
     {
         $installments =  $contract->installments;
         foreach ($installments as $installment) {
@@ -179,8 +180,15 @@ class InstallmentService
         }
 
         if ($canceledAt) {
-            $installmentsAfterCanceledAt = $contract->installments()->where('due_at', '>', $canceledAt)->get();
-            foreach ($installmentsAfterCanceledAt as $installment) {
+            if ($type == 'perday') {
+                // installment after canceled at
+                $noncollectibleInstallments = $contract->installments;
+            }
+            if ($type == 'difference') {
+                // installment after canceled at
+                $noncollectibleInstallments = $contract->installments()->where('due_at', '>', $canceledAt)->get();
+            }
+            foreach ($noncollectibleInstallments as $installment) {
                 $installment->update([
                     'collectible' => $installment->type == 'canceled' ? true : false,
                 ]);
