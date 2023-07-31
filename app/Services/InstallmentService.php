@@ -182,7 +182,7 @@ class InstallmentService
         if ($canceledAt) {
             if ($type == 'perday') {
                 // installment after canceled at
-                $noncollectibleInstallments = $contract->installments;
+                $noncollectibleInstallments = $contract->installments()->where('status', 'billed')->get();
             }
             if ($type == 'difference') {
                 // installment after canceled at
