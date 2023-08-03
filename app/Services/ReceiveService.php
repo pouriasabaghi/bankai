@@ -7,6 +7,7 @@ use App\Models\Contract;
 use App\Models\Receive;
 use Exception;
 use Illuminate\Support\Collection;
+use PDO;
 
 class ReceiveService
 {
@@ -139,6 +140,7 @@ class ReceiveService
      */
     public function getDetail(Contract $contract): array
     {
+        $type = 'perday';
         $debtor = $contract->installmentsCollectible()->where(function ($query) {
             $query->where('due_at', '<=', today())
                 ->where('status', 'billed')
@@ -148,20 +150,37 @@ class ReceiveService
                 });
         })->get()->sum('amount');
 
-        // this amount use for paying bills (updating status) ;
-        $usedAmount = $contract->installments()->where('status', 'paid')->get()->sum('amount');
+        if (!$contract->canceled_at || $type != 'perday') {
+            // this amount use for paying bills (updating status) ;
+            $usedAmount = $contract->installments()->where('status', 'paid')->get()->sum('amount');
 
-        $paidAmount = $contract->receivesInPocket(false)->get()->sum('amount');
+            $paidAmount = $contract->receivesInPocket(false)->get()->sum('amount');
 
-        $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
-        $debtorTillNow = $debtor - $creditor > 0 ? $debtor - $creditor : 0;
+            $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
+            $debtorTillNow = $debtor - $creditor > 0 ? $debtor - $creditor : 0;
+            $creditorTitle = $creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب';
 
-        $rest = number_format($contract->total_price - $contract->receivesInPocket()->get()->sum('amount'));
+            $totalPrice = $contract->installmentsCollectible()->get()->sum('amount');
+            $rest = number_format($totalPrice - $contract->receivesInPocket()->get()->sum('amount'));
+        } else {
+            // there is no creditor if contract is canceled
+            $creditor = 0;
+            $debtorTillNow = $debtor - $creditor > 0 ? $debtor - $creditor : 0;
+            $creditorTitle = 'کنسل شده';
+
+            $totalPrice = $contract->installmentsCollectible()->get()->sum('amount');
+            $rest = number_format($totalPrice - $contract->receivesInPocket()->get()->sum('amount'));
+        }
+
+
+        $contractReceives = $contract->receivesInPocket()->get();
+
 
         return [
             'debtor' => number_format($debtorTillNow),
             'creditor' => number_format($creditor),
-            'creditor_title' => $creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب',
+            'creditor_title' => $creditorTitle,
+            'contract_receives' => $contractReceives,
             'rest' => $rest,
         ];
     }

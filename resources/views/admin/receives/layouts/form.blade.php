@@ -5,7 +5,7 @@
     'creditor' => $detail['creditor'],
     'creditorTitle' => $detail['creditor_title'],
     'rest'=>$detail['rest'],
-    'contractReceives' => $contractReceives,
+    'contractReceives' => $detail['contract_receives'],
 ])
 
 @include('admin.layouts.template.calculator')

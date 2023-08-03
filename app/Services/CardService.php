@@ -62,7 +62,7 @@ class CardService
             $receives = \App\Models\Receive::query()->where('type', 'deposit')->orWhere('passed', true)->get();
         }
 
-        $this->summarizedCards = \App\Models\Receive::query()
+        $this->summarizedCards = \App\Models\Receive::query()->withoutGlobalScope('due_at')
         ->where(function ($query) {
             $query->where('type', 'deposit')
             ->orWhere('passed', true);

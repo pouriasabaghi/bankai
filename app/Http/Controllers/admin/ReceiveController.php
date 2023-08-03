@@ -31,7 +31,7 @@ class ReceiveController extends Controller
         $companies = $contract->customer->companies;
         $formAttributes = $service->formAttributes($contract);
         $receives = $contract->receives->sortBy('date');
-        $contractReceives = $contract->receivesInPocket()->get();
+
         $receives = $service->prepareReceives($receives); // merge receives with ready to fill receives
         $installments = $contract->installments;
         $detail = $service->getDetail($contract);
@@ -39,7 +39,7 @@ class ReceiveController extends Controller
 
         $this->messages($contract);
 
-        return view('admin.receives.create', compact('cards', 'companies', 'formAttributes', 'receives', 'contract', 'detail', 'installments', 'contractReceives'));
+        return view('admin.receives.create', compact('cards', 'companies', 'formAttributes', 'receives', 'contract', 'detail', 'installments'));
     }
 
     public function store(Request $request, Contract $contract)

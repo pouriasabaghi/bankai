@@ -38,13 +38,37 @@
                 ]" />
 
 
-            <x-dashboard.SidebarItemMulti icon='folder'
-                active="{{ is_route_active(true, 'contracts', 'installments', 'receives') }}" id='reports'
-                title="گزارش گیری" :items="[
-                    'وصولی‌ها' => 'contracts.create',
-                    'مطالبات' => 'contracts.index',
-                    'حساب‌ها' => 'contracts.index',
-                ]" />
+
+
+            <x-dashboard.SidebarItemMultiDeep active="{{ is_route_active(true, 'reports') }}" icon='folder'
+                id='reports' title='گزارش‌ گیری'
+                :items="[
+                [
+                    'title' => 'وصولی‌ها',
+                    'routes' => [
+                        [
+                            'text' => 'روز',
+                            'url' => route('reports.list', ['type' => 'receives', 'period' => 'daily']),
+                        ],
+                        [
+                            'text' => 'هفته',
+                            'url' => route('reports.list', ['type' => 'receives', 'period' => 'week']),
+                        ],
+                        [
+                            'text' => 'ماه',
+                            'url' => route('reports.list', ['type' => 'receives', 'period' => 'month']),
+                        ],
+                        [
+                            'text' => 'سال',
+                            'url' => route('reports.list', ['type' => 'receives', 'period' => 'year']),
+                        ],
+                        [
+                            'text' => 'تاریخ انتخابی',
+                            'url' => route('reports.list', ['type' => 'receives', 'period' => 'selected']),
+                        ],
+                    ],
+                ],
+            ]" />
 
             <x-dashboard.SidebarItem icon='pen-tool' title='چک‌ها' route="checks.index" />
 
