@@ -64,15 +64,13 @@
                     </div>
                     <div class="col-6 col-xl-3 ">{{ $contract->period }}</div>
 
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-6 col-xl-3 border-2 border-end pe-2">
-                                <i class="fa-book-open fa-regular"></i>
-                                توضیحات
-                            </div>
-                            <div class="col-6 col-xl-9 ">{{ $contract->desc }}</div>
-                        </div>
+
+                    <div class="col-6 col-xl-2 border-2 border-end pe-2">
+                        <i class="fa-book-open fa-regular"></i>
+                        توضیحات
                     </div>
+                    <div class="col-6 col-xl-4 ">{{ $contract->desc }}</div>
+
                 </div>
             </div>
         </div>
@@ -187,7 +185,7 @@
 
     <div class="col-12 my-5 mt-md-4 mb-md-5">
         <h3>شرح دریافتی‌ها</h3>
-        <x-ui.table.Table :header="['#', 'مبلغ', 'تاریخ‌دریافت', 'نوع‌پرداخت', 'به حسابه']">
+        <x-ui.table.Table :header="['#', 'مبلغ', 'تاریخ‌دریافت', 'نوع‌پرداخت', 'حساب‌مقصد']">
             <x-slot name="tbody">
                 @foreach ($contractReceives as $receive)
                     <tr>

@@ -4,15 +4,18 @@ namespace App\Http\Controllers\admin;
 
 use App\Factories\ReportFactory;
 use App\Http\Controllers\Controller;
-use App\Models\Installment;
-use App\Repositories\Reports\ReceiveReport;
+use App\Models\Receive;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function getReports(){
+    public function getReports($type, $period, Request $request)
+    {
 
-    $reports = ReportFactory::makeReport(ReceiveReport::class, Installment::query(), 'admin.dashboard');
-    dd($reports->getData());
+        $reportObjectRepo = "App\Repositories\Reports\\" . ucfirst($type) . "Report";
+        $report = ReportFactory::makeReport($reportObjectRepo, new Receive(), 'admin.reports.index');
+        $report->getData($period);
+
+        return $report->renderView(['directory' => $request->directory]);
     }
 }

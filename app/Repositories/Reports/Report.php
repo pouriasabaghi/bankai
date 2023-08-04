@@ -4,24 +4,29 @@ namespace App\Repositories\Reports;
 
 use App\Interfaces\ReportInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
-class Report implements ReportInterface
+abstract class Report implements ReportInterface
 {
     protected $data;
     protected $view;
 
-    public function __construct(Builder $data, $view)
+    public function __construct(Builder|Model $data, $view)
     {
         $this->data = $data;
         $this->view = $view;
     }
 
-    public function getData()
+    public function getData($period)
     {
+        if ($this->data instanceof Model) {
+            return $this->data::all();
+        }
+
         return $this->data;
     }
-    public function renderView()
+    public function renderView(array $mergeData = [])
     {
-        return $this->view;
+        return view($this->view, ['data'=> $this->data, ...$mergeData]);
     }
 }

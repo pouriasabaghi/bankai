@@ -5,33 +5,33 @@
 
             <x-dashboard.SidebarItem icon='sliders' title='داشبورد' route="admin.dashboard" />
 
-            <x-dashboard.SidebarItemMulti icon='users' active="{{ is_route_active(true, 'customers') }}" id='customers'
+            <x-dashboard.SidebarItemMulti icon='users' active="{{ is_url_active('customers') }}" id='customers'
                 title="مشتریان" :items="[
                     'افزودن مشتری' => 'customers.create',
                     'مدیریت مشتریان' => 'customers.index',
                 ]" />
 
-            <x-dashboard.SidebarItemMulti icon='umbrella' active="{{ is_route_active(true, 'companies') }}"
+            <x-dashboard.SidebarItemMulti icon='umbrella' active="{{ is_url_active('companies') }}"
                 id='companies' title="مجموعه‌ها" :items="[
                     'افزودن مجموعه' => 'companies.create',
                     'مدیریت مجموعه‌ها' => 'companies.index',
                 ]" />
 
-            <x-dashboard.SidebarItemMulti icon='star' active="{{ is_route_active(true, 'types', 'services') }}"
+            <x-dashboard.SidebarItemMulti icon='star' active="{{ is_url_active(null, 'types', 'services') }}"
                 id='services' title="خدمات" :items="[
                     'خدمات' => 'services.index',
                     'دسته بندی خدمات' => 'types.index',
                 ]" />
 
 
-            <x-dashboard.SidebarItemMulti icon='credit-card' active="{{ is_route_active(true, 'cards') }}"
+            <x-dashboard.SidebarItemMulti icon='credit-card' active="{{ is_url_active('cards') }}"
                 id='cards' title="حساب‌ها" :items="[
                     'افزودن حساب' => 'cards.create',
                     'مدیریت حساب‌ها' => 'cards.index',
                 ]" />
 
             <x-dashboard.SidebarItemMulti icon='file-text'
-                active="{{ is_route_active(true, 'contracts', 'installments', 'receives') }}" id='contracts'
+                active="{{ is_url_active(null, 'contracts', 'installments', 'receives') }}" id='contracts'
                 title="قراردادها" :items="[
                     'افزودن قرارداد' => 'contracts.create',
                     'مدیریت قراردادها' => 'contracts.index',
@@ -40,35 +40,88 @@
 
 
 
-            <x-dashboard.SidebarItemMultiDeep active="{{ is_route_active(true, 'reports') }}" icon='folder'
-                id='reports' title='گزارش‌ گیری'
-                :items="[
-                [
-                    'title' => 'وصولی‌ها',
-                    'routes' => [
-                        [
-                            'text' => 'روز',
-                            'url' => route('reports.list', ['type' => 'receives', 'period' => 'daily']),
-                        ],
-                        [
-                            'text' => 'هفته',
-                            'url' => route('reports.list', ['type' => 'receives', 'period' => 'week']),
-                        ],
-                        [
-                            'text' => 'ماه',
-                            'url' => route('reports.list', ['type' => 'receives', 'period' => 'month']),
-                        ],
-                        [
-                            'text' => 'سال',
-                            'url' => route('reports.list', ['type' => 'receives', 'period' => 'year']),
-                        ],
-                        [
-                            'text' => 'تاریخ انتخابی',
-                            'url' => route('reports.list', ['type' => 'receives', 'period' => 'selected']),
+            <x-dashboard.SidebarItemMultiDeep active="{{ is_url_active(['reports.list']) }}" icon='folder'
+                id='reports' title='گزارش‌ گیری' :items="[
+                    [
+                        'title' => 'مطالبات',
+                        'routes' => [
+                            [
+                                'text' => 'روز',
+                                'url' => route('reports.list', [
+                                    'type' => 'installment',
+                                    'period' => 'day',
+                                ]),
+                            ],
+                            [
+                                'text' => 'هفته',
+                                'url' => route('reports.list', ['type' => 'installment', 'period' => 'week']),
+                            ],
+                            [
+                                'text' => 'ماه',
+                                'url' => route('reports.list', ['type' => 'installment', 'period' => 'month']),
+                            ],
+                            [
+                                'text' => 'سال',
+                                'url' => route('reports.list', ['type' => 'installment', 'period' => 'year']),
+                            ],
+                            [
+                                'text' => 'تاریخ انتخابی',
+                                'url' => route('reports.list', ['type' => 'installment', 'period' => 'selected']),
+                            ],
                         ],
                     ],
-                ],
-            ]" />
+                    [
+                        'title' => 'وصولی‌ها',
+                        'active' => is_url_active(fn() => request()->type == 'receive'),
+                        'routes' => [
+                            [
+                                'text' => 'روز',
+                                'url' => route('reports.list', [
+                                    'type' => 'receive',
+                                    'period' => 'day',
+                                    'directory' => 'receives',
+                                ]),
+                                'active' => is_url_active('receive/day'),
+                            ],
+                            [
+                                'text' => 'هفته',
+                                'url' => route('reports.list', [
+                                    'type' => 'receive',
+                                    'period' => 'week',
+                                    'directory' => 'receives',
+                                ]),
+                                'active' => is_url_active('receive/week'),
+                            ],
+                            [
+                                'text' => 'ماه',
+                                'url' => route('reports.list', [
+                                    'type' => 'receive',
+                                    'period' => 'month',
+                                    'directory' => 'receives',
+                                ]),
+                                'active' => is_url_active('receive/month'),
+                            ],
+                            [
+                                'text' => 'سال',
+                                'url' => route('reports.list', [
+                                    'type' => 'receive',
+                                    'period' => 'year',
+                                    'directory' => 'receives',
+                                ]),
+                                'active' => is_url_active('receive/year'),
+                            ],
+                            [
+                                'text' => 'تاریخ انتخابی',
+                                'url' => route('reports.list', [
+                                    'type' => 'receive',
+                                    'period' => 'selected',
+                                    'directory' => 'receives',
+                                ]),
+                                'active' => is_url_active('receive/selected'),
+                            ],
+                        ],
+                    ],
+                ]" />
 
             <x-dashboard.SidebarItem icon='pen-tool' title='چک‌ها' route="checks.index" />
 

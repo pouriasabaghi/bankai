@@ -17,23 +17,29 @@ use Illuminate\Http\Request;
 } */
 
 // ? check if  current route is active
-if (!function_exists('is_route_active')) {
+if (!function_exists('is_url_active')) {
     /**
-     * @param string|array $route
-     * @param bool $contains
+     * @param string|array|callable $route | can be callable that return boolean, can be string that contains in url, can be array of name to check with current route name
+     * @param mixed $routes | loop and check if current route name contain passed value
      * @return bool
      */
-    function is_route_active($contains = false, ...$routes): bool
+    function is_url_active($mixed, ...$routes): bool
     {
-        if (!$contains) {
-            if (in_array(request()->route()->getName(), $routes)) {
+        if (is_callable($mixed)) {
+            return $mixed();
+        }
+
+        if (is_string($mixed)) {
+            return strpos(request()->fullUrl(), $mixed);
+        }
+
+        if (is_array($mixed)) {
+            return in_array(request()->route()->getName(), $mixed);
+        }
+
+        foreach ($routes as $route) {
+            if (strpos(request()->route()->getName(), $route) !== false) {
                 return true;
-            }
-        } else {
-            foreach ($routes as $route) {
-                if (strpos(request()->route()->getName(), $route) !== false) {
-                    return true;
-                }
             }
         }
 
@@ -41,16 +47,18 @@ if (!function_exists('is_route_active')) {
     }
 }
 
+
+
 // ? convert arabic and persian number to english
 if (!function_exists('fix_number')) {
     function fix_number($number)
     {
-        $number = $number ?? 0 ;
+        $number = $number ?? 0;
         $persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
         $arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
         $num = range(0, 9);
-        $removeSeparate = str_replace(',' , '' , $number);
+        $removeSeparate = str_replace(',', '', $number);
         $convertedPersianNums = str_replace($persian, $num, $removeSeparate);
         $englishNumbersOnly = str_replace($arabic, $num, $convertedPersianNums);
 

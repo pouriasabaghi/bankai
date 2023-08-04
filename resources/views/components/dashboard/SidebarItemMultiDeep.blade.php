@@ -6,12 +6,12 @@
     <ul id="{{ $id }}" class="sidebar-dropdown list-unstyled collapse {{ !empty($active) ? 'show' : '' }}"
         data-bs-parent="#sidebar">
         @foreach ($items as $item)
-            <li class="sidebar-item">
+            <li class="sidebar-item ">
                 <a data-bs-target="#{{ $id }}-{{ $loop->index }}" data-bs-toggle="collapse" class="sidebar-link collapsed"
                     aria-expanded="false">{{ $item['title'] }}</a>
-                <ul id="{{ $id }}-{{ $loop->index }}" class="sidebar-dropdown list-unstyled collapse">
+                <ul id="{{ $id }}-{{ $loop->index }}" class="sidebar-dropdown list-unstyled collapse {{ !empty($item['active']) ? 'show' : '' }}">
                     @foreach ($item['routes'] as  $route)
-                    <li class="sidebar-item">
+                    <li class="sidebar-item  {{ !empty($route['active']) ? 'active' : '' }}">
                         <a class="sidebar-link" href="{{ $route['url'] }}">{{ $route['text'] }}</a>
                     </li>
                     @endforeach
