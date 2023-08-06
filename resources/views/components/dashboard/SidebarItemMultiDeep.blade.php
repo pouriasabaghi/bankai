@@ -7,15 +7,20 @@
         data-bs-parent="#sidebar">
         @foreach ($items as $item)
             <li class="sidebar-item ">
-                <a data-bs-target="#{{ $id }}-{{ $loop->index }}" data-bs-toggle="collapse" class="sidebar-link collapsed"
-                    aria-expanded="false">{{ $item['title'] }}</a>
-                <ul id="{{ $id }}-{{ $loop->index }}" class="sidebar-dropdown list-unstyled collapse {{ !empty($item['active']) ? 'show' : '' }}">
-                    @foreach ($item['routes'] as  $route)
-                    <li class="sidebar-item  {{ !empty($route['active']) ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ $route['url'] }}">{{ $route['text'] }}</a>
-                    </li>
-                    @endforeach
-                </ul>
+                @if (!empty($item['routes']))
+                    <a data-bs-target="#{{ $id }}-{{ $loop->index }}" data-bs-toggle="collapse"
+                        class="sidebar-link collapsed" aria-expanded="false">{{ $item['title'] }}</a>
+                    <ul id="{{ $id }}-{{ $loop->index }}"
+                        class="sidebar-dropdown list-unstyled collapse {{ !empty($item['active']) ? 'show' : '' }}">
+                        @foreach ($item['routes'] as $route)
+                            <li class="sidebar-item  {{ !empty($route['active']) ? 'active' : '' }}">
+                                <a class="sidebar-link" href="{{ $route['url'] }}">{{ $route['text'] }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <a href="{{ $item['route'] }}" class="sidebar-link ">{{ $item['title'] }}</a>
+                @endif
             </li>
         @endforeach
     </ul>

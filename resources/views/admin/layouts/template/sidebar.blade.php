@@ -5,26 +5,26 @@
 
             <x-dashboard.SidebarItem icon='sliders' title='داشبورد' route="admin.dashboard" />
 
-            <x-dashboard.SidebarItemMulti icon='users' active="{{ is_url_active('customers') }}" id='customers'
+            <x-dashboard.SidebarItemMulti icon='users' active="{{ is_url_active('admin/customers') }}" id='customers'
                 title="مشتریان" :items="[
                     'افزودن مشتری' => 'customers.create',
                     'مدیریت مشتریان' => 'customers.index',
                 ]" />
 
-            <x-dashboard.SidebarItemMulti icon='umbrella' active="{{ is_url_active('companies') }}" id='companies'
+            <x-dashboard.SidebarItemMulti icon='umbrella' active="{{ is_url_active('admin/companies') }}" id='companies'
                 title="مجموعه‌ها" :items="[
                     'افزودن مجموعه' => 'companies.create',
                     'مدیریت مجموعه‌ها' => 'companies.index',
                 ]" />
 
-            <x-dashboard.SidebarItemMulti icon='star' active="{{ is_url_active(null, 'types', 'services') }}"
+            <x-dashboard.SidebarItemMulti icon='star' active="{{ is_url_active(null, 'admin/types', 'services') }}"
                 id='services' title="خدمات" :items="[
                     'خدمات' => 'services.index',
                     'دسته بندی خدمات' => 'types.index',
                 ]" />
 
 
-            <x-dashboard.SidebarItemMulti icon='credit-card' active="{{ is_url_active('cards') }}" id='cards'
+            <x-dashboard.SidebarItemMulti icon='credit-card' active="{{ is_url_active('admin/cards') }}" id='cards'
                 title="حساب‌ها" :items="[
                     'افزودن حساب' => 'cards.create',
                     'مدیریت حساب‌ها' => 'cards.index',

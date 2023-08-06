@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ContractController;
 use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\DetailController;
 use App\Http\Controllers\admin\InstallmentController;
 use App\Http\Controllers\admin\ReceiveController;
 use App\Http\Controllers\admin\ReportController;
@@ -34,4 +35,5 @@ Route::group([], function () {
     Route::get('checks', [CheckController::class, 'index'])->name('checks.index');
 
     Route::get('reports/{type}/{period?}', [ReportController::class, 'getReports'])->name('reports.list');
+    Route::get('details/{type}/{id}', [DetailController::class, 'getDetail'])->name('details.list');
 });

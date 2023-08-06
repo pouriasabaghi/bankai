@@ -18,7 +18,7 @@
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>
-                                <a href="">
+                                <a href="{{ route('details.list', ['type'=>'card','id'=>$card->id, 'directory'=>'cards']) }}">
                                     {{ $card->name }}
                                 </a>
                             </td>

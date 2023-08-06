@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Repositories\Card\Card as CardRepo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,6 @@ class Card extends Model
     use HasFactory;
 
     protected $fillable= ['name', 'number', 'amount'] ;
-
     protected function amount(): Attribute
     {
         return Attribute::make(
@@ -24,5 +24,13 @@ class Card extends Model
         return Attribute::make(
             get: fn (mixed $value, array $attributes) => number_format($attributes['amount']) ,
         );
+    }
+
+    public function receives()  {
+        return $this->hasMany(Receive::class);
+    }
+
+    public function getRepo(){
+        return  new CardRepo();
     }
 }

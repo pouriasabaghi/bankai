@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function getReports($type, $period, Request $request)
+    public function getReports(Request $request, $type, $period = null)
     {
         $reportObjectRepo = "App\Repositories\Reports\\" . ucfirst($type) . "Report";
         $model = "App\Models\\" . ucfirst($type);

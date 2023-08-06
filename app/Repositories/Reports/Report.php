@@ -2,11 +2,10 @@
 
 namespace App\Repositories\Reports;
 
-use App\Interfaces\ReportInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class Report implements ReportInterface
+abstract class Report
 {
     protected $data;
     protected $view;
