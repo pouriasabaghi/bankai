@@ -2,8 +2,11 @@
 
 namespace App\Repositories\Reports;
 
+use App\Traits\PeriodType;
+
 class ReceiveReport extends Report
 {
+    use PeriodType;
     protected $data;
     protected string $periodTitle;
 
@@ -12,46 +15,34 @@ class ReceiveReport extends Report
         $receiveRepo = $this->data->getRepo();
 
         $this->data = $receiveRepo->receivesInPocket()->where(function ($query) use ($period) {
-            $formatType = 'Y/m/d';
+            $periodCarbon = $this->periodToCarbon($period);
             switch ($period) {
                 case 'day':
-                    $this->periodTitle = ' در تاریخ ' . jdate()->now()->format($formatType);
-
-                    return  $query->whereDate('paid_at', today())
+                    $this->periodTitle = $this->periodToString($period);
+                    return  $query->whereDate('paid_at', $periodCarbon)
                         ->orWhereDate('due_at', today());
                     break;
-
                 case 'week':
-                    $startOfWeekSolarHijri = jdate()->getFirstDayOfWeek()->toCarbon();
-                    $endOfWeekSolarHijri = jdate()->getFirstDayOfWeek()->addDays(6)->toCarbon();
+                    $this->periodTitle = $this->periodToString($period, $periodCarbon['start'], $periodCarbon['end']);
 
-                    $this->periodTitle = ' از تاریخ ' .  jdate($startOfWeekSolarHijri)->format($formatType) . ' تا ' . jdate($endOfWeekSolarHijri)->format($formatType);
-
-                    return  $query->whereBetween('paid_at', [$startOfWeekSolarHijri, $endOfWeekSolarHijri])
-                        ->orWhereBetween('due_at', [$startOfWeekSolarHijri, $endOfWeekSolarHijri]);
+                    return  $query->whereBetween('paid_at', $periodCarbon)
+                        ->orWhereBetween('due_at', $periodCarbon);
                     break;
-
                 case 'month':
+                    $this->periodTitle = $this->periodToString($period, $periodCarbon['start'], $periodCarbon['end']);
 
-                    $firstDayOfSolarHijriMonth = jdate()->now()->getFirstDayOfMonth();
-                    $lastDayOfSolarHijriMonth = $firstDayOfSolarHijriMonth->addDays(jdate()->getMonth() > 6 ? 29 : 30);
-                    $firstDayOfMonthToCarbon = $firstDayOfSolarHijriMonth->toCarbon();
-                    $this->periodTitle = 'از تاریخ ' . $firstDayOfSolarHijriMonth->format($formatType) . ' تا ' . $lastDayOfSolarHijriMonth->format($formatType);
-
-                    return  $query->whereBetween('paid_at', [$firstDayOfMonthToCarbon, now()])
-                        ->orWhereBetween('due_at', [$firstDayOfMonthToCarbon, now()]);
+                    return  $query->whereBetween('paid_at', $periodCarbon)
+                        ->orWhereBetween('due_at', $periodCarbon);
                     break;
-
                 case 'year':
-                    $firstDayOfSolarHijriYear =  jdate()->now()->getFirstDayOfYear();
-                    $firstDayToCarbon = $firstDayOfSolarHijriYear->toCarbon();
-                    $this->periodTitle = 'از تاریخ ' . $firstDayOfSolarHijriYear->format($formatType);
 
-                    return  $query->whereYear('paid_at', $firstDayToCarbon)
-                        ->orWhereYear('due_at', $firstDayToCarbon);
+                    $this->periodTitle = $this->periodToString($period, $periodCarbon['start']);
+
+                    return  $query->whereYear('paid_at', $periodCarbon['start'])
+                        ->orWhereYear('due_at', $periodCarbon['start']);
                     break;
                 default:
-                    throw new \Exception('تاریخ نامعبتر می‌باشد.');
+                    throw new \Exception('Date period is not valid');
                     break;
             }
         })->with('contract')->get();
