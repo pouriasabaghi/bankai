@@ -1,3 +1,3 @@
 <div class="{{ $class ?? '' }}">
-    {{ $paginate->links('pagination') }}
+    {{ $paginate->appends(request()->all())->links('pagination') }}
 </div>

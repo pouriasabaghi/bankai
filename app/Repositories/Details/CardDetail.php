@@ -11,7 +11,7 @@ class CardDetail extends Detail
         $repo = $this->data->getRepo();
 
         $this->cardName = $repo->card($id)->name;
-        $this->data = $repo->receivesById($id)->paginate(50);
+        $this->data = $repo->receivesById($id)->paginate(1);
     }
 
 
