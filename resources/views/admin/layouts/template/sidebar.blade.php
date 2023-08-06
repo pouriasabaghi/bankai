@@ -11,8 +11,8 @@
                     'مدیریت مشتریان' => 'customers.index',
                 ]" />
 
-            <x-dashboard.SidebarItemMulti icon='umbrella' active="{{ is_url_active('companies') }}"
-                id='companies' title="مجموعه‌ها" :items="[
+            <x-dashboard.SidebarItemMulti icon='umbrella' active="{{ is_url_active('companies') }}" id='companies'
+                title="مجموعه‌ها" :items="[
                     'افزودن مجموعه' => 'companies.create',
                     'مدیریت مجموعه‌ها' => 'companies.index',
                 ]" />
@@ -24,8 +24,8 @@
                 ]" />
 
 
-            <x-dashboard.SidebarItemMulti icon='credit-card' active="{{ is_url_active('cards') }}"
-                id='cards' title="حساب‌ها" :items="[
+            <x-dashboard.SidebarItemMulti icon='credit-card' active="{{ is_url_active('cards') }}" id='cards'
+                title="حساب‌ها" :items="[
                     'افزودن حساب' => 'cards.create',
                     'مدیریت حساب‌ها' => 'cards.index',
                 ]" />
@@ -44,29 +44,52 @@
                 id='reports' title='گزارش‌ گیری' :items="[
                     [
                         'title' => 'مطالبات',
+                        'active' => is_url_active(fn() => request()->type == 'installment'),
                         'routes' => [
                             [
                                 'text' => 'روز',
                                 'url' => route('reports.list', [
                                     'type' => 'installment',
                                     'period' => 'day',
+                                    'directory' => 'installments',
                                 ]),
+                                'active' => is_url_active('installment/day'),
                             ],
                             [
                                 'text' => 'هفته',
-                                'url' => route('reports.list', ['type' => 'installment', 'period' => 'week']),
+                                'url' => route('reports.list', [
+                                    'type' => 'installment',
+                                    'period' => 'week',
+                                    'directory' => 'installments',
+                                ]),
+                                'active' => is_url_active('installment/week'),
                             ],
                             [
                                 'text' => 'ماه',
-                                'url' => route('reports.list', ['type' => 'installment', 'period' => 'month']),
+                                'url' => route('reports.list', [
+                                    'type' => 'installment',
+                                    'period' => 'month',
+                                    'directory' => 'installments',
+                                ]),
+                                'active' => is_url_active('installment/month'),
                             ],
                             [
                                 'text' => 'سال',
-                                'url' => route('reports.list', ['type' => 'installment', 'period' => 'year']),
+                                'url' => route('reports.list', [
+                                    'type' => 'installment',
+                                    'period' => 'year',
+                                    'directory' => 'installments',
+                                ]),
+                                'active' => is_url_active('installment/year'),
                             ],
                             [
                                 'text' => 'تاریخ انتخابی',
-                                'url' => route('reports.list', ['type' => 'installment', 'period' => 'selected']),
+                                'url' => route('reports.list', [
+                                    'type' => 'installment',
+                                    'period' => 'selected',
+                                    'directory' => 'installments',
+                                ]),
+                                'active' => is_url_active('installment/selected'),
                             ],
                         ],
                     ],

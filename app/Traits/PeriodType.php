@@ -32,13 +32,16 @@ trait PeriodType
      * return carbon date base on persian date; fix first day of week and month and year
      *
      * @param string $period
-     * @return Carbon|array
+     * @return array
      */
-    public function periodToCarbon(string $period, $start = null, $end = null) : Carbon|array
+    public function periodToCarbon(string $period, $start = null, $end = null): array
     {
         switch ($period) {
             case 'day':
-                return today();
+                return [
+                    'start' => today(),
+                    'end' => today(),
+                ];
                 break;
             case 'week':
                 return [

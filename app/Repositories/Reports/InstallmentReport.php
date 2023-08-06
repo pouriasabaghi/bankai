@@ -4,7 +4,7 @@ namespace App\Repositories\Reports;
 
 use App\Traits\PeriodType;
 
-class ReceiveReport extends Report
+class InstallmentReport extends Report
 {
     use PeriodType;
     protected $data; // stand for model
@@ -12,27 +12,20 @@ class ReceiveReport extends Report
 
     public function getData($period)
     {
-        $receiveRepo = $this->data->getRepo();
+        $repo = $this->data->getRepo();
         $periodCarbon = $this->periodToCarbon($period);
         $this->periodTitle = $this->periodToString($period, $periodCarbon['start'], $periodCarbon['end']);
-        $this->data = $receiveRepo->receivesInPocket()->where(function ($query) use ($period, $periodCarbon) {
+        $this->data = $repo->collectible()->where(function ($query) use ($period, $periodCarbon) {
             switch ($period) {
                 case 'day':
-                    return  $query->whereDate('paid_at', $periodCarbon['start'])
-                        ->orWhereDate('due_at', today());
+                    return  $query->whereDate('due_at', $periodCarbon['start']);
                     break;
                 case 'week':
-                    return  $query->whereBetween('paid_at', $periodCarbon)
-                        ->orWhereBetween('due_at', $periodCarbon);
-                    break;
                 case 'month':
-                    return  $query->whereBetween('paid_at', $periodCarbon)
-                        ->orWhereBetween('due_at', $periodCarbon);
+                    return  $query->whereBetween('due_at', $periodCarbon);
                     break;
                 case 'year':
-
-                    return  $query->whereYear('paid_at', $periodCarbon['start'])
-                        ->orWhereYear('due_at', $periodCarbon['start']);
+                    return  $query->whereYear('due_at', $periodCarbon['start']);
                     break;
                 default:
                     throw new \Exception('Date period is not valid');

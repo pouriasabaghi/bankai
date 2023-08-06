@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
+use App\Repositories\Installments\Installment as InstallmentRepo;
 class Installment extends Model
 {
     use HasFactory, Notifiable, SoftDeletes, InstallmentAttribute;
@@ -22,6 +23,9 @@ class Installment extends Model
         $this->registerAttributes();
     }
 
+    public function getRepo() {
+        return new InstallmentRepo();
+    }
     public function contract()
     {
         return $this->belongsTo(Contract::class);
