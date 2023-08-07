@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('financial_status', ['paid', 'billed'])->default('billed');
             $table->enum('contract_status', ['progress', 'finished', 'canceled', 'renewal'])->default('progress');
             $table->text('total_price')->nullable();
+            $table->text('payable')->nullable();
             $table->text('advance_payment')->nullable();
             $table->text('installments_total_price')->nullable(); // total_price - advance_payment ;
             $table->string('type')->nullable();
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->dateTime('signed_at')->nullable();
             $table->dateTime('started_at')->nullable();
             $table->dateTime('canceled_at')->nullable();
+            $table->dateTime('expired_at')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

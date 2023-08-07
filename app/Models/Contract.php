@@ -145,6 +145,12 @@ class Contract extends Model
         return $receivesInPocket;
     }
 
+    public function receivesByCanceledAt($when = 'before')
+    {
+        dd($this->start_at);
+    }
+
+
     /**
      * Installment that can be received. its not containing installments that are after canceled date
      *

@@ -48,7 +48,9 @@ class ContractController extends Controller
     public function store(ContractRequest $request)
     {
         $ContractService = $this->service;
+
         $contract = $ContractService->storeOrUpdate($request->all());
+
 
         if ($request->advance_payment) {
             (new ReceiveService())->storeAdvancePayment($contract, $request->card_id, fix_number($request->advance_payment));
