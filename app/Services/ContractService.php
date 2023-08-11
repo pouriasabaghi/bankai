@@ -33,12 +33,15 @@ class ContractService
 
     public function storeOrUpdate(array $data, ?Contract $contract = null): Contract
     {
+        $payable = !empty($data['canceled_at']) ? $contract->canceledInstallment()->amount  : $data['total_price'];
+
         $preparedData = [
             'customer_id' => $data['customer_id'],
             'company_id' => $data['company_id'],
             'name' => $data['name'],
             'desc' => $data['desc'],
             'total_price' => $data['total_price'],
+            'payable' => $payable,
             'advance_payment' => $data['advance_payment'],
             'installments_total_price' => fix_number($data['total_price']) -  fix_number($data['advance_payment']),
             'type' => $data['type'],
@@ -67,7 +70,7 @@ class ContractService
     public function updateContractStatus(Contract $contract, ContractStatusEnum $status)
     {
         $contract->update([
-            'contract_status' => $status->value ,
+            'contract_status' => $status->value,
         ]);
     }
 }

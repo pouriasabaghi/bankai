@@ -83,12 +83,22 @@
         </h6>
 
         <div class="row mx-0 p-2 bg-light " style="font-size: 13px">
-            <div class="row mx-0 px-0 border-2 border-bottom">
-                <div class="col-6 pb-3">
+            <div class="row mx-0 px-0 border-2 border-bottom py-3">
+                <div class="col-6">
                     <span>مبلغ کل قرارداد:</span>
                 </div>
                 <div class="col-6">
                     <span>{{ $contract->total_price_str }}</span>
+                    <small>تومان</small>
+                </div>
+            </div>
+
+            <div class="row mx-0 px-0 border-2 border-bottom py-3">
+                <div class="col-6">
+                    <span>مبلغ قابل پرداخت:</span>
+                </div>
+                <div class="col-6">
+                    <span>{{ $contract->payable_str }}</span>
                     <small>تومان</small>
                 </div>
             </div>
@@ -134,7 +144,7 @@
             </div>
 
 
-            <div class="row mx-0 px-0 pt-3 ">
+            <div class="row mx-0 px-0 py-3 ">
                 <div class="col-6">
                     <span>مانده حساب‌ها</span>
                 </div>

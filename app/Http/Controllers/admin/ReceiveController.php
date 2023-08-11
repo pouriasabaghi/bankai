@@ -54,7 +54,9 @@ class ReceiveController extends Controller
             (new CardService())->sumCardsWithKey()->updateCardsAmount();
 
             // update installment status
-            (new InstallmentService())->updateInstallmentsByTotalReceives($contract, $contract->receivesInPocket(false)->get()->sum('amount'));
+            $canceledAt = $contract->canceled_at ? jdate()->fromFormat('Y/m/d', $contract->canceled_at)->toCarbon() : null;
+            $contractTotalReceives = $contract->receivesInPocket(null, $canceledAt)->get()->sum('amount');
+            (new InstallmentService())->updateInstallmentsByTotalReceives($contract, $contractTotalReceives, $canceledAt);
             $this->successAlert(null, 'پرداخت با موفقیت ثبت شد');
             return back();
         } catch (Exception $e) {

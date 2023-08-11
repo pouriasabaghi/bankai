@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Repositories\Contract\Contract as ContractRepo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,12 +12,7 @@ class Contract extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'financial_status', 'contract_status', 'total_price', 'advance_payment', 'installments_total_price', 'type', 'contract_number', 'period', 'started_at', 'signed_at', 'canceled_at'];
-
-    protected function repo()
-    {
-        return new ContractRepo();
-    }
+    protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'financial_status', 'contract_status', 'total_price', 'payable', 'advance_payment', 'installments_total_price', 'type', 'contract_number', 'period', 'started_at', 'signed_at', 'canceled_at'];
 
     protected function totalPrice(): Attribute
     {
@@ -31,6 +25,20 @@ class Contract extends Model
     {
         return Attribute::make(
             get: fn ($value, $attributes) => number_format($attributes['total_price']),
+        );
+    }
+
+    protected function payable(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) =>  fix_number($value),
+        );
+    }
+
+    protected function payableStr(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => number_format($attributes['payable']),
         );
     }
 
@@ -103,7 +111,7 @@ class Contract extends Model
     protected function totalRest(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attributes) => $this->total_price - $this->receivesInPocket()->sum('amount')
+            get: fn ($value, $attributes) => $this->total_price - $this->receivesInPocket()->sum('amount')
         );
     }
 
@@ -144,30 +152,31 @@ class Contract extends Model
      * @param boolean|string $advancePayment
      * @return HasMany
      */
-    public function receivesInPocket($advancePayment = null): HasMany
+    public function receivesInPocket($advancePayment = null, $canceledAt = null): HasMany
     {
         $receives = $this->hasMany(Receive::class);
-        if (is_bool($advancePayment)) {
-            $receivesInPocket = $receives->where('advance_payment', $advancePayment)->where(function ($query) use ($advancePayment) {
-                $query->where('passed', true)
-                    ->orWhere('type', 'deposit');
+        $receives = $receives->when($canceledAt, function ($query) use ($canceledAt) {
+            $query->where(function ($q) use ($canceledAt) {
+                $q->where('paid_at', '>=', $canceledAt)->orWhere('due_at', '>=', $canceledAt);
             });
-        } else {
-            $receivesInPocket = $receives->where(function ($query) {
-                $query->where('passed', true)
-                    ->orWhere('type', 'deposit');
-            });
-        }
+        });
 
+        if ($advancePayment) {
+            $receivesInPocket = $receives
+                ->where('advance_payment', $advancePayment)->where(function ($query) use ($advancePayment) {
+                    $query->where('passed', true)
+                        ->orWhere('type', 'deposit');
+                });
+        } else {
+            $receivesInPocket = $receives
+                ->where(function ($query) {
+                    $query->where('passed', true)
+                        ->orWhere('type', 'deposit');
+                });
+        }
 
         return $receivesInPocket;
     }
-
-    public function receivesByCanceledAt($when = 'before')
-    {
-        dd($this->start_at);
-    }
-
 
     /**
      * Installment that can be received. its not containing installments that are after canceled date

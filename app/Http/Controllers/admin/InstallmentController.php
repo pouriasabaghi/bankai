@@ -25,7 +25,6 @@ class InstallmentController extends Controller
     }
     public function create(Contract $contract)
     {
-   //     dd(Installment::query()->get());
         $service = $this->service;
         $formAttributes = $service->formAttributes($contract);
 
@@ -57,8 +56,6 @@ class InstallmentController extends Controller
     public function store(Request $request, Contract $contract)
     {
         try {
-
-
             $service = $this->service;
             $installments = $request->installment;
 
@@ -82,8 +79,12 @@ class InstallmentController extends Controller
 
             // handle installment collectible when contract canceled
             $canceledAt = $contract->canceled_at ? jdate()->fromFormat('Y/m/d', $contract->canceled_at)->toCarbon() : null;
-            $service->updateCollectibleInstallments($contract, $canceledAt, 'perday');
-            $service->updateInstallmentsByTotalReceives($contract, $contract->receivesInPocket(false)->get()->sum('amount'));
+
+            $service->updateCollectibleInstallments($contract, $canceledAt);
+
+            $contractTotalReceives = $contract->receivesInPocket(null, $canceledAt)->get()->sum('amount');
+            $service->updateInstallmentsByTotalReceives($contract, $contractTotalReceives, $canceledAt);
+
             $this->successAlert(null, 'اقساط با موفقیت ثبت شد');
             return $this->redirect(route('receives.create', $contract));
         } catch (Exception $exception) {

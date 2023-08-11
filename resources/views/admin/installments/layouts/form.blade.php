@@ -25,6 +25,7 @@
     'installments_price_str' => $contract->installments_total_price_str,
     'advance_payment' => $contract->advance_payment_str,
     'period' => $contract->period,
+    'payable'=>$contract->payable_str,
 ])
 
 

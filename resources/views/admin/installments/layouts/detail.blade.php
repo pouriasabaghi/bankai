@@ -9,14 +9,19 @@
         <span>{{ $total_price_str }}</span>
         <small>تومان</small>
     </li>
-    <li class="col1 list-group-item list-group-item-info">
+    <li class="col1 list-group-item list-group-item-secondary">
         <span>مبلغ بیعانه:</span>
         <span >{{ $advance_payment }}</span>
         <small>تومان</small>
     </li>
-    <li class="col1 list-group-item list-group-item-success">
+    <li class="col1 list-group-item list-group-item-info">
         <span>جمع کل‌اقساط:</span>
         <span class="installments__total" data-total='{{ $installments_price }}'>{{-- handle with js --}}</span>
+        <small>تومان</small>
+    </li>
+    <li class="col1 list-group-item list-group-item-success">
+        <span>قابل پرداخت:</span>
+        <span class="installments__payable" >{{ $payable }}</span>
         <small>تومان</small>
     </li>
     <li class="col1 list-group-item list-group-item-danger">

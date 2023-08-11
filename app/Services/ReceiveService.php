@@ -140,7 +140,6 @@ class ReceiveService
      */
     public function getDetail(Contract $contract): array
     {
-        $type = 'perday';
         $debtor = $contract->installmentsCollectible()->where(function ($query) {
             $query->where('due_at', '<=', today())
                 ->where('status', 'billed')
@@ -150,7 +149,7 @@ class ReceiveService
                 });
         })->get()->sum('amount');
 
-        if (!$contract->canceled_at || $type != 'perday') {
+        if (!$contract->canceled_at) {
             // this amount use for paying bills (updating status) ;
             $usedAmount = $contract->installments()->where('status', 'paid')->get()->sum('amount');
 
@@ -163,13 +162,19 @@ class ReceiveService
             $totalPrice = $contract->installmentsCollectible()->get()->sum('amount');
             $rest = number_format($totalPrice - $contract->receivesInPocket()->get()->sum('amount'));
         } else {
-            // there is no creditor if contract is canceled
-            $creditor = 0;
-            $debtorTillNow = $debtor - $creditor > 0 ? $debtor - $creditor : 0;
-            $creditorTitle = 'کنسل شده';
+            // this amount use for paying bills (updating status) ;
+            $usedAmount = $contract->installmentsCollectible()->where('status', 'paid')->get()->sum('amount');
 
-            $totalPrice = $contract->installmentsCollectible()->get()->sum('amount');
-            $rest = number_format($totalPrice - $contract->receivesInPocket()->get()->sum('amount'));
+            $canceledAt = $contract->canceled_at ? jdate()->fromFormat('Y/m/d', $contract->canceled_at)->toCarbon() : null;
+            $paidAmount = $contract->receivesInPocket(null, $canceledAt)->get()->sum('amount');
+
+            $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
+            $debtorTillNow = $debtor - $creditor > 0 ? $debtor - $creditor : 0;
+            $creditorTitle = $creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب';
+
+            // total price now is only canceled installment amount
+            $totalPrice = $contract->canceledInstallment()->amount;
+            $rest = number_format($totalPrice - $paidAmount);
         }
 
 
@@ -181,7 +186,7 @@ class ReceiveService
             'creditor' => number_format($creditor),
             'creditor_title' => $creditorTitle,
             'contract_receives' => $contractReceives,
-            'rest' => $rest,
+            'rest' => max($rest, 0),
         ];
     }
 

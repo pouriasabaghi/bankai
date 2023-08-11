@@ -141,7 +141,7 @@ class InstallmentService
         }
     }
 
-    public function updateInstallmentsByTotalReceives(Contract $contract, int|string $totalReceivesAmount)
+    public function updateInstallmentsByTotalReceives(Contract $contract, int|string $totalReceivesAmount, ?Carbon $canceledAt = null)
     {
         // ابتدا کل دریافتی ها را محاسبه میکنیم سپس کل اقساط را دریافت میکنیم در هر دور حلقه
         // مبلغ دریافت شده ها را از یک قسط کم میکنیم اگر باقی مانده ای باشد
@@ -166,33 +166,26 @@ class InstallmentService
      * if contract canceled all installment after canceled_at are not collectible
      *
      * @param Contract $contract
-     * @param Carbon $canceledAt
-     * @param string $type | perday, difference
+     * @param bool $canceled
      * @return void
      */
-    public function updateCollectibleInstallments(Contract $contract, ?Carbon $canceledAt = null, string $type): void
+    public function updateCollectibleInstallments(Contract $contract, $canceled): void
     {
-        $installments =  $contract->installments;
-        foreach ($installments as $installment) {
-            $installment->update([
+        $installments =  $contract->installments();
+
+        if ($canceled) {
+            // after customer canceled contract all installments are not collectible except cancel one
+            $installments->whereNotIn('type', ['canceled'])
+                ->update(['collectible' => false]);
+            $installments->whereIn('type', ['canceled'])
+                ->update(['collectible' => true]);
+        }
+         else {
+            // all installments are collectible
+            $installmentsIds = $installments->pluck('id');
+            $installments->whereIn('id', $installmentsIds)->update([
                 'collectible' => true,
             ]);
-        }
-
-        if ($canceledAt) {
-            if ($type == 'perday') {
-                // installment after canceled at
-                $noncollectibleInstallments = $contract->installments()->where('status', 'billed')->get();
-            }
-            if ($type == 'difference') {
-                // installment after canceled at
-                $noncollectibleInstallments = $contract->installments()->where('due_at', '>', $canceledAt)->get();
-            }
-            foreach ($noncollectibleInstallments as $installment) {
-                $installment->update([
-                    'collectible' => $installment->type == 'canceled' ? true : false,
-                ]);
-            }
         }
     }
 }
