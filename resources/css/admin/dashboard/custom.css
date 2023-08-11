@@ -93,3 +93,6 @@ select[name="customer_id"]
     padding-bottom: 5px;
     font-size: 12px;
 }
+.card-body{
+    overflow-x: auto;
+}

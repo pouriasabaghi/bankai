@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Repositories\Contract\Contract as ContractRepo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,10 @@ class Contract extends Model
 
     protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'financial_status', 'contract_status', 'total_price', 'advance_payment', 'installments_total_price', 'type', 'contract_number', 'period', 'started_at', 'signed_at', 'canceled_at'];
 
+    protected function repo()
+    {
+        return new ContractRepo();
+    }
 
     protected function totalPrice(): Attribute
     {
@@ -88,6 +93,19 @@ class Contract extends Model
         );
     }
 
+    protected function totalReceives(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => $this->receivesInPocket()->sum('amount'),
+        );
+    }
+
+    protected function totalRest(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, $attributes) => $this->total_price - $this->receivesInPocket()->sum('amount')
+        );
+    }
 
     public function customer()
     {
