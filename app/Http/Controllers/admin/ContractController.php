@@ -9,13 +9,11 @@ use App\Models\Card;
 use App\Models\Contract;
 use App\Models\Service;
 use App\Models\Type;
-use App\Repositories\Contract\Contract as ContractRepo;
 use App\Services\ContractService;
 use App\Services\InstallmentService;
 use App\Services\ReceiveService;
 use App\Traits\Alert;
 use App\Traits\Redirect;
-use Illuminate\Http\Request;
 
 class ContractController extends Controller
 {
@@ -23,10 +21,9 @@ class ContractController extends Controller
 
 
 
-    public function __construct(protected ContractService $service, protected ContractRepo $contractRepo)
+    public function __construct(protected ContractService $service)
     {
         $this->service = new ContractService();
-        $this->contractRepo = new ContractRepo();
     }
 
     public function index()
