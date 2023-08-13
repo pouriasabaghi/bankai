@@ -6,6 +6,7 @@
         <x-slot name='header'>
             <span data-feather="book"></span>
             <span>مدیریت اقساط</span>
+            <span>{{ $contract->name }}</span>
             <div class="col-xl-2 ms-auto mt-3 mt-lg-0">
                 @include('admin.installments.layouts.installments-settings')
             </div>

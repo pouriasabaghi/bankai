@@ -6,6 +6,7 @@
         <x-slot name='header'>
             <span data-feather="download"></span>
             <span>مدیریت دریافتی‌ها</span>
+            <span>{{ $contract->name }}</span>
         </x-slot>
         <x-slot name='body'>
             @include('admin.receives.layouts.form')
