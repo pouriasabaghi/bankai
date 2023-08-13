@@ -1,0 +1,41 @@
+.contract-quick-access {
+    position: relative;
+    z-index: 1;
+}
+
+.contract-quick-access::before {
+    content: "";
+    width: calc(100% - 2rem);
+    height: .5px;
+    position: absolute;
+    border-top: 2px dashed var(--bs-gray-400);
+    z-index: -1;
+
+}
+
+
+.contract-quick-access>div {
+    background-color: var(--bs-gray-300);
+}
+
+.contract-quick-access__title {
+    font-size: 12px;
+}
+
+
+.contract-quick-access > div.active{
+    background-color: var(--bs-primary);
+}
+
+.contract-quick-access > div.active .contract-quick-access__title {
+   color: white;
+}
+.contract-quick-access > div.active  a{
+    text-decoration: none;
+    cursor: default;
+ }
+@media only screen and (min-width:1440px) {
+    .contract-quick-access__title {
+        font-size: 14px;
+    }
+}

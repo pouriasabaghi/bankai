@@ -1,6 +1,7 @@
 @extends('admin.master')
 
 @section('content')
+    @include('admin.contracts.layouts.top-from', ['id'=>$contract->id ])
     <x-ui.card.Card>
         <x-slot name='header'>
             <span data-feather="edit-3"></span>

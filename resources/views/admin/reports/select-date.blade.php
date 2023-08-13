@@ -5,6 +5,7 @@
         <x-slot name='header'>
             <i class="fa-solid fa-calendar"></i>
             <span>انتخاب تاریخ</span>
+            <span>{{ $periodTitle }}</span>
         </x-slot>
         <x-slot name='body'>
             <x-ui.form.Form method="get" action="{{ $action }}">

@@ -28,10 +28,10 @@ class ReportController extends Controller
             'directory' => $request->directory,
         ]);
         $periodTitle = match($type){
-            'receives'=>'وصولی‌ها',
+            'receive'=>'وصولی‌ها',
             'installment'=>'مطالبات',
             default => throw new Exception('Period Title says: no valid type'),
         };
-        return view('admin.reports.select-date', compact('type', 'action'));
+        return view('admin.reports.select-date', compact('type', 'action', 'periodTitle'));
     }
 }

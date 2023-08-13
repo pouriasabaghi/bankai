@@ -1,6 +1,7 @@
 @extends('admin.master')
 
 @section('content')
+    @include('admin.contracts.layouts.top-from', ['id' => null])
     <x-ui.card.Card>
         <x-slot name='header'>
             <span data-feather="file-plus"></span>
