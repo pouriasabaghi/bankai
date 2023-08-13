@@ -156,11 +156,11 @@ class ReceiveService
             $paidAmount = $contract->receivesInPocket(false)->get()->sum('amount');
 
             $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
-            $debtorTillNow = $debtor - $creditor > 0 ? $debtor - $creditor : 0;
+            $debtorTillNow = max($debtor - $creditor, 0);
             $creditorTitle = $creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب';
 
             $totalPrice = $contract->installmentsCollectible()->get()->sum('amount');
-            $rest = number_format($totalPrice - $contract->receivesInPocket()->get()->sum('amount'));
+            $rest = max($totalPrice - $contract->receivesInPocket()->get()->sum('amount'), 0);
         } else {
             // this amount use for paying bills (updating status) ;
             $usedAmount = $contract->installmentsCollectible()->where('status', 'paid')->get()->sum('amount');
@@ -169,12 +169,12 @@ class ReceiveService
             $paidAmount = $contract->receivesInPocket(null, $canceledAt)->get()->sum('amount');
 
             $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
-            $debtorTillNow = $debtor - $creditor > 0 ? $debtor - $creditor : 0;
+            $debtorTillNow = max($debtor - $creditor, 0);
             $creditorTitle = $creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب';
 
             // total price now is only canceled installment amount
             $totalPrice = $contract->canceledInstallment()->amount;
-            $rest = number_format($totalPrice - $paidAmount);
+            $rest = max($totalPrice - $paidAmount, 0);
         }
 
 
@@ -186,7 +186,7 @@ class ReceiveService
             'creditor' => number_format($creditor),
             'creditor_title' => $creditorTitle,
             'contract_receives' => $contractReceives,
-            'rest' => max($rest, 0),
+            'rest' => number_format($rest),
         ];
     }
 

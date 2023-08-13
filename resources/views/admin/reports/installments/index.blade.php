@@ -39,6 +39,7 @@
                     @endforeach
                 </x-slot>
             </x-ui.table.Table>
+            <x-ui.paginate.Paginate class="mt-3 px-3" :paginate="$data" />
         </x-slot>
     </x-ui.card.Card>
 @endsection
