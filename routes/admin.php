@@ -34,6 +34,9 @@ Route::group([], function () {
 
     Route::get('checks', [CheckController::class, 'index'])->name('checks.index');
 
+    Route::get('reports/select-date/{type}', [ReportController::class, 'indexSelectDate'])->name('reports.select-date');
     Route::get('reports/{type}/{period?}', [ReportController::class, 'getReports'])->name('reports.list');
+
     Route::get('details/{type}/{id}', [DetailController::class, 'getDetail'])->name('details.list');
+
 });

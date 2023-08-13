@@ -13,7 +13,7 @@ class ReceiveReport extends Report
     public function getData($period)
     {
         $receiveRepo = $this->data->getRepo();
-        $periodCarbon = $this->periodToCarbon($period);
+        $periodCarbon = $this->periodToCarbon($period, request()->start, request()->end);
         $this->periodTitle = $this->periodToString($period, $periodCarbon['start'], $periodCarbon['end']);
         $this->data = $receiveRepo->receivesInPocket()->where(function ($query) use ($period, $periodCarbon) {
             switch ($period) {
@@ -30,9 +30,12 @@ class ReceiveReport extends Report
                         ->orWhereBetween('due_at', $periodCarbon);
                     break;
                 case 'year':
-
                     return  $query->whereYear('paid_at', $periodCarbon['start'])
                         ->orWhereYear('due_at', $periodCarbon['start']);
+                    break;
+                case 'selected':
+                    return  $query->whereBetween('paid_at', $periodCarbon)
+                        ->orWhereBetween('due_at', $periodCarbon);
                     break;
                 default:
                     throw new \Exception('Date period is not valid');

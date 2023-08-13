@@ -24,6 +24,7 @@ trait PeriodType
             'week' => ' از تاریخ ' .  jdate($start)->format($this->formatType) . ' تا ' . jdate($end)->format($this->formatType),
             'month' => 'از تاریخ ' . jdate($start)->format($this->formatType) . ' تا ' . jdate($end)->format($this->formatType),
             'year' => 'از تاریخ ' . jdate($start)->format($this->formatType),
+            'selected' => 'از تاریخ ' . jdate($start)->format($this->formatType) . ' تا ' . jdate($end)->format($this->formatType),
             default => throw new Exception("period didn't found")
         };
     }
@@ -34,8 +35,9 @@ trait PeriodType
      * @param string $period
      * @return array
      */
-    public function periodToCarbon(string $period, $start = null, $end = null): array
+    public function periodToCarbon(string $period, ?string $start = null, ?string $end = null): array
     {
+
         switch ($period) {
             case 'day':
                 return [
@@ -59,6 +61,12 @@ trait PeriodType
                 return [
                     'start' => jdate()->now()->getFirstDayOfYear()->toCarbon(),
                     'end' => now(),
+                ];
+                break;
+            case 'selected':
+                return [
+                    'start' => jdate()->fromFormat($this->formatType, $start)->toCarbon(),
+                    'end' => jdate()->fromFormat($this->formatType, $end)->toCarbon(),
                 ];
                 break;
             default:

@@ -40,7 +40,7 @@
 
 
 
-            <x-dashboard.SidebarItemMultiDeep active="{{ is_url_active(['reports.list']) }}" icon='folder'
+            <x-dashboard.SidebarItemMultiDeep active="{{ is_url_active(['reports.list', 'reports.select-date']) }}" icon='folder'
                 id='reports' title='گزارش‌ گیری' :items="[
                     [
                         'title' => 'مطالبات',
@@ -84,12 +84,11 @@
                             ],
                             [
                                 'text' => 'تاریخ انتخابی',
-                                'url' => route('reports.list', [
+                                'url' => route('reports.select-date', [
                                     'type' => 'installment',
-                                    'period' => 'selected',
                                     'directory' => 'installments',
                                 ]),
-                                'active' => is_url_active('installment/selected'),
+                                'active' =>  is_url_active('select-date/installment'),
                             ],
                         ],
                     ],
@@ -135,12 +134,11 @@
                             ],
                             [
                                 'text' => 'تاریخ انتخابی',
-                                'url' => route('reports.list', [
+                                'url' => route('reports.select-date', [
                                     'type' => 'receive',
-                                    'period' => 'selected',
                                     'directory' => 'receives',
                                 ]),
-                                'active' => is_url_active('receive/selected'),
+                                'active' => is_url_active('select-date/receive'),
                             ],
                         ],
                     ],

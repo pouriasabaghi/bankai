@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Factories\ReportFactory;
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -16,5 +17,21 @@ class ReportController extends Controller
         $report->getData($period);
 
         return $report->renderView(['directory' => $request->directory]);
+    }
+
+    public function indexSelectDate(Request $request, $type)
+    {
+
+        $action =  route('reports.list', [
+            'type' => $type,
+            'period' => 'selected',
+            'directory' => $request->directory,
+        ]);
+        $periodTitle = match($type){
+            'receives'=>'وصولی‌ها',
+            'installment'=>'مطالبات',
+            default => throw new Exception('Period Title says: no valid type'),
+        };
+        return view('admin.reports.select-date', compact('type', 'action'));
     }
 }

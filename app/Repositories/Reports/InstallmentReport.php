@@ -13,7 +13,7 @@ class InstallmentReport extends Report
     public function getData($period)
     {
         $repo = $this->data->getRepo();
-        $periodCarbon = $this->periodToCarbon($period);
+        $periodCarbon = $this->periodToCarbon($period, request()->start, request()->end);
         $this->periodTitle = $this->periodToString($period, $periodCarbon['start'], $periodCarbon['end']);
         $this->data = $repo->collectible()->where(function ($query) use ($period, $periodCarbon) {
             switch ($period) {
@@ -26,6 +26,9 @@ class InstallmentReport extends Report
                     break;
                 case 'year':
                     return  $query->whereYear('due_at', $periodCarbon['start']);
+                    break;
+                case 'selected':
+                    return  $query->whereBetween('due_at', $periodCarbon);
                     break;
                 default:
                     throw new \Exception('Date period is not valid');
