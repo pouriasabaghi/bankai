@@ -37,8 +37,9 @@ if (!function_exists('is_url_active')) {
             return in_array(request()->route()->getName(), $mixed);
         }
 
+
         foreach ($routes as $route) {
-            if (strpos(request()->route()->getName(), $route) !== false) {
+            if (strpos(request()->fullUrl(), $route) !== false) {
                 return true;
             }
         }
