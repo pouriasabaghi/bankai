@@ -127,7 +127,7 @@
                             <x-ui.form.Datepicker name="canceled[due_at]" :attr="['tabindex' => '-1']"
                                 value="{{ $canceled->due_at ?? '' }}" placeholder="تاریخ سر رسید قسط" col='2' />
 
-                            <x-ui.form.Input name="canceled[desc]" value="{{ $installment->desc ?? '' }}"
+                            <x-ui.form.Input name="canceled[desc]" value="{{ $canceled->desc ?? '' }}"
                                 placeholder="توضیحات" col='6' />
 
                             <div class="col-md-2">
