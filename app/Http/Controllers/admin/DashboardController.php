@@ -12,9 +12,9 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $debtorInstallments = (new Installment())->debtorInstallments()->with('contract')->take(15)->get()->groupBy('contract_id');
-
+        $debtorInstallments = (new Installment())->debtorInstallments()->with('contract')->paginate(10);
+        $debtorInstallmentsGrouped = $debtorInstallments->groupBy('contract_id');
         $uncollectedChecks = (new Receive())->uncollectedChecks()->with('contract')->get()->groupBy('due_at');
-        return view('admin.dashboard.index', compact('debtorInstallments', 'uncollectedChecks'));
+        return view('admin.dashboard.index', compact('debtorInstallments', 'debtorInstallmentsGrouped', 'uncollectedChecks'));
     }
 }

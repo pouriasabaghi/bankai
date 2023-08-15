@@ -103,13 +103,24 @@ select[name="customer_id"]
     transform: rotate(180deg);
     transition: transform 500ms;
 }
-/* .dashbaord-installments__group{
-    display: block;
-} */
 @media only screen and (min-width:2500px) {
     .dashbaord-installments__group{
         columns:2;
     }
+}
+
+.no-form-control {
+    border-right: unset;
+    border-left: unset;
+    border-top: unset;
+    background: transparent;
+    border-radius: unset;
+}
+.no-form-control:focus{
+    background-color: transparent;
+    outline: unset;
+    box-shadow: unset;
+    border-color: unset;
 }
 
 
