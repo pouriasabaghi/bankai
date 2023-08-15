@@ -85,7 +85,8 @@ class ContractService
     public function getContractYearlyBalancePercent(){
         $currentYear = $this->contractRepo->getCurrentYearContract()->count();
         $lastYear = $this->contractRepo->getLastYearContract()->count();
-        $balance =(($currentYear - $lastYear) / $lastYear) * 100;
+        $balance =round((($currentYear - $lastYear) / $lastYear) * 100 , 2);
+
         return [
             'percent'=> $balance ,
             'improvement' => $balance  > 0
