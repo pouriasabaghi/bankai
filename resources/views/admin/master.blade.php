@@ -9,6 +9,7 @@
     <title>وب اپلیکیشن</title>
     @vite(['resources/css/admin/app.css'])
     @livewireStyles
+    @stack('styles')
 </head>
 
 <body dir='rtl' data-sidebar-position="right">

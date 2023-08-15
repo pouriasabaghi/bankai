@@ -7,6 +7,9 @@
     </x-dashboard.DashboardTitle>
 
     <div class="row">
+
+        @include('admin.dashboard.layouts.overal')
+
         <div class="col-xl-6" id="dashbaord-installments">
             <x-ui.card.Card>
                 <x-slot name='header'>
@@ -17,18 +20,19 @@
                     <div class="dashbaord-installments__group">
                         @forelse($debtorInstallmentsGrouped as $contractId => $installments)
                             @php
-                                $contract = App\Models\Contract::where('id', $contractId)->first();
+                                $contract = $installments[0]->contract;
                             @endphp
                             <div class="d-inline-block w-100 bg-light shadow-lg p-4 mb-5 ">
                                 @include('admin.dashboard.layouts.installment-details')
-                                <x-ui.collapse.Collapse parent='dashbaord-installments' id="contract-{{ $contractId }}">
+                                <x-ui.collapse.Collapse parent='dashbaord-installments' id="contract-{{ $contract->id }}">
                                     <div role="button" class="mt-3 btn btn-sm btn-outline-secondary rounded">
                                         جزئیات
                                         <i class="far fa-angle-down"></i>
+                                        <br>
                                     </div>
 
                                     <x-slot name='content'>
-                                        <a class="mt-3 mb-1 d-block" href="{{ route('receives.create', $contractId) }}">
+                                        <a class="mt-3 mb-1 d-block" href="{{ route('receives.create', $contract->id) }}">
                                             رفتن به دریافتی‌ها
                                         </a>
                                         <x-ui.table.Table selector='#contracts-table' class="right-side" :attr="['id' => 'contracts-table']"

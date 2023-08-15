@@ -31,7 +31,7 @@
                 ]" />
 
             <x-dashboard.SidebarItemMulti icon='file-text'
-                active="{{ is_url_active(null, 'contracts', 'installments', 'receives') }}" id='contracts'
+                active="{{ is_url_active(null, 'admin/contracts', 'admin/installments', 'admin/receives') }}" id='contracts'
                 title="قراردادها" :items="[
                     'افزودن قرارداد' => 'contracts.create',
                     'مدیریت قراردادها' => 'contracts.index',

@@ -4,9 +4,17 @@ namespace App\Services;
 
 use App\Enums\ContractStatusEnum;
 use App\Models\Contract;
+use App\Repositories\Contract\ContractRepo;
 
 class ContractService
 {
+
+    protected $contractRepo ;
+    public function __construct()
+    {
+        $this->contractRepo = new ContractRepo(new Contract()) ;
+    }
+
     /**
      * Collection of attributes
      *
@@ -72,5 +80,15 @@ class ContractService
         $contract->update([
             'contract_status' => $status->value,
         ]);
+    }
+
+    public function getContractYearlyBalancePercent(){
+        $currentYear = $this->contractRepo->getCurrentYearContract()->count();
+        $lastYear = $this->contractRepo->getLastYearContract()->count();
+        $balance =(($currentYear - $lastYear) / $lastYear) * 100;
+        return [
+            'percent'=> $balance ,
+            'improvement' => $balance  > 0
+        ] ;
     }
 }

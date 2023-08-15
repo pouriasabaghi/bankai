@@ -212,7 +212,14 @@
                             <span>{{ $receive->type_str }}</span>
                         </td>
                         <td>
-                            {{ $receive->card->name }}
+                            @empty($receive->card->id)
+                                {{ $receive->card->name }}
+                            @else
+                                <a
+                                    href="{{ route('details.list', ['type' => 'card', 'id' => $receive->card->id, 'directory' => 'cards']) }}">
+                                    {{ $receive->card->name }}
+                                </a>
+                            @endempty
                         </td>
                     </tr>
                 @endforeach
