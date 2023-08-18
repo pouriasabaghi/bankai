@@ -23,4 +23,13 @@ class Customer extends Model
             set: fn (?string $value) => fix_number($value),
         );
     }
+
+    public function contracts(){
+        return $this->hasMany(Contract::class);
+    }
+
+
+    public function receives(){
+        return $this->hasMany(Receive::class);
+    }
 }

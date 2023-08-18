@@ -1,22 +1,22 @@
-table {
+table:not(.no-default-table) {
     width: 100%;
     border-collapse: collapse;
 
 }
 
 /* Zebra striping */
-tr:nth-of-type(odd) {
+table:not(.no-default-table) tr:nth-of-type(odd) {
     background: #eee;
 }
 
-th {
+table:not(.no-default-table) th {
     background: #222e3c;
     color: white;
     font-weight: bold;
 }
 
-td,
-th {
+table:not(.no-default-table) td,
+table:not(.no-default-table) th {
     padding: 6px;
     border: 1px solid #ccc;
     text-align: right
@@ -38,17 +38,17 @@ th {
     }
 
     /* Hide table headers (but not display: none;, for accessibility) */
-    thead tr {
+    table:not(.no-default-table) thead tr {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
 
-    tr {
+    table:not(.no-default-table) tr {
         border: 1px solid #ccc;
     }
 
-    td {
+    table:not(.no-default-table) td {
         /* Behave  like a "row" */
         border: none;
         border-bottom: 1px solid #e3dcdc;
@@ -56,7 +56,7 @@ th {
         padding-right: 50%;
     }
 
-    td:after {
+    table:not(.no-default-table) td:after {
         /* Now like a table header */
         position: absolute;
         /* Top/left values mimic padding */
@@ -67,14 +67,14 @@ th {
         white-space: nowrap;
     }
 
-    td:nth-child(n+6).hide {
+    table:not(.no-default-table) td:nth-child(n+6).hide {
         display: none;
     }
 
-    td:empty{
+    table:not(.no-default-table) td:empty{
         display: none !important;
     }
-    td:empty::after{
+    table:not(.no-default-table) td:empty::after{
         content: unset !important;
     }
 }
