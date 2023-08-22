@@ -40,12 +40,12 @@
     "src": "resources/assets/typo_fonts/Shabnam-FD.woff2"
   },
   "resources/css/admin/app.css": {
-    "file": "assets/app-78fea76a.css",
+    "file": "assets/app-ff199b56.css",
     "isEntry": true,
     "src": "resources/css/admin/app.css"
   },
   "resources/css/app.css": {
-    "file": "assets/app-2cf30fd3.css",
+    "file": "assets/app-6c1bce24.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
