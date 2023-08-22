@@ -10,14 +10,16 @@ class CustomerDetail extends Detail
     protected $customer;
     protected $companies ;
     protected $receives ;
+    protected $totalDebtor;
     public function getDetail($id)
     {
         $customer = Customer::findOrFail($id);
         $this->customer = $customer;
         $this->companies = $customer->companies->pluck('name')->implode('، ') ;
 
-
-
+        $this->totalDebtor = $customer->contracts()->get()->sum(function($contract){
+            return $contract->debtorInstallments()->sum('amount');
+        });
 
         $this->data = $customer->contracts;
         $this->receives = $customer->receives()->take(5)->get();
@@ -29,6 +31,7 @@ class CustomerDetail extends Detail
         'customer' => $this->customer,
         'companies'=>$this->companies,
         'receives'=>$this->receives,
+        'totalDebtor'=>$this->totalDebtor,
         ...$mergeData]);
     }
 }

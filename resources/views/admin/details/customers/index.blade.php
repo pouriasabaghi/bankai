@@ -87,16 +87,24 @@
                                         <th>تعداد‌ قرارداد‌ها</th>
                                         <td>{{ $contracts->count() }}</td>
                                     </tr>
+
+                                    <tr>
+                                        <th>بدهکار تا به الان</th>
+                                        <td>
+                                            {{ number_format($totalDebtor) }}
+                                            <small>تومان</small>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
 
-                            <strong>آخرین پرداختی‌ها</strong>
-
+                            <strong>آخرین واریزی‌ها</strong>
                             <ul class="timeline mt-2 mb-0">
                                 @forelse ($receives as $receive)
                                     <li class="timeline-item">
                                         <strong>{{ $receive->type == 'deposit' ? 'واریز' : 'چک' }}</strong>
-                                        <span class="float-start text-muted text-sm">{{ jdate()->fromFormat('Y/m/d', $receive->paid_at ?? $receive->due_at)->toCarbon()->ago() }}</span>
+                                        <span
+                                            class="float-start text-muted text-sm">{{ jdate()->fromFormat('Y/m/d', $receive->paid_at ?? $receive->due_at)->toCarbon()->ago() }}</span>
                                         <p>
                                             {{ $receive->contract->name }}
                                             <br>
@@ -128,18 +136,52 @@
                                 <thead>
                                     <tr>
                                         <th>عنوان قرارداد</th>
-                                        {{-- <th class="d-none d-md-table-cell">Company</th>
-                                        <th class="d-none d-md-table-cell">Email</th> --}}
+                                        <th>اقساط‌مانده</th>
+                                        <th>بدهکار</th>
+                                        <th>مانده</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($contracts as $contract)
-                                    <tr>
-                                        <td>{{ $contract->name }}</td>
-                                        {{-- <td class="d-none d-md-table-cell">Good Guys</td>
-                                        <td class="d-none d-md-table-cell">garrett@winters.com</td>
-                                        <td><span class="badge bg-success">Active</span></td> --}}
-                                    </tr>
+                                        <tr>
+                                            <td>
+                                                @if ($contract->id)
+                                                    <a href="{{ route('contracts.edit', $contract->id) }}">
+                                                        {{ $contract->name }}
+                                                    </a>
+                                                @else
+                                                    {{ $contract->name }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($contract->id)
+                                                    <a href="{{ route('installments.create', $contract->id) }}">
+                                                        {{ number_format($contract->debtorInstallments()->count()) }}
+                                                        قسط
+                                                    </a>
+                                                @else
+                                                    <span>
+                                                        {{ number_format($contract->debtorInstallments()->count()) }}
+                                                        قسط
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                {{ number_format($contract->debtorInstallments()->sum('amount')) }}
+                                                <small>تومان</small>
+                                            </td>
+                                            <td>
+                                                @if ($contract->id)
+                                                    <a href="{{ route('receives.create', $contract->id) }}">
+                                                        {{ number_format($contract->total_rest) }}
+                                                        <small>تومان</small>
+                                                    </a>
+                                                @else
+                                                    {{ number_format($contract->total_rest) }}
+                                                    <small>تومان</small>
+                                                @endif
+                                            </td>
+                                        </tr>
                                     @empty
                                         <tr>
                                             <td>-</td>

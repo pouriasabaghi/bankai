@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
-use App\Repositories\Installments\Installment as InstallmentRepo;
+
 class Installment extends Model
 {
     use HasFactory, Notifiable, SoftDeletes, InstallmentAttribute;
@@ -23,9 +23,6 @@ class Installment extends Model
         $this->registerAttributes();
     }
 
-    public function getRepo() {
-        return new InstallmentRepo();
-    }
     public function contract()
     {
         return $this->belongsTo(Contract::class);
@@ -40,6 +37,10 @@ class Installment extends Model
     public function debtorInstallments()
     {
 
-        return $this->where('due_at', '<=', today())->where('status', 'billed');
+        return $this->where('due_at', '<=', today())->where('status', 'billed')->where('collectible', true);
+    }
+
+    public function collectible() : Builder{
+        return $this->query()->where('collectible', true);
     }
 }

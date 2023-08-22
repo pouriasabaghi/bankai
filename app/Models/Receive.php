@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use App\Helpers\Receives\ReceiveAttribute;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use App\Repositories\Receives\Receive as ReceiveRepo;
 class Receive extends Model
 {
     use HasFactory, ReceiveAttribute;
@@ -22,9 +20,6 @@ class Receive extends Model
         $this->registerAttributes();
     }
 
-    public function getRepo() : ReceiveRepo {
-        return new ReceiveRepo();
-    }
 
     public function uncollectedChecks()
     {
@@ -48,5 +43,20 @@ class Receive extends Model
         return $this->belongsTo(Card::class)->withDefault([
             'name'=>'کارت نامعبتر'
         ]);
+    }
+
+        /**
+     * return receives that are deposits or passed check
+     *
+     * @return Builder
+     */
+    public function receivesInPocket() : Builder
+    {
+        $receives = $this->query()->where(function ($query) {
+            $query->where('passed', true)
+                ->orWhere('type', 'deposit');
+        });
+
+        return $receives;
     }
 }

@@ -46,7 +46,7 @@
                             {{ $contract->started_at }}
                         </td>
                         <td>
-                            {{ jdate()->fromFormat('Y/m/d', $contract->started_at)->addMonths(intVal($contract->period))->format('Y/m/d') }}
+                            {{ $contract->expired_at }}
                         </td>
                         <td>
                             {{ $contract->total_price_str }}

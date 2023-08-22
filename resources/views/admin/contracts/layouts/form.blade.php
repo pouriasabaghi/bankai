@@ -54,8 +54,7 @@
         <x-ui.form.Input label='مبلغ بیعانه(می‌تواند خالی باشد)' name='advance_payment' col='3' :attr="['data-separate' => 'true']"
             value="{{ old('advance_payment', $contract->advance_payment_str ?? '') }}" />
 
-        <x-ui.form.Select class="form-control" name='card_id' col='3'
-            label='حساب مقصد بیعانه'>
+        <x-ui.form.Select class="form-control" name='card_id' col='3' label='حساب مقصد بیعانه'>
             @forelse ($cards as $card)
                 <x-ui.form.Option
                     selected="{{ !empty($advancePaymentReceive) && $advancePaymentReceive->card_id == $card->id }}"
@@ -86,6 +85,12 @@
         {{-- Start_at --}}
         <x-ui.form.Datepicker col='6' value="{{ old('started_at', $contract->started_at ?? '') }}"
             name='started_at' label='تاریخ شروع قرارداد' :attr="['required' => 'true']" />
+
+        {{-- Expired_at --}}
+        @if ($formAttributes['isUpdate'])
+            <x-ui.form.Datepicker col='6' value="{{ old('expired_at', $contract->expired_at ?? '') }}"
+                name='expired_at' label='تاریخ پایان قرارداد' />
+        @endif
 
         {{-- Canceled_at --}}
         @if ($formAttributes['isUpdate'])

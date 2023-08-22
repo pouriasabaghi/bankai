@@ -12,7 +12,7 @@ use App\Http\Controllers\admin\ReceiveController;
 use App\Http\Controllers\admin\ReportController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\TypeController;
-
+use App\Models\Contract;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,5 +38,17 @@ Route::group([], function () {
     Route::get('reports/{type}/{period?}', [ReportController::class, 'getReports'])->name('reports.list');
 
     Route::get('details/{type}/{id}', [DetailController::class, 'getDetail'])->name('details.list');
+
+    Route::get('auto-update',function(){
+        $contracts = Contract::all();
+        foreach($contracts as $contract){
+            $exp =  jdate()->fromFormat('Y/m/d', $contract->started_at)->addMonths(intVal(fix_number($contract->period)))->format('Y/m/d');
+            $contract->update([
+                'expired_at'=>$exp,
+            ]);
+        }
+        alert()->success('', 'آپدیت با موفقیت انجام شد');
+        return redirect(route('admin.dashboard'));
+    });
 
 });

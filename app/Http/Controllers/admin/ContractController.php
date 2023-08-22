@@ -20,21 +20,14 @@ class ContractController extends Controller
     use Alert, Redirect;
 
 
-
-    public function __construct(protected ContractService $service)
-    {
-        $this->service = new ContractService();
-    }
-
     public function index()
     {
         $contracts = Contract::query()->latest()->paginate(50);
         return view('admin.contracts.index', compact('contracts'));
     }
 
-    public function create()
+    public function create(ContractService $service)
     {
-        $service = $this->service;
         $formAttributes = $service->formAttributes();
         $types = Type::query()->latest()->get();
         $services = Service::query()->latest()->get();
@@ -44,9 +37,9 @@ class ContractController extends Controller
     }
 
 
-    public function store(ContractRequest $request)
+    public function store(ContractRequest $request, ContractService $service)
     {
-        $ContractService = $this->service;
+        $ContractService = $service;
 
         $contract = $ContractService->storeOrUpdate($request->all());
 
@@ -60,9 +53,9 @@ class ContractController extends Controller
         return $this->redirect(route('installments.create', $contract->id));
     }
 
-    public function edit(Contract $contract)
+    public function edit(Contract $contract, ContractService $service)
     {
-        $ContractService = $this->service;
+        $ContractService = $service;
         $formAttributes = $ContractService->formAttributes($contract);
         $types = Type::query()->latest()->get();
         $services = Service::query()->latest()->get();
@@ -73,23 +66,27 @@ class ContractController extends Controller
     }
 
 
-    public function update(ContractRequest $request, Contract $contract)
-    {
-        $service = $this->service;
-        $contract = $service->storeOrUpdate($request->all(), $contract);
+    public function update(
+        ContractRequest $request,
+        Contract $contract,
+        ContractService $contractService,
+        ReceiveService $receiveService,
+        InstallmentService $installmentService
+    ) {
+        $contract = $contractService->storeOrUpdate($request->all(), $contract);
 
         // store advance payment as receive
 
         if ($request->advance_payment) {
-        (new ReceiveService())->storeAdvancePayment($contract, $request->card_id, fix_number($request->advance_payment), true);
+            $receiveService->storeAdvancePayment($contract, $request->card_id, fix_number($request->advance_payment), true);
         }
 
         // update contract status
         $status = $request->canceled_at ? ContractStatusEnum::Canceled : ContractStatusEnum::Progress;
-        (new ContractService())->updateContractStatus($contract, $status);
+        $contractService->updateContractStatus($contract, $status);
 
         // handle installment collectible when contract canceled
-        (new InstallmentService())->updateCollectibleInstallments($contract, !empty($request->canceled_at));
+        $installmentService->updateCollectibleInstallments($contract, !empty($request->canceled_at));
 
         $this->successAlert(null, 'قرارداد با موفقیت ویرایش شد');
 

@@ -12,7 +12,17 @@ class Contract extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'financial_status', 'contract_status', 'total_price', 'payable', 'advance_payment', 'installments_total_price', 'type', 'contract_number', 'period', 'started_at', 'signed_at', 'canceled_at'];
+    protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'financial_status', 'contract_status', 'total_price', 'payable', 'advance_payment', 'installments_total_price', 'type', 'contract_number', 'period', 'started_at', 'signed_at', 'canceled_at', 'expired_at'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // soft delete installment after deleting contract
+        static::deleting(function ($contract) {
+            $contract->installments()->delete();
+        });
+    }
 
     protected function totalPrice(): Attribute
     {
@@ -79,6 +89,14 @@ class Contract extends Model
     }
 
     protected function startedAt(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
+            get: fn ($value) => $value ? jdate($value)->format('Y/m/d') : null,
+        );
+    }
+
+    protected function expiredAt(): Attribute
     {
         return Attribute::make(
             set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
@@ -190,6 +208,13 @@ class Contract extends Model
         return $installmentsCollectible;
     }
 
+    public function debtorInstallments()
+    {
+
+        return $this->installments()->where('due_at', '<=', today())->where('status', 'billed')->where('collectible', true);
+    }
+
+
     public function advancePaymentRel()
     {
         return $this->receives()->where('advance_payment', true)->first();
@@ -200,13 +225,18 @@ class Contract extends Model
         return $this->installments()->where('type', 'canceled')->first();
     }
 
-    protected static function boot()
-    {
-        parent::boot();
 
-        // soft delete installment after deleting contract
-        static::deleting(function ($contract) {
-            $contract->installments()->delete();
-        });
+    public function getCurrentYearContract(){
+        return $this->whereYear('signed_at', jdate()->fromFormat('Y/m/d', jdate()->now()->getYear().'/01/01')->toCarbon())->get();
     }
+
+    public function getLastYearContract(){
+        return $this->whereYear('signed_at', jdate()->fromFormat('Y/m/d', jdate()->now()->subYears(1)->getYear().'/01/01')->toCarbon())->get();
+    }
+
+
+    public function active(){
+        return $this->whereNotNull('expired_at')->whereNotNull('canceled_at');
+    }
+
 }

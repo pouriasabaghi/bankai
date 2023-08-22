@@ -8,26 +8,31 @@ use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\Installment;
 use App\Models\Receive;
-use App\Repositories\Contract\ContractRepo;
 use App\Services\ContractService;
 
 class DashboardController extends Controller
 {
-    public function index( )
+    public function index(ContractService $contractService, Installment $installment, Receive $receive )
     {
 
-        $debtorInstallments = (new Installment())->debtorInstallments()->with('contract')->paginate(30);
+        $debtorInstallments = $installment->debtorInstallments()->with('contract')->get();
+        $totalDebtor =  number_format($debtorInstallments->sum('amount'));
         $debtorInstallmentsGrouped = $debtorInstallments->groupBy('contract_id');
-        $uncollectedChecks = (new Receive())->uncollectedChecks()->with('contract')->get()->groupBy('due_at');
-        $balance = (new ContractService())->getContractYearlyBalancePercent();
+
+        $uncollectedChecks = $receive->uncollectedChecks()->with('contract')->get()->groupBy('due_at');
+
+        $balance = $contractService->getContractYearlyBalancePercent(new Contract());
         $balancePercent = $balance['percent'];
         $balanceImprovement = $balance['improvement'];
+
         $contractsCount = Contract::all()->count();
         $contractCanceledCount = Contract::where('contract_status', 'canceled')->get()->count();
         $customerCount = Customer::all()->count();
         $companyCount = Company::all()->count();
+
         return view('admin.dashboard.index', compact(
             'debtorInstallments',
+            'totalDebtor',
             'debtorInstallmentsGrouped',
             'customerCount',
             'uncollectedChecks',

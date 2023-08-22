@@ -4,16 +4,10 @@ namespace App\Services;
 
 use App\Enums\ContractStatusEnum;
 use App\Models\Contract;
-use App\Repositories\Contract\ContractRepo;
 
 class ContractService
 {
 
-    protected $contractRepo ;
-    public function __construct()
-    {
-        $this->contractRepo = new ContractRepo(new Contract()) ;
-    }
 
     /**
      * Collection of attributes
@@ -58,12 +52,12 @@ class ContractService
             'signed_at' => $data['signed_at'],
             'started_at' => $data['started_at'],
             'canceled_at' => $data['canceled_at'] ?? null,
+            'expired_at' => $data['expired_at'] ?? null,
             'services' => $data['services'] ?? null,
         ];
 
         if ($contract) {
             $contract->fill($preparedData);
-            //dd($contract, $data, $preparedData);
             $contract->save();
             $contract->services()->sync($preparedData['services']);
         } else {
@@ -82,9 +76,9 @@ class ContractService
         ]);
     }
 
-    public function getContractYearlyBalancePercent(){
-        $currentYear = $this->contractRepo->getCurrentYearContract()->count();
-        $lastYear = $this->contractRepo->getLastYearContract()->count();
+    public function getContractYearlyBalancePercent(Contract $contract){
+        $currentYear = $contract->getCurrentYearContract()->count();
+        $lastYear = $contract->getLastYearContract()->count();
         $balance =round((($currentYear - $lastYear) / $lastYear) * 100 , 2);
 
         return [

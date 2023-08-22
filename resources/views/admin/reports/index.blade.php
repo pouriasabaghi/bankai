@@ -1,1 +1,1 @@
-@includeWhen(!empty($directory), "admin.reports.$directory.index")
+@includeIf("admin.reports.$directory.index")

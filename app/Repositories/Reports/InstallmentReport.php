@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Reports;
 
+use App\Models\Installment;
 use App\Traits\PeriodType;
 
 class InstallmentReport extends Report
@@ -12,10 +13,10 @@ class InstallmentReport extends Report
 
     public function getData($period)
     {
-        $repo = $this->data->getRepo();
+        $model = new Installment();
         $periodCarbon = $this->periodToCarbon($period, request()->start, request()->end);
         $this->periodTitle = $this->periodToString($period, $periodCarbon['start'], $periodCarbon['end']);
-        $this->data = $repo->collectible()->where(function ($query) use ($period, $periodCarbon) {
+        $this->data = $model->debtorInstallments()->where(function ($query) use ($period, $periodCarbon) {
             switch ($period) {
                 case 'day':
                     return  $query->whereDate('due_at', $periodCarbon['start']);

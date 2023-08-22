@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Reports;
 
+use App\Models\Receive;
 use App\Traits\PeriodType;
 
 class ReceiveReport extends Report
@@ -12,10 +13,10 @@ class ReceiveReport extends Report
 
     public function getData($period)
     {
-        $receiveRepo = $this->data->getRepo();
+        $model = new Receive();
         $periodCarbon = $this->periodToCarbon($period, request()->start, request()->end);
         $this->periodTitle = $this->periodToString($period, $periodCarbon['start'], $periodCarbon['end']);
-        $this->data = $receiveRepo->receivesInPocket()->where(function ($query) use ($period, $periodCarbon) {
+        $this->data = $model->receivesInPocket()->where(function ($query) use ($period, $periodCarbon) {
             switch ($period) {
                 case 'day':
                     return  $query->whereDate('paid_at', $periodCarbon['start'])

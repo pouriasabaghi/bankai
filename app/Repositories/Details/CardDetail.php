@@ -2,16 +2,19 @@
 
 namespace App\Repositories\Details;
 
+use App\Models\Card;
+
+
 class CardDetail extends Detail
 {
     protected $data;
     protected $cardName;
     public function getDetail($id)
     {
-        $repo = $this->data->getRepo();
+        $card = Card::query()->findOrFail($id);
 
-        $this->cardName = $repo->card($id)->name;
-        $this->data = $repo->receivesById($id)->paginate(50);
+        $this->cardName = $card->name;
+        $this->data = $card->receives()->paginate(50);
     }
 
 

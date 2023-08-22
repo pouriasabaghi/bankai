@@ -13,7 +13,13 @@
         <div class="col-xl-6" id="dashbaord-installments">
             <x-ui.card.Card>
                 <x-slot name='header'>
-                    اقساط پرداخت نشده
+                    <p>اقساط پرداخت نشده</p>
+                    <p class="mb-0">
+                        <i class="far fa-dollar"></i>
+                        در مجموع
+                        {{ $totalDebtor }}
+                        <small>تومان</small>
+                    </p>
                 </x-slot>
 
                 <x-slot name='body'>
@@ -75,7 +81,7 @@
                             <h5>قسط پرداخت نشده‌ای یافت نشد</h5>
                         @endforelse
                     </div>
-                    <x-ui.paginate.Paginate class="mt-3 px-3" :paginate="$debtorInstallments" />
+
                 </x-slot>
             </x-ui.card.Card>
         </div>
