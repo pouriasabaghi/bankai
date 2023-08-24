@@ -9,38 +9,45 @@ use App\Models\Customer;
 use App\Models\Installment;
 use App\Models\Receive;
 use App\Services\ContractService;
+use App\Services\ReceiveService;
 
 class DashboardController extends Controller
 {
-    public function index(ContractService $contractService, Installment $installment, Receive $receive )
+    public function index(ContractService $contractService, Installment $installment, Receive $receive, ReceiveService $receiveService, Contract $contract, Customer $customer, Company $company)
     {
+        $debtorContracts = $contract::whereHas('installments', function ($query) {
+            $query->where('due_at', '<=', today())->where('status', 'billed')->where('collectible', true);
+        })->get();
 
-        $debtorInstallments = $installment->debtorInstallments()->with('contract')->get();
-        $totalDebtor =  number_format($debtorInstallments->sum('amount'));
-        $debtorInstallmentsGrouped = $debtorInstallments->groupBy('contract_id');
+        $totalDebtor = number_format($debtorContracts->sum(function ($contract) use ($receiveService) {
+            return fix_number($receiveService->getDetail($contract)['debtor']);
+        }));
+
 
         $uncollectedChecks = $receive->uncollectedChecks()->with('contract')->get()->groupBy('due_at');
 
-        $balance = $contractService->getContractYearlyBalancePercent(new Contract());
-        $balancePercent = $balance['percent'];
+        $balance            = $contractService->getContractYearlyBalancePercent($contract);
+        $balancePercent     = $balance['percent'];
         $balanceImprovement = $balance['improvement'];
 
-        $contractsCount = Contract::all()->count();
-        $contractCanceledCount = Contract::where('contract_status', 'canceled')->get()->count();
-        $customerCount = Customer::all()->count();
-        $companyCount = Company::all()->count();
+        $contractsCount        = $contract::all()->count();
+        $contractCanceledCount = $contract::where('contract_status', 'canceled')->get()->count();
+        $customerCount         = $customer::all()->count();
+        $companyCount          = $company::all()->count();
 
-        return view('admin.dashboard.index', compact(
-            'debtorInstallments',
-            'totalDebtor',
-            'debtorInstallmentsGrouped',
-            'customerCount',
-            'uncollectedChecks',
-            'balancePercent',
-            'balanceImprovement',
-            'contractsCount',
-            'companyCount',
-            'contractCanceledCount'
-        ));
+        return view(
+            'admin.dashboard.index',
+            compact(
+                'debtorContracts',
+                'totalDebtor',
+                'customerCount',
+                'uncollectedChecks',
+                'balancePercent',
+                'balanceImprovement',
+                'contractsCount',
+                'companyCount',
+                'contractCanceledCount'
+            )
+        );
     }
 }

@@ -85,3 +85,13 @@
 
     </x-ui.card.Card>
 </div>
+
+<div class="col-12">
+    <x-ui.alert.Alert alert='warning' icon='dollar'>
+        <p class="mb-0 fw-normal">
+            در مجموع
+            {{ $totalDebtor }}
+            <small>تومان</small>
+        </p>
+    </x-ui.alert.Alert>
+</div>

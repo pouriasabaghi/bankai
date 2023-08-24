@@ -10,24 +10,16 @@
 
         @include('admin.dashboard.layouts.overal')
 
-        <div class="col-xl-6" id="dashbaord-installments">
-            <x-ui.card.Card>
+        <div class="col-xl-6 mb-3" id="dashbaord-installments">
+            <x-ui.card.Card class="dashboard-cards shadow-lg ">
                 <x-slot name='header'>
-                    <p>اقساط پرداخت نشده</p>
-                    <p class="mb-0">
-                        <i class="far fa-dollar"></i>
-                        در مجموع
-                        {{ $totalDebtor }}
-                        <small>تومان</small>
-                    </p>
+                    <p>اقساط تسویه نشده</p>
+
                 </x-slot>
 
                 <x-slot name='body'>
                     <div class="dashbaord-installments__group">
-                        @forelse($debtorInstallmentsGrouped as $contractId => $installments)
-                            @php
-                                $contract = $installments[0]->contract;
-                            @endphp
+                        @forelse($debtorContracts as $contract)
                             <div class="d-inline-block w-100 bg-light shadow-lg p-4 mb-5 ">
                                 @include('admin.dashboard.layouts.installment-details')
                                 <x-ui.collapse.Collapse parent='dashbaord-installments' id="contract-{{ $contract->id }}">
@@ -44,7 +36,7 @@
                                         <x-ui.table.Table selector='#contracts-table' class="right-side" :attr="['id' => 'contracts-table']"
                                             :header="['مبلغ', 'تاریخ', 'توضیحات']">
                                             <x-slot name="tbody">
-                                                @forelse($installments as $installment)
+                                                @forelse($contract->debtorInstallments()->get() as $installment)
                                                     <tr>
                                                         <td>
                                                             {{ $installment->amount_str }}
@@ -86,7 +78,75 @@
             </x-ui.card.Card>
         </div>
 
-        <div class="col-xl-6">
+
+        <div class="col-xl-6 mb-3 ">
+            <x-ui.card.Card class="dashboard-cards shadow-lg " >
+                <x-slot name='header'>
+                    در انتظار تماس
+                </x-slot>
+
+                <x-slot name='body'>
+                    <div class="dashbaord-installments__group">
+                        @forelse($debtorContracts as $contract)
+                            <div class="d-inline-block w-100 bg-light shadow-lg p-4 mb-5 ">
+                                @include('admin.dashboard.layouts.installment-details')
+                                <x-ui.collapse.Collapse parent='dashbaord-installments' id="contract-wating-for-call-{{ $contract->id }}">
+                                    <div role="button" class="mt-3 btn btn-sm btn-outline-secondary rounded">
+                                        جزئیات
+                                        <i class="far fa-angle-down"></i>
+                                        <br>
+                                    </div>
+
+                                    <x-slot name='content'>
+                                        <a class="mt-3 mb-1 d-block" href="{{ route('receives.create', $contract->id) }}">
+                                            رفتن به دریافتی‌ها
+                                        </a>
+                                        <x-ui.table.Table selector='#contracts-table' class="right-side" :attr="['id' => 'contracts-table']"
+                                            :header="['مبلغ', 'تاریخ', 'توضیحات']">
+                                            <x-slot name="tbody">
+                                                @forelse($contract->debtorInstallments()->get() as $installment)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $installment->amount_str }}
+                                                            <span class="badge bg-warning">
+                                                                {{ \App\Enums\InstallmentKindEnum::tryFrom($installment->kind)->toString() }}
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            {{ $installment->due_at }}
+                                                        </td>
+                                                        <td class="position-relative">
+                                                            {{-- <x-ui.form.Input  type="text" value="{{ $installment->desc  }}" /> --}}
+
+                                                            <livewire:installment-desc
+                                                                installmentId="{{ $installment->id }}"
+                                                                value="{{ $installment->desc }}" />
+                                                        </td>
+
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        @foreach (range(1, 7) as $item)
+                                                            <td>-</td>
+                                                        @endforeach
+                                                    </tr>
+                                                @endforelse
+                                            </x-slot>
+                                        </x-ui.table.Table>
+                                    </x-slot>
+                                </x-ui.collapse.Collapse>
+
+                            </div>
+                        @empty
+                            <h5>قسط پرداخت نشده‌ای یافت نشد</h5>
+                        @endforelse
+                    </div>
+
+                </x-slot>
+            </x-ui.card.Card>
+        </div>
+
+        <div class="col-xl-6 ">
             <x-ui.card.Card>
                 <x-slot name='header'>
                     چک‌های در انتظار وصول

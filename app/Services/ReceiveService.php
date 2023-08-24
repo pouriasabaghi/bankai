@@ -7,7 +7,6 @@ use App\Models\Contract;
 use App\Models\Receive;
 use Exception;
 use Illuminate\Support\Collection;
-use PDO;
 
 class ReceiveService
 {
@@ -20,8 +19,8 @@ class ReceiveService
      */
     public function formAttributes(Contract $contract): array
     {
-        $action = route('receives.store', $contract->id);
-        $method = 'POST';
+        $action   = route('receives.store', $contract->id);
+        $method   = 'POST';
         $isUpdate = false;
 
         return compact('action', 'method', 'isUpdate');
@@ -38,7 +37,7 @@ class ReceiveService
      */
     public function sync(array $data, Contract $contract): Collection
     {
-        $preparedData =  $this->filterByType($data);
+        $preparedData = $this->filterByType($data);
         $contract->receives()->delete();
         $receives = $contract->receives()->createMany($preparedData);
 
@@ -55,8 +54,8 @@ class ReceiveService
     public function prepareReceives(Collection $receives): Collection
     {
         $contractReceives = $receives;
-        $emptyReceives = range($contractReceives->count(), 30 - $contractReceives->count());
-        $receives = collect($contractReceives)->merge($emptyReceives);
+        $emptyReceives    = range($contractReceives->count(), 30 - $contractReceives->count());
+        $receives         = collect($contractReceives)->merge($emptyReceives);
 
         return $receives;
     }
@@ -94,14 +93,14 @@ class ReceiveService
                     throw new Exception('تاریخ پرداخت نمی‌تواند خالی باشد.');
                 }
                 return [
-                    'paid_at' => $item['paid_at'],
-                    'origin' => $item['origin'],
-                    'type' => $item['type'],
-                    'amount' => $item['amount'],
-                    'customer_id' => $item['customer_id'],
-                    'company_id' => $item['company_id'],
-                    'contract_id' => $item['contract_id'],
-                    'card_id' => $item['card_id'],
+                    'paid_at'         => $item['paid_at'],
+                    'origin'          => $item['origin'],
+                    'type'            => $item['type'],
+                    'amount'          => $item['amount'],
+                    'customer_id'     => $item['customer_id'],
+                    'company_id'      => $item['company_id'],
+                    'contract_id'     => $item['contract_id'],
+                    'card_id'         => $item['card_id'],
                     'advance_payment' => $item['advance_payment'] ?? false,
                 ];
             } elseif ($item['type'] == 'check') {
@@ -109,20 +108,20 @@ class ReceiveService
                     throw new Exception('تاریخ دریافت و سررسید نمی‌تواند خالی باشد.');
                 }
                 return [
-                    'received_at' => $item['received_at'],
-                    'desc' => $item['desc'],
-                    'bank_name' => $item['bank_name'],
-                    'branch_code' => $item['branch_code'],
-                    'branch_name' => $item['branch_name'],
-                    'due_at' => $item['due_at'],
-                    'serial_number' => $item['serial_number'],
-                    'type' => $item['type'],
-                    'amount' => $item['amount'],
-                    'customer_id' => $item['customer_id'],
-                    'company_id' => $item['company_id'],
-                    'contract_id' => $item['contract_id'],
-                    'card_id' => $item['card_id'],
-                    'passed' => !empty($item['passed']) ? true :  false,
+                    'received_at'     => $item['received_at'],
+                    'desc'            => $item['desc'],
+                    'bank_name'       => $item['bank_name'],
+                    'branch_code'     => $item['branch_code'],
+                    'branch_name'     => $item['branch_name'],
+                    'due_at'          => $item['due_at'],
+                    'serial_number'   => $item['serial_number'],
+                    'type'            => $item['type'],
+                    'amount'          => $item['amount'],
+                    'customer_id'     => $item['customer_id'],
+                    'company_id'      => $item['company_id'],
+                    'contract_id'     => $item['contract_id'],
+                    'card_id'         => $item['card_id'],
+                    'passed'          => !empty($item['passed']) ? true : false,
                     'advance_payment' => $item['advance_payment'] ?? false,
                 ];
             }
@@ -155,12 +154,12 @@ class ReceiveService
 
             $paidAmount = $contract->receivesInPocket(false)->get()->sum('amount');
 
-            $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
+            $creditor      = ($paidAmount - $usedAmount) > 0 ? $paidAmount - $usedAmount : 0;
             $debtorTillNow = max($debtor - $creditor, 0);
-            $creditorTitle = $creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب';
+            $creditorTitle = $creditor && $debtor == 0 ? 'بستانکار' : 'علی‌الحساب';
 
             $totalPrice = $contract->installmentsCollectible()->get()->sum('amount');
-            $rest = max($totalPrice - $contract->receivesInPocket()->get()->sum('amount'), 0);
+            $rest       = max($totalPrice - $contract->receivesInPocket()->get()->sum('amount'), 0);
         } else {
             // this amount use for paying bills (updating status) ;
             $usedAmount = $contract->installmentsCollectible()->where('status', 'paid')->get()->sum('amount');
@@ -168,13 +167,13 @@ class ReceiveService
             $canceledAt = $contract->canceled_at ? jdate()->fromFormat('Y/m/d', $contract->canceled_at)->toCarbon() : null;
             $paidAmount = $contract->receivesInPocket(null, $canceledAt)->get()->sum('amount');
 
-            $creditor = ($paidAmount - $usedAmount) > 0  ? $paidAmount - $usedAmount : 0;
+            $creditor      = ($paidAmount - $usedAmount) > 0 ? $paidAmount - $usedAmount : 0;
             $debtorTillNow = max($debtor - $creditor, 0);
-            $creditorTitle = $creditor && $debtor  == 0 ? 'بستانکار' : 'علی‌الحساب';
+            $creditorTitle = $creditor && $debtor == 0 ? 'بستانکار' : 'علی‌الحساب';
 
             // total price now is only canceled installment amount
             $totalPrice = $contract->canceledInstallment()->amount;
-            $rest = max($totalPrice - $paidAmount, 0);
+            $rest       = max($totalPrice - $paidAmount, 0);
         }
 
 
@@ -182,11 +181,11 @@ class ReceiveService
 
 
         return [
-            'debtor' => number_format($debtorTillNow),
-            'creditor' => number_format($creditor),
-            'creditor_title' => $creditorTitle,
+            'debtor'            => number_format($debtorTillNow),
+            'creditor'          => number_format($creditor),
+            'creditor_title'    => $creditorTitle,
             'contract_receives' => $contractReceives,
-            'rest' => number_format($rest),
+            'rest'              => number_format($rest),
         ];
     }
 
@@ -202,11 +201,11 @@ class ReceiveService
     public function storeAdvancePayment(Contract $contract, int $cardId, int|string $amount, $update = false): Receive
     {
         $preparedData = [
-            'contract_id' => $contract->id,
-            'amount' => $amount,
-            'card_id' => $cardId,
-            'customer_id' => $contract->customer_id,
-            'company_id' => $contract->company_id,
+            'contract_id'     => $contract->id,
+            'amount'          => $amount,
+            'card_id'         => $cardId,
+            'customer_id'     => $contract->customer_id,
+            'company_id'      => $contract->company_id,
             'advance_payment' => true,
         ];
 
@@ -215,8 +214,8 @@ class ReceiveService
         } else {
             // Make instance from receive for update
             $receive = new Receive();
-            $receive =  $receive->where([
-                'contract_id' => $contract->id,
+            $receive = $receive->where([
+                'contract_id'     => $contract->id,
                 'advance_payment' => true,
             ])->first();
 
