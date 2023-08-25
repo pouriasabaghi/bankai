@@ -19,6 +19,7 @@ return new class extends Migration
 
             $table->string('name')->nullable();
             $table->text('desc')->nullable();
+            $table->text('draft')->nullable();
             $table->enum('financial_status', ['paid', 'billed'])->default('billed');
             $table->enum('contract_status', ['progress', 'finished', 'canceled', 'renewal'])->default('progress');
             $table->text('total_price')->nullable();
@@ -28,6 +29,7 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->string('contract_number')->nullable() ;
             $table->string('period')->nullable();
+            $table->dateTime('remind_at')->nullable();
             $table->dateTime('signed_at')->nullable();
             $table->dateTime('started_at')->nullable();
             $table->dateTime('canceled_at')->nullable();

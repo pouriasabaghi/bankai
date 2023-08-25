@@ -12,7 +12,7 @@ class Contract extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'financial_status', 'contract_status', 'total_price', 'payable', 'advance_payment', 'installments_total_price', 'type', 'contract_number', 'period', 'started_at', 'signed_at', 'canceled_at', 'expired_at'];
+    protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'draft', 'financial_status', 'contract_status', 'total_price', 'payable', 'advance_payment', 'installments_total_price', 'type', 'contract_number', 'period', 'remind_at', 'started_at', 'signed_at', 'canceled_at', 'expired_at'];
 
     protected static function boot()
     {

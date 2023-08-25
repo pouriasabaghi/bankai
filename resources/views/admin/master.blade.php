@@ -23,7 +23,11 @@
 
             <main class="content">
                 <div class="container-fluid p-0">
-                    @yield('content')
+                    @empty($slot)
+                        @yield('content')
+                    @else
+                        {{ $slot }}
+                    @endempty
                 </div>
             </main>
 
@@ -32,9 +36,9 @@
     </div>
     @livewireScripts
     @include('sweetalert::alert')
-    <script src="{{asset('assets/plugins/jquery.js')}}"></script>
-    <script src="{{asset('assets/plugins/persian-datepicker.js')}}"></script>
-    <script src="{{asset('assets/plugins/select2.js')}}"></script>
+    <script src="{{ asset('assets/plugins/jquery.js') }}"></script>
+    <script src="{{ asset('assets/plugins/persian-datepicker.js') }}"></script>
+    <script src="{{ asset('assets/plugins/select2.js') }}"></script>
     @vite(['resources/js/admin/app.js'])
     <script>
         window.addEventListener('load', () => {

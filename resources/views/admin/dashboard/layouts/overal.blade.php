@@ -86,12 +86,21 @@
     </x-ui.card.Card>
 </div>
 
-<div class="col-12">
+<div class="col-6">
     <x-ui.alert.Alert alert='warning' icon='dollar'>
         <p class="mb-0 fw-normal">
             در مجموع
             {{ $totalDebtor }}
             <small>تومان</small>
+        </p>
+    </x-ui.alert.Alert>
+</div>
+
+<div class="col-6">
+    <x-ui.alert.Alert alert='info' icon='calendar'>
+        <p class="mb-0 fw-normal">
+           امروز:
+           {{ jdate(now())->format('l j F') }}
         </p>
     </x-ui.alert.Alert>
 </div>
