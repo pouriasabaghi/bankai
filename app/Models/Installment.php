@@ -43,4 +43,10 @@ class Installment extends Model
     public function collectible() : Builder{
         return $this->query()->where('collectible', true);
     }
+
+    public function allNotPaidInstallments()
+    {
+
+        return $this->where('status', 'billed')->where('collectible', true);
+    }
 }

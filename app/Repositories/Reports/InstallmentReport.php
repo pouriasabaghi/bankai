@@ -16,7 +16,7 @@ class InstallmentReport extends Report
         $model = new Installment();
         $periodCarbon = $this->periodToCarbon($period, request()->start, request()->end);
         $this->periodTitle = $this->periodToString($period, $periodCarbon['start'], $periodCarbon['end']);
-        $this->data = $model->debtorInstallments()->where(function ($query) use ($period, $periodCarbon) {
+        $this->data = $model->allNotPaidInstallments()->where(function ($query) use ($period, $periodCarbon) {
             switch ($period) {
                 case 'day':
                     return  $query->whereDate('due_at', $periodCarbon['start']);

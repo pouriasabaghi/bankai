@@ -40,30 +40,31 @@ class Dashboard extends Component
         'contractNoNeedCall.*.draft' => 'string|min:6',
     ];
 
-    public function boot(){
-        $this->contractService = new ContractService;
-        $this->installment     = new Installment;
-        $this->receive         = new Receive();
-        $this->receiveService  = new ReceiveService;
+    public function boot()
+    {
         $this->contract        = new Contract;
-        $this->customer        = new Customer;
-        $this->company         = new Company;
     }
 
 
     public function mount()
     {
+        $this->contractService = new ContractService;
+        $this->installment     = new Installment;
+        $this->receive         = new Receive();
+        $this->receiveService  = new ReceiveService;
+        $this->customer        = new Customer;
+        $this->company         = new Company;
 
         $debtorContracts = $this->contract::whereHas('installments', function ($query) {
             $query->where('due_at', '<=', today())->where('status', 'billed')->where('collectible', true);
         })->get();
 
-        // // contract with empty remind_at
+        // contract with empty remind_at
         $this->contractToCall = $this->contract::whereHas('installments', function ($query) {
             $query->where('due_at', '<=', today())->where('status', 'billed')->where('collectible', true);
         })->whereNull('remind_at')->get();;
 
-        // // // contract with value remind_at
+        // contract with value remind_at
         $this->contractNoNeedCall = $this->contract::whereHas('installments', function ($query) {
             $query->where('due_at', '<=', today())->where('status', 'billed')->where('collectible', true);
         })->whereNotNull('remind_at')->get();
@@ -90,7 +91,6 @@ class Dashboard extends Component
     {
 
         return view('livewire.dashboard')->layout('admin.master');
-
     }
 
     public function toggleRemindAt($id, $type)
@@ -114,7 +114,8 @@ class Dashboard extends Component
         $this->contractNoNeedCall = $debtorContracts->whereNotNull('remind_at');
     }
 
-    public function syncDraft(Contract $contract, $value){
+    public function syncDraft(Contract $contract, $value)
+    {
         $contract->update([
             'draft' => $value,
         ]);
