@@ -7,7 +7,10 @@
 
     @if (jdate()->fromFormat('Y/m/d', $contract->debtorInstallments()->first()->due_at)->toCarbon()->addDays(30) <= now())
         <p class="badge bg-danger">
-            بیش از ۴۵ روز گذشته
+            {{ now()->diffInDays(
+                jdate()->fromFormat('Y/m/d', $contract->debtorInstallments()->first()->due_at)->toCarbon()
+            ) }}
+            روز گذشته
         </p>
     @endif
     <p>
