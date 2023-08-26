@@ -10,14 +10,16 @@
         </x-slot>
 
         <x-slot name='body'>
-            <x-ui.button.Button href="{{ route('customers.create') }}" btn='success' class="mb-3">افزودن مشتری جدید</x-ui.button.Button>
+            <x-ui.button.Button href="{{ route('customers.create') }}" btn='success' class="mb-3">افزودن مشتری
+                جدید</x-ui.button.Button>
             <x-ui.table.Table :attr="['id' => 'customers-table']" :header="['#', 'نام', 'موبایل', 'تلفن', 'اقدامات']">
                 <x-slot name="tbody">
                     @forelse($customers as $customer)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>
-                                <a href="">
+                                <a
+                                    href="{{ route('details.list', ['type' => 'customer', 'id' => $customer->id, 'directory' => 'customers']) }}">
                                     {{ $customer->name }}
                                 </a>
                             </td>
