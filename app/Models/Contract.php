@@ -99,7 +99,7 @@ class Contract extends Model
     protected function expiredAt(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
+            set: fn ($value) => !empty($value) ?  jdate()->fromFormat('Y/m/d', $value)->toCarbon() : null,
             get: fn ($value) => $value ? jdate($value)->format('Y/m/d') : null,
         );
     }
@@ -226,17 +226,19 @@ class Contract extends Model
     }
 
 
-    public function getCurrentYearContract(){
-        return $this->whereYear('signed_at', jdate()->fromFormat('Y/m/d', jdate()->now()->getYear().'/01/01')->toCarbon())->get();
+    public function getCurrentYearContract()
+    {
+        return $this->whereYear('signed_at', jdate()->fromFormat('Y/m/d', jdate()->now()->getYear() . '/01/01')->toCarbon())->get();
     }
 
-    public function getLastYearContract(){
-        return $this->whereYear('signed_at', jdate()->fromFormat('Y/m/d', jdate()->now()->subYears(1)->getYear().'/01/01')->toCarbon())->get();
+    public function getLastYearContract()
+    {
+        return $this->whereYear('signed_at', jdate()->fromFormat('Y/m/d', jdate()->now()->subYears(1)->getYear() . '/01/01')->toCarbon())->get();
     }
 
 
-    public function active(){
+    public function active()
+    {
         return $this->whereNotNull('expired_at')->whereNotNull('canceled_at');
     }
-
 }
