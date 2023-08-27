@@ -62,8 +62,8 @@
                                 @forelse ($receives as $receive)
                                     <li class="timeline-item">
                                         <strong>{{ $receive->type == 'deposit' ? 'واریز' : 'چک' }}</strong>
-                                        <span
-                                            class="float-start text-muted text-sm">{{ jdate()->fromFormat('Y/m/d', $receive->paid_at ?? $receive->due_at)->toCarbon()->ago() }}</span>
+                                        {{-- <span
+                                            class="float-start text-muted text-sm">{{ jdate()->fromFormat('Y/m/d', $receive->paid_at ?? $receive->due_at)->toCarbon()->ago() }}</span> --}}
                                         <p>
                                             {{ $receive->contract->name }}
                                             <br>
