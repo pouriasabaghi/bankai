@@ -57,7 +57,7 @@ class Dashboard extends Component
 
         $debtorContracts = $this->contract::whereHas('installments', function ($query) {
             $query->where('due_at', '<=', today())->where('status', 'billed')->where('collectible', true);
-        })->get();
+        })->with('debtorInstallments')->get();
 
         // contract with empty remind_at
         $this->contractToCall = $this->contract::whereHas('installments', function ($query) {

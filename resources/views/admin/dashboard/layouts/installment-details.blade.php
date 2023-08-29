@@ -1,22 +1,27 @@
 <div>
     @if ($contract->debtorInstallments()->count() >= 3)
         <p class="badge bg-danger">
-            بیش از ۲ قسط عقب افتاده
+            {{ $contract->debtorInstallments()->count()  }}
+            قسط عقب افتاده
         </p>
     @endif
 
-    @if (jdate()->fromFormat('Y/m/d', $contract->debtorInstallments()->first()->due_at)->toCarbon()->addDays(30) <= now())
-        <p class="badge bg-danger">
-            {{ now()->diffInDays(
-                jdate()->fromFormat('Y/m/d', $contract->debtorInstallments()->first()->due_at)->toCarbon()
-            ) }}
-            روز گذشته
-        </p>
-    @endif
+
+
+    <p class="badge {{ jdate()->fromFormat('Y/m/d', $contract->debtorInstallments->first()->due_at)->toCarbon()->addDays(30) < now()
+        ? 'bg-danger'
+        : 'bg-warning'
+    }}">
+        {{ now()->diffInDays(
+            jdate()->fromFormat('Y/m/d', $contract->debtorInstallments->first()->due_at)->toCarbon(),
+        ) }}
+        روز گذشته
+    </p>
+
     <p>
         <i class="far fa-file-contract"></i>
         قرارداد:
-        <span class="fw-bold">{{ $contract->name }}</span>
+        <a href="{{ route('contracts.update', $contract->id) }}" class="fw-bold">{{ $contract->name }}</a>
     </p>
     <p>
         <i class="far fa-hotel"></i>
@@ -26,7 +31,10 @@
     <p>
         <i class="far fa-user"></i>
         مشتری:
-        <span class="fw-bold">{{ $contract->customer->name }}</span>
+        <a class="fw-bold"
+            href="{{ route('details.list', ['type' => 'customer', 'id' => $contract->customer->id, 'directory' => 'customers']) }}">
+            {{ $contract->customer->name }}
+        </a>
     </p>
     <p>
         <i class="far fa-mobile-screen-button"></i>

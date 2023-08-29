@@ -74,7 +74,7 @@
                     </x-ui.collapse.Collapse>
 
                     {{-- Drafts --}}
-                    <x-ui.collapse.Collapse parent='dashbaord-installments' id="contract-drafts-{{ $contract->id }}">
+                    <x-ui.collapse.Collapse  parent='dashbaord-installments' id="contract-drafts-{{ $contract->id }}">
                         <div role="button" class="mt-3 btn btn-sm btn-outline-secondary rounded">
                             توضیحات تکمیلی
                             <i class="far fa-angle-down"></i>
