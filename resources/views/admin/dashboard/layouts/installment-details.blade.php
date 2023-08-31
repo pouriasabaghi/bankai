@@ -7,13 +7,15 @@
     @endif
 
 
-
-    <p class="badge {{ jdate()->fromFormat('Y/m/d', $contract->debtorInstallments->first()->due_at)->toCarbon()->addDays(30) < now()
+    @php
+        $firstBilledInstallment = $contract->debtorInstallments->first()->due_at;
+    @endphp
+    <p class="badge {{ jdate()->fromFormat('Y/m/d', $firstBilledInstallment)->toCarbon()->addDays(30) < now()
         ? 'bg-danger'
         : 'bg-warning'
     }}">
         {{ now()->diffInDays(
-            jdate()->fromFormat('Y/m/d', $contract->debtorInstallments->first()->due_at)->toCarbon(),
+            jdate()->fromFormat('Y/m/d', $firstBilledInstallment)->toCarbon(),
         ) }}
         روز گذشته
     </p>

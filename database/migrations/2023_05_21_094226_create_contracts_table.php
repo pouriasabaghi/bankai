@@ -35,6 +35,8 @@ return new class extends Migration
             $table->dateTime('canceled_at')->nullable();
             $table->dateTime('expired_at')->nullable();
 
+            $table->boolean('archived')->nullable()->default(false);
+
             $table->softDeletes();
             $table->timestamps();
         });

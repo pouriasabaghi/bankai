@@ -12,6 +12,11 @@
         <x-slot name='body'>
             <x-ui.button.Button href="{{ route('contracts.create') }}" btn='success' class="mb-3">افزودن قرارداد جدید
             </x-ui.button.Button>
+            <div class="row">
+                <div class="col-lg-6">
+                    @include('admin.contracts.layouts.filters')
+                </div>
+            </div>
             <x-ui.table.Table :attr="['id' => 'contracts-table']" :header="[
                 '#',
                 'عنوان‌قرارداد',
@@ -29,7 +34,9 @@
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>
-                                {{ $contract->name }} / {{ $contract->company->name }}
+                                <a href="{{ route('contracts.edit', $contract->id) }}">
+                                    {{ $contract->name }} / {{ $contract->company->name }}
+                                </a>
                             </td>
                             <td>
                             @empty($contract->customer->id)
@@ -78,8 +85,14 @@
                                     <x-ui.button.Delete />
                                 </form>
 
-                                <x-ui.button.Edit href="{{ route('contracts.edit', $contract->id) }}" />
+                                <form method="post" action='{{ route('archive.toggle', $contract->id) }}'>
+                                    @csrf
+                                    @method('POST')
+                                    <x-ui.button.Archive title="{{ $contract->archived
+                                        ? 'خروج از آرشیو'
+                                        : 'افزون به آرشیو'   }}" archived="{{ $contract->archived }}" />
 
+                                </form>
                             </div>
                         </td>
                     </tr>

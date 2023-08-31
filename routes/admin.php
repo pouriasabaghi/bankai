@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\ArchiveController;
 use App\Http\Controllers\admin\CardController;
 use App\Http\Controllers\admin\CheckController;
 use App\Http\Controllers\admin\CompanyController;
@@ -16,7 +17,7 @@ use App\Http\Livewire\Dashboard;
 use App\Models\Contract;
 use Illuminate\Support\Facades\Route;
 
-
+use Illuminate\Cache\CacheManager;
 Route::group([], function () {
     Route::get('/dashboard', Dashboard::class)->name('admin.dashboard');
 
@@ -39,4 +40,6 @@ Route::group([], function () {
     Route::get('reports/{type}/{period?}', [ReportController::class, 'getReports'])->name('reports.list');
 
     Route::get('details/{type}/{id}', [DetailController::class, 'getDetail'])->name('details.list');
+
+    Route::post('archive/{contract}/add', [ArchiveController::class, 'archive'])->name('archive.toggle');
 });

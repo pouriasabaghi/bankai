@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ class Contract extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'draft', 'financial_status', 'contract_status', 'total_price', 'payable', 'advance_payment', 'installments_total_price', 'type', 'contract_number', 'period', 'remind_at', 'started_at', 'signed_at', 'canceled_at', 'expired_at'];
+    protected $fillable = ['customer_id', 'company_id', 'name', 'desc', 'draft', 'financial_status', 'contract_status', 'total_price', 'payable', 'advance_payment', 'installments_total_price', 'type', 'contract_number', 'period', 'remind_at', 'started_at', 'signed_at', 'canceled_at', 'expired_at', 'archived'];
 
     protected static function boot()
     {
@@ -22,121 +23,125 @@ class Contract extends Model
         static::deleting(function ($contract) {
             $contract->installments()->delete();
         });
+
+        static::addGlobalScope('started_at', function (Builder $builder) {
+            $builder->orderByDesc('started_at');
+        });
     }
 
     protected function totalPrice(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) =>  fix_number($value),
+            set: fn($value) => fix_number($value),
         );
     }
 
     protected function totalPriceStr(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => number_format($attributes['total_price']),
+            get: fn($value, $attributes) => number_format($attributes['total_price']),
         );
     }
 
     protected function payable(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) =>  fix_number($value),
+            set: fn($value) => fix_number($value),
         );
     }
 
     protected function payableStr(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => number_format($attributes['payable']),
+            get: fn($value, $attributes) => number_format($attributes['payable']),
         );
     }
 
     protected function advancePayment(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) =>  fix_number($value),
+            set: fn($value) => fix_number($value),
         );
     }
 
     protected function advancePaymentStr(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => number_format($attributes['advance_payment']),
+            get: fn($value, $attributes) => number_format($attributes['advance_payment']),
         );
     }
 
     protected function installmentsTotalPrice(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) =>  fix_number($value),
+            set: fn($value) => fix_number($value),
         );
     }
 
     protected function installmentsTotalPriceStr(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => number_format($attributes['installments_total_price']),
+            get: fn($value, $attributes) => number_format($attributes['installments_total_price']),
         );
     }
 
     protected function signedAt(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
-            get: fn ($value) => $value ? jdate($value)->format('Y/m/d') : null,
+            set: fn($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
+            get: fn($value) => $value ? jdate($value)->format('Y/m/d') : null,
         );
     }
 
     protected function startedAt(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
-            get: fn ($value) => $value ? jdate($value)->format('Y/m/d') : null,
+            set: fn($value) => jdate()->fromFormat('Y/m/d', $value)->toCarbon(),
+            get: fn($value) => $value ? jdate($value)->format('Y/m/d') : null,
         );
     }
 
     protected function expiredAt(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => !empty($value) ?  jdate()->fromFormat('Y/m/d', $value)->toCarbon() : null,
-            get: fn ($value) => $value ? jdate($value)->format('Y/m/d') : null,
+            set: fn($value) => !empty($value) ? jdate()->fromFormat('Y/m/d', $value)->toCarbon() : null,
+            get: fn($value) => $value ? jdate($value)->format('Y/m/d') : null,
         );
     }
 
     protected function canceledAt(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => !empty($value) ? jdate()->fromFormat('Y/m/d', $value)->toCarbon() : null,
-            get: fn ($value) => $value ? jdate($value)->format('Y/m/d') : null,
+            set: fn($value) => !empty($value) ? jdate()->fromFormat('Y/m/d', $value)->toCarbon() : null,
+            get: fn($value) => $value ? jdate($value)->format('Y/m/d') : null,
         );
     }
 
     protected function canceledAtCarbon(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) =>  $attributes['canceled_at'],
+            get: fn($value, $attributes) => $attributes['canceled_at'],
         );
     }
 
     protected function totalReceives(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => $this->receivesInPocket()->sum('amount'),
+            get: fn($value, $attributes) => $this->receivesInPocket()->sum('amount'),
         );
     }
 
     protected function totalRest(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => $this->total_price - $this->receivesInPocket()->sum('amount')
+            get: fn($value, $attributes) => $this->total_price - $this->receivesInPocket()->sum('amount')
         );
     }
 
     public function customer()
     {
         return $this->belongsTo(Customer::class)->withDefault([
-            'name' => 'نامعتبر',
+            'name'   => 'نامعتبر',
             'mobile' => 'نامعبتر',
         ]);
     }
@@ -240,5 +245,15 @@ class Contract extends Model
     public function active()
     {
         return $this->whereNotNull('expired_at')->whereNotNull('canceled_at');
+    }
+
+    public function notArchived()
+    {
+        return $this->where('archived', '!=', true);
+    }
+
+    public function archived()
+    {
+        return $this->where('archived', '!=', false);
     }
 }
