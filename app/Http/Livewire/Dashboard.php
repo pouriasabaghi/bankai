@@ -30,6 +30,7 @@ class Dashboard extends Component
     public $contractsCount;
     public $companyCount;
     public $contractCanceledCount;
+    public $notDeterminedContracts;
 
     public $contractToCall;
     public $contractNoNeedCall;
@@ -73,6 +74,8 @@ class Dashboard extends Component
         $this->totalDebtor = number_format($debtorContracts->sum(function ($contract) {
             return fix_number($this->receiveService->getDetail($contract)['debtor']);
         }));
+
+        $this->notDeterminedContracts = $this->contract->notArchived()->whereDate('expired_at', '<=', now()->addDays(10))->get();
 
 
         $this->checks = $this->receive->uncollectedChecks()->with('contract')->get();

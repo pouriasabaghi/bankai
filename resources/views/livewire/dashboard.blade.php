@@ -16,6 +16,11 @@
                 'contracts' => $contractToCall,
                 'type' => 'add',
             ])
+
+            {{-- Not determined contracts --}}
+            @include('admin.dashboard.layouts.not-determined', [
+                'contracts' => $notDeterminedContracts,
+            ])
         </div>
 
 
@@ -28,6 +33,11 @@
 
             @include('admin.dashboard.layouts.checks')
         </div>
+
+        <div class="col-xl-5">
+
+        </div>
+
 
     </div>
 

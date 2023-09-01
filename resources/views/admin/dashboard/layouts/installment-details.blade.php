@@ -1,29 +1,27 @@
 <div>
     @if ($contract->debtorInstallments()->count() >= 3)
         <p class="badge bg-danger">
-            {{ $contract->debtorInstallments()->count()  }}
+            {{ $contract->debtorInstallments()->count() }}
             قسط عقب افتاده
         </p>
     @endif
 
-
-    @php
-        $firstBilledInstallment = $contract->debtorInstallments->first()->due_at;
-    @endphp
-    <p class="badge {{ jdate()->fromFormat('Y/m/d', $firstBilledInstallment)->toCarbon()->addDays(30) < now()
-        ? 'bg-danger'
-        : 'bg-warning'
-    }}">
-        {{ now()->diffInDays(
-            jdate()->fromFormat('Y/m/d', $firstBilledInstallment)->toCarbon(),
-        ) }}
-        روز گذشته
-    </p>
+    @if ($firstBilledInstallment)
+        <p
+            class="badge {{ jdate()->fromFormat('Y/m/d', $firstBilledInstallment)->toCarbon()->addDays(30) < now()
+                ? 'bg-danger'
+                : 'bg-warning' }}">
+            {{ now()->diffInDays(
+                jdate()->fromFormat('Y/m/d', $firstBilledInstallment)->toCarbon(),
+            ) }}
+            روز گذشته
+        </p>
+    @endif
 
     <p>
         <i class="far fa-file-contract"></i>
         قرارداد:
-        <a href="{{ route('contracts.update', $contract->id) }}" class="fw-bold">{{ $contract->name }}</a>
+        <a href="{{ route('contracts.edit', $contract->id) }}" class="fw-bold">{{ $contract->name }}</a>
     </p>
     <p>
         <i class="far fa-hotel"></i>

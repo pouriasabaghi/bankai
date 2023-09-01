@@ -5,8 +5,8 @@
 @section('content')
     <x-ui.card.Card>
         <x-slot name='header'>
-            <span data-feather="credit-card"></span>
-            <span>قرارداد</span>
+            <span data-feather="user"></span>
+            <span>ریز جزئیات مشتری</span>
         </x-slot>
 
         <x-slot name='body'>
@@ -95,9 +95,9 @@
                                 <thead>
                                     <tr>
                                         <th>عنوان قرارداد</th>
-                                        <th>اقساط‌مانده</th>
-                                        <th>بدهکار</th>
-                                        <th>مانده</th>
+                                        <th>اقساط‌بدهکار</th>
+                                        <th>مبلغ‌بدهی</th>
+                                        <th>مانده‌قرارداد</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,8 +126,15 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                {{ number_format($contract->debtorInstallments()->sum('amount')) }}
-                                                <small>تومان</small>
+                                                @if ($contract->id)
+                                                    <a href="{{ route('receives.create', $contract->id) }}">
+                                                        {{ number_format($contract->debtorInstallments()->sum('amount')) }}
+                                                        <small>تومان</small>
+                                                    </a>
+                                                @else
+                                                    {{ number_format($contract->total_rest) }}
+                                                    <small>تومان</small>
+                                                @endif
                                             </td>
                                             <td>
                                                 @if ($contract->id)

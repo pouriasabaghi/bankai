@@ -25,7 +25,9 @@
                             </button>
                         @endif
                     </div>
-                    @include('admin.dashboard.layouts.installment-details')
+                    @include('admin.dashboard.layouts.installment-details', [
+                        'firstBilledInstallment' => $contract->debtorInstallments->first()->due_at,
+                    ])
 
                     {{-- Calls --}}
                     <x-ui.collapse.Collapse parent='dashbaord-installments' id="contract-calls-{{ $contract->id }}">
@@ -74,7 +76,7 @@
                     </x-ui.collapse.Collapse>
 
                     {{-- Drafts --}}
-                    <x-ui.collapse.Collapse  parent='dashbaord-installments' id="contract-drafts-{{ $contract->id }}">
+                    <x-ui.collapse.Collapse parent='dashbaord-installments' id="contract-drafts-{{ $contract->id }}">
                         <div role="button" class="mt-3 btn btn-sm btn-outline-secondary rounded">
                             توضیحات تکمیلی
                             <i class="far fa-angle-down"></i>
@@ -84,12 +86,12 @@
                         <x-slot name='content'>
                             @if ($type == 'add')
                                 <textarea wire:key="contract-draft-{{ $contract->id }}" data-v="{{ $contract->draft }}"
-                                    wire:model.lazy="contractToCall.{{ $loop->index }}.draft" wire:change="syncDraft({{ $contract->id }}, $event.target.value)"
-                                    class="form-control mb-0 mt-2"></textarea>
+                                    wire:model.lazy="contractToCall.{{ $loop->index }}.draft"
+                                    wire:change="syncDraft({{ $contract->id }}, $event.target.value)" class="form-control mb-0 mt-2"></textarea>
                             @else
                                 <textarea wire:key="contract-draft-{{ $contract->id }}" data-v="{{ $contract->draft }}"
-                                    wire:model.lazy="contractNoNeedCall.{{ $loop->index }}.draft" wire:change="syncDraft({{ $contract->id }}, $event.target.value)"
-                                    class="form-control mb-0 mt-2"></textarea>
+                                    wire:model.lazy="contractNoNeedCall.{{ $loop->index }}.draft"
+                                    wire:change="syncDraft({{ $contract->id }}, $event.target.value)" class="form-control mb-0 mt-2"></textarea>
                             @endif
 
                         </x-slot>
