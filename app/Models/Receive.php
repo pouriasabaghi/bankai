@@ -23,7 +23,7 @@ class Receive extends Model
 
     public function uncollectedChecks()
     {
-        return $this->where('due_at', '<=', today())->where('type', 'check')->where('passed', false);
+        return $this->where('due_at', '<=', today()->addWeek())->where('type', 'check')->where('passed', false);
     }
 
     public function checks()

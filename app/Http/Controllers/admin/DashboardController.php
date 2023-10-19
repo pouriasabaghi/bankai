@@ -11,6 +11,7 @@ use App\Models\Receive;
 use App\Services\ContractService;
 use App\Services\ReceiveService;
 
+// This class not used any more
 class DashboardController extends Controller
 {
     public function index(ContractService $contractService, Installment $installment, Receive $receive, ReceiveService $receiveService, Contract $contract, Customer $customer, Company $company)

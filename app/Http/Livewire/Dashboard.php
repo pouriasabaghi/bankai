@@ -61,12 +61,12 @@ class Dashboard extends Component
         })->with('debtorInstallments')->get();
 
         // contract with empty remind_at
-        $this->contractToCall = $this->contract::whereHas('installments', function ($query) {
+        $this->contractToCall = $this->contract->notArchived()->whereHas('installments', function ($query) {
             $query->where('due_at', '<=', today())->where('status', 'billed')->where('collectible', true);
         })->whereNull('remind_at')->get();;
 
         // contract with value remind_at
-        $this->contractNoNeedCall = $this->contract::whereHas('installments', function ($query) {
+        $this->contractNoNeedCall = $this->contract->notArchived()->whereHas('installments', function ($query) {
             $query->where('due_at', '<=', today())->where('status', 'billed')->where('collectible', true);
         })->whereNotNull('remind_at')->get();
 
