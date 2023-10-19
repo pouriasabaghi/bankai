@@ -28,6 +28,12 @@ class Installment extends Model
         return $this->belongsTo(Contract::class);
     }
 
+    public function notArchivedContract()
+    {
+        return $this->belongsTo(Contract::class)->where('archived', false)->withDefault([
+            'name' => 'قرارداد نامعتبر',
+        ]);
+    }
 
     public function getContract()
     {

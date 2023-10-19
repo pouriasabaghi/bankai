@@ -6,6 +6,7 @@ use App\Helpers\Receives\ReceiveAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+
 class Receive extends Model
 {
     use HasFactory, ReceiveAttribute;
@@ -34,23 +35,30 @@ class Receive extends Model
     public function contract()
     {
         return $this->belongsTo(Contract::class)->withDefault([
-            'name'=>'قرارداد نامعتبر',
+            'name' => 'قرارداد نامعتبر',
         ]);
     }
 
+    public function notArchivedContract()
+    {
+        return $this->belongsTo(Contract::class)->where('archived', false)->withDefault([
+            'name' => 'قرارداد نامعتبر',
+        ]);
+    }
 
-    public function card(){
+    public function card()
+    {
         return $this->belongsTo(Card::class)->withDefault([
-            'name'=>'کارت نامعبتر'
+            'name' => 'کارت نامعبتر'
         ]);
     }
 
-        /**
+    /**
      * return receives that are deposits or passed check
      *
      * @return Builder
      */
-    public function receivesInPocket() : Builder
+    public function receivesInPocket(): Builder
     {
         $receives = $this->query()->where(function ($query) {
             $query->where('passed', true)

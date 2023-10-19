@@ -42,7 +42,7 @@ class ReceiveReport extends Report
                     throw new \Exception('Date period is not valid');
                     break;
             }
-        })->with('contract')->paginate(50);
+        })->with('notArchivedContract')->paginate(50);
     }
 
     public function renderView(array $mergeData = [])
