@@ -63,7 +63,7 @@ if (!function_exists('fix_number')) {
         $convertedPersianNums = str_replace($persian, $num, $removeSeparate);
         $englishNumbersOnly = str_replace($arabic, $num, $convertedPersianNums);
 
-        return intval($englishNumbersOnly);
+        return $englishNumbersOnly;
     }
 }
 
