@@ -15,7 +15,6 @@ class ReportController extends Controller
         $model = "App\Models\\" . ucfirst($type);
         $report = ReportFactory::makeReport($reportObjectRepo, new $model, 'admin.reports.index');
         $report->getData($period);
-
         return $report->renderView(['directory' => $request->directory]);
     }
 

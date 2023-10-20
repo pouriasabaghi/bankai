@@ -8,6 +8,10 @@
             <span>{{ $periodTitle }}</span>
         </x-slot>
         <x-slot name='body'>
+            @include('admin.reports.layouts.sum', [
+                'total' => number_format($total),
+                'text' => 'جمع کل وصولی‌ها',
+            ])
             <x-ui.table.Table :header="['#', 'عنوان', 'مدیریت', 'مبلغ', 'تاریخ واریز', 'حساب‌مقصد', 'نوع‌پرداخت', 'توضیحات']">
                 <x-slot name="tbody">
                     @foreach ($data as $receive)
@@ -16,14 +20,28 @@
                                 <span>{{ $loop->index + 1 }}</span>
                             </td>
                             <td>
-                                <span>{{ $receive->contract->name }}</span>
+                                @if ($receive->contract->id)
+                                    <a href="{{ route('contracts.edit', $receive->contract->id) }}">
+                                        {{ $receive->contract->name }}
+                                    </a>
+                                @else
+                                    {{ $receive->contract->name }}
+                                @endif
                             </td>
                             <td>
-                                <span>{{ $receive->contract->customer->name }}</span>
+                                @if ($receive->contract->customer->id)
+                                    <a
+                                        href="{{ route('details.list', ['type' => 'customer', 'id' => $receive->contract->customer->id, 'directory' => 'customers']) }}">
+                                        {{ $receive->contract->customer->name }}
+                                    </a>
+                                @else
+                                    <span> {{ $receive->contract->customer->name }}</span>
+                                @endif
                             </td>
                             <td>
                                 @if ($receive->contract->exists)
-                                    <a href="{{ route('receives.create', $receive->contract->id) }}#receive-{{ $receive->id }}">{{ $receive->amount_str }}</a>
+                                    <a
+                                        href="{{ route('receives.create', $receive->contract->id) }}#receive-{{ $receive->id }}">{{ $receive->amount_str }}</a>
                                 @else
                                     <span class="text-muted">{{ $receive->amount_str }}</span>
                                 @endif
