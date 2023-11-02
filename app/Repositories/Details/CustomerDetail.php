@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Details;
 
+use App\Models\Contract;
 use App\Models\Customer;
+use App\Models\Installment;
 use App\Services\ReceiveService;
 
 class CustomerDetail extends Detail
@@ -12,7 +14,7 @@ class CustomerDetail extends Detail
     protected $companies;
     protected $receives;
     protected $totalDebtor;
-    protected $receivesForAllContracts ;
+    protected $accumulative;
 
     protected ReceiveService $receiveService;
     public function getDetail($id)
@@ -29,14 +31,39 @@ class CustomerDetail extends Detail
         $this->data     = $customer->contracts;
         $this->receives = $customer->receives()->take(5)->get();
 
-        $receivesLists = $customer->contracts->where('archived', false)->map(function($contract){
+        // all receives from this customer
+        $contractReceivesLists = $customer->contracts->where('archived', false)->map(function ($contract) {
             return $contract->receives;
         });
-        $receivesLists = $receivesLists->collapse()->sortBy(function($receive){
-            return $receive->checkout_at;
-        });
+        $contractReceivesLists = $contractReceivesLists->collapse();
 
-        $this->receivesForAllContracts = $receivesLists ;
+        // all installments from this customer
+        $contractInstallmentsList = $customer->contracts->where('archived', false)->map(function ($contract) {
+            return $contract->installments;
+        });
+        $contractInstallmentsList = $contractInstallmentsList->collapse();
+
+        $accumulative = collect();
+        $accumulative = $accumulative->merge($contractInstallmentsList);
+        $accumulative = $accumulative->merge($contractReceivesLists);
+        $accumulative = $accumulative->map(function ($item) {
+            /**
+             * Some receives are check and just have due_at some receives are deposit and
+             * just have paid_at. checkout_at has merge value for sorting in customer single page
+             */
+            if ($item instanceof Installment) {
+                $item->checkout_at = $item->due_at;
+            } else {
+                if ($item->type == 'deposit') {
+                    $item->checkout_at = $item->paid_at;
+                } else {
+                    $item->checkout_at = $item->due_at;
+                }
+            }
+            return $item;
+        });
+        $accumulative = $accumulative->sortBy('checkout_at');
+        $this->accumulative = $accumulative;
     }
 
     public function renderView(array $mergeData = [])
@@ -48,7 +75,7 @@ class CustomerDetail extends Detail
             'receives'       => $this->receives,
             'totalDebtor'    => $this->totalDebtor,
             'receiveService' => $this->receiveService,
-            'receivesForAllContracts'=>$this->receivesForAllContracts,
+            'accumulative'   => $this->accumulative,
             ...$mergeData
         ]);
     }

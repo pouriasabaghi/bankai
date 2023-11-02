@@ -92,18 +92,4 @@ trait ReceiveAttribute
             )
         );
     }
-
-
-    /**
-     * Some receives are check and just have due_at some receives are deposit and
-     * just have paid_at. checkout_at has merge value for sorting in customer single page
-     */
-    public function checkoutAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value, $attributes) => $attributes['due_at'] ?? $attributes['paid_at'],
-        );
-    }
-
-
 }

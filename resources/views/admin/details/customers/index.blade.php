@@ -168,37 +168,56 @@
                             <h5 class="card-title mb-0">تجمیعی</h5>
                         </div>
                         <div class="card-body">
-                            <x-ui.table.Table :header="['قرارداد', 'مبلغ', 'تاریخ‌دریافت', 'نوع‌پرداخت', 'حساب‌مقصد']">
+                            <x-ui.table.Table :header="['قرارداد', 'تاریخ', 'مبلغ', 'نوع', 'حساب‌مقصد']">
                                 <x-slot name="tbody">
-                                    @foreach ($receivesForAllContracts as $receive)
-                                        <tr >
+                                    @foreach ($accumulative as $item)
+                                        <tr>
                                             <td>
-                                                @empty($receive->contract->name)
-                                                    <span>{{ $receive->contract->name }}</span>
-                                                @else
-                                                    <a href="{{ route('contracts.edit', $receive->contract->id) }}">{{ $receive->contract->name }}</a>
-                                                @endempty
-                                            </td>
-                                            <td>
-                                                <a href="#receive-{{ $receive->id }}">{{ $receive->amount_str }}</a>
-                                            </td>
-                                            <td >
-                                                <span>{{ $receive->date }}</span>
-                                            </td>
-                                            <td class="{{ $receive->status_class }} text-white">
-                                                <span>{{ $receive->type_str }}</span>
-                                            </td>
-                                            <td>
-                                                @empty($receive->card->id)
-                                                    {{ $receive->card->name }}
+                                                @empty($item->contract->name)
+                                                    <span>{{ $item->contract->name }}</span>
                                                 @else
                                                     <a
-                                                        href="{{ route('details.list', ['type' => 'card', 'id' => $receive->card->id, 'directory' => 'cards']) }}">
-                                                        {{ $receive->card->name }}
-                                                    </a>
+                                                        href="{{ route('contracts.edit', $item->contract->id) }}">{{ $item->contract->name }}</a>
                                                 @endempty
                                             </td>
 
+
+                                            <td>
+                                                <span>{{ $item->checkout_at }}</span>
+                                            </td>
+
+                                            <td>
+                                                @if ($item instanceof App\Models\Installment)
+                                                    <a href="{{ route('installments.create', $item->contract_id) }}">{{ $item->amount_str }}
+                                                        <small>تومان</small>
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('receives.create', $item->contract_id) }}">{{ $item->amount_str }}
+                                                        <small>تومان</small>
+                                                    </a>
+                                                @endif
+                                            </td>
+
+                                            @if ($item instanceof App\Models\Installment)
+                                                <td class="{{ $item->status_class }}">
+                                                    <span>اقساط</span>
+                                                </td>
+                                            @else
+                                                <td class="{{ $item->status_class }} text-white">
+                                                    <span>دریافت - </span>
+                                                    <span>{{ $item->type_str }}</span>
+                                                </td>
+                                            @endif
+
+
+
+                                            <td>
+                                                @if ($item instanceof App\Models\Installment)
+                                                    <span>-</span>
+                                                @else
+                                                    <span> {{ $item->card->name }}</span>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </x-slot>
