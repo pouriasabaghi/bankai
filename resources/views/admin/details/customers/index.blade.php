@@ -56,30 +56,30 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            @if(false)
-                            <strong>آخرین واریزی‌ها</strong>
-                            <ul class="timeline mt-2 mb-0">
-                                @forelse ($receives as $receive)
-                                    <li class="timeline-item">
-                                        <strong>{{ $receive->type == 'deposit' ? 'واریز' : 'چک' }}</strong>
-                                        {{-- <span
+                            @if (false)
+                                <strong>آخرین واریزی‌ها</strong>
+                                <ul class="timeline mt-2 mb-0">
+                                    @forelse ($receives as $receive)
+                                        <li class="timeline-item">
+                                            <strong>{{ $receive->type == 'deposit' ? 'واریز' : 'چک' }}</strong>
+                                            {{-- <span
                                             class="float-start text-muted text-sm">{{ jdate()->fromFormat('Y/m/d', $receive->paid_at ?? $receive->due_at)->toCarbon()->ago() }}</span> --}}
-                                        <p>
-                                            {{ $receive->contract->name }}
-                                            <br>
-                                            {{ $receive->desc ?? $receive->origin }}
-                                        </p>
+                                            <p>
+                                                {{ $receive->contract->name }}
+                                                <br>
+                                                {{ $receive->desc ?? $receive->origin }}
+                                            </p>
 
-                                    </li>
-                                @empty
-                                    <li class="timeline-item">
-                                        <strong>-</strong>
-                                        <span class="float-start text-muted text-sm">0</span>
-                                        <p>...</p>
-                                    </li>
-                                @endforelse
+                                        </li>
+                                    @empty
+                                        <li class="timeline-item">
+                                            <strong>-</strong>
+                                            <span class="float-start text-muted text-sm">0</span>
+                                            <p>...</p>
+                                        </li>
+                                    @endforelse
 
-                            </ul>
+                                </ul>
                             @endif
                         </x-slot>
                     </x-ui.card.Card>
@@ -187,7 +187,8 @@
                                                 @empty($item->contract->name)
                                                     <span>{{ $item->contract->name }}</span>
                                                 @else
-                                                    <a title="مشاهده قرارداد" href="{{ route('contracts.edit', $item->contract->id) }}">{{ $item->contract->name }}</a>
+                                                    <a title="مشاهده قرارداد"
+                                                        href="{{ route('contracts.edit', $item->contract->id) }}">{{ $item->contract->name }}</a>
                                                 @endempty
                                             </td>
 
@@ -197,11 +198,13 @@
 
                                             <td>
                                                 @if ($item instanceof App\Models\Installment)
-                                                    <a title="مشاهده اقساط" href="{{ route('installments.create', $item->contract_id) }}">{{ $item->amount_str }}
+                                                    <a title="مشاهده اقساط"
+                                                        href="{{ route('installments.create', $item->contract_id) }}">{{ $item->amount_str }}
                                                         <small>تومان</small>
                                                     </a>
                                                 @else
-                                                    <a title="مشاهده دریافتی‌ها" href="{{ route('receives.create', $item->contract_id) }}">{{ $item->amount_str }}
+                                                    <a title="مشاهده دریافتی‌ها"
+                                                        href="{{ route('receives.create', $item->contract_id) }}">{{ $item->amount_str }}
                                                         <small>تومان</small>
                                                     </a>
                                                 @endif
@@ -220,21 +223,38 @@
                                             @endif
 
                                             <td>
-                                                @if ($item instanceof App\Models\Installment && $item->status == 'billed' &&  $item->due_at <= jdate()->format('Y/m/d', now())  )
-                                                    <span>
-                                                        {{ $receiveService->getDetail($item->contract)['creditor_title'] }}:
-                                                    </span>
-                                                    <span>
-                                                        {{ $receiveService->getDetail($item->contract)['creditor'] }}
-                                                        <small>تومان</small>
-                                                    </span>
+                                                @if ($item instanceof App\Models\Installment && $item->status == 'billed')
+                                                    @if ($item->due_at <= jdate()->format('Y/m/d', now()))
+                                                        <span>
+                                                            {{ $receiveService->getDetail($item->contract)['creditor_title'] }}:
+                                                        </span>
+                                                        <span>
+                                                            {{ $receiveService->getDetail($item->contract)['creditor'] }}
+                                                            <small>تومان</small>
+                                                        </span>
+                                                    @elseif(
+                                                        $item->due_at > jdate()->format('Y/m/d', now()) &&
+                                                            $receiveService->getDetail($item->contract)['creditor_title'] == 'بستانکار')
+                                                        <span>
+                                                            {{ $receiveService->getDetail($item->contract)['creditor_title'] }}:
+                                                        </span>
+                                                        <span>
+                                                            {{ $receiveService->getDetail($item->contract)['creditor'] }}
+                                                            <small>تومان</small>
+                                                        </span>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
                                                 @else
                                                     <span>-</span>
                                                 @endif
                                             </td>
 
                                             <td>
-                                                @if ($item instanceof App\Models\Installment && $item->status == 'billed' &&  $item->due_at <= jdate()->format('Y/m/d', now()) )
+                                                @if (
+                                                    $item instanceof App\Models\Installment &&
+                                                        $item->status == 'billed' &&
+                                                        $item->due_at <= jdate()->format('Y/m/d', now()))
                                                     <span>
 
                                                         {{ $receiveService->getDetail($item->contract)['debtor'] }}
