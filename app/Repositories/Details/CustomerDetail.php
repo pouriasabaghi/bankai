@@ -53,6 +53,7 @@ class CustomerDetail extends Detail
              */
             if ($item instanceof Installment) {
                 $item->checkout_at = $item->due_at;
+                $item->debtor_till_now = $item->due_at;
             } else {
                 if ($item->type == 'deposit') {
                     $item->checkout_at = $item->paid_at;

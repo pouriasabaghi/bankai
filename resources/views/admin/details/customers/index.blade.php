@@ -28,7 +28,7 @@
                                 </div>
                             </div>
 
-                            <table class="table no-default-table vtable-sm mt-2 mb-4">
+                            <table class="table no-default-table vtable-sm mt-2">
                                 <tbody>
                                     <tr>
                                         <th class="text-dark">نام</th>
@@ -56,7 +56,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-
+                            @if(false)
                             <strong>آخرین واریزی‌ها</strong>
                             <ul class="timeline mt-2 mb-0">
                                 @forelse ($receives as $receive)
@@ -80,7 +80,7 @@
                                 @endforelse
 
                             </ul>
-
+                            @endif
                         </x-slot>
                     </x-ui.card.Card>
                 </div>
@@ -129,7 +129,6 @@
                                                 @if ($contract->id)
                                                     <a href="{{ route('receives.create', $contract->id) }}">
                                                         {{ $receiveService->getDetail($contract)['debtor'] }}
-                                                        {{-- $contract->debtorInstallments()->sum('amount') --}}
                                                         <small>تومان</small>
                                                     </a>
                                                 @else
@@ -163,12 +162,24 @@
                         </div>
                     </div>
 
+
+                </div>
+
+                <div class="col-xl-12">
                     <div class="card">
                         <div class="card-header pb-0">
                             <h5 class="card-title mb-0">تجمیعی</h5>
                         </div>
                         <div class="card-body">
-                            <x-ui.table.Table :header="['قرارداد', 'تاریخ', 'مبلغ', 'نوع', 'حساب‌مقصد']">
+                            <x-ui.table.Table :header="[
+                                'قرارداد',
+                                'تاریخ',
+                                'مبلغ',
+                                'نوع',
+                                'علی‌الحساب/بستانکار',
+                                'بدهکارتا‌به‌الان',
+                                'حساب‌مقصد',
+                            ]">
                                 <x-slot name="tbody">
                                     @foreach ($accumulative as $item)
                                         <tr>
@@ -176,11 +187,9 @@
                                                 @empty($item->contract->name)
                                                     <span>{{ $item->contract->name }}</span>
                                                 @else
-                                                    <a
-                                                        href="{{ route('contracts.edit', $item->contract->id) }}">{{ $item->contract->name }}</a>
+                                                    <a title="مشاهده قرارداد" href="{{ route('contracts.edit', $item->contract->id) }}">{{ $item->contract->name }}</a>
                                                 @endempty
                                             </td>
-
 
                                             <td>
                                                 <span>{{ $item->checkout_at }}</span>
@@ -188,11 +197,11 @@
 
                                             <td>
                                                 @if ($item instanceof App\Models\Installment)
-                                                    <a href="{{ route('installments.create', $item->contract_id) }}">{{ $item->amount_str }}
+                                                    <a title="مشاهده اقساط" href="{{ route('installments.create', $item->contract_id) }}">{{ $item->amount_str }}
                                                         <small>تومان</small>
                                                     </a>
                                                 @else
-                                                    <a href="{{ route('receives.create', $item->contract_id) }}">{{ $item->amount_str }}
+                                                    <a title="مشاهده دریافتی‌ها" href="{{ route('receives.create', $item->contract_id) }}">{{ $item->amount_str }}
                                                         <small>تومان</small>
                                                     </a>
                                                 @endif
@@ -201,6 +210,7 @@
                                             @if ($item instanceof App\Models\Installment)
                                                 <td class="{{ $item->status_class }}">
                                                     <span>اقساط</span>
+
                                                 </td>
                                             @else
                                                 <td class="{{ $item->status_class }} text-white">
@@ -209,7 +219,30 @@
                                                 </td>
                                             @endif
 
+                                            <td>
+                                                @if ($item instanceof App\Models\Installment && $item->status == 'billed')
+                                                    <span>
+                                                        {{ $receiveService->getDetail($item->contract)['creditor_title'] }}:
+                                                    </span>
+                                                    <span>
+                                                        {{ $receiveService->getDetail($item->contract)['creditor'] }}
+                                                        <small>تومان</small>
+                                                    </span>
+                                                @else
+                                                    <span>-</span>
+                                                @endif
+                                            </td>
 
+                                            <td>
+                                                @if ($item instanceof App\Models\Installment && $item->status == 'billed')
+                                                    <span>
+                                                        {{ $receiveService->getDetail($item->contract)['debtor'] }}
+                                                        <small>تومان</small>
+                                                    </span>
+                                                @else
+                                                    <span>-</span>
+                                                @endif
+                                            </td>
 
                                             <td>
                                                 @if ($item instanceof App\Models\Installment)
@@ -225,8 +258,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </x-slot>
     </x-ui.card.Card>
