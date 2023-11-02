@@ -33,8 +33,8 @@ class ReceiveReport extends Report
                         ->orWhereBetween('due_at', $periodCarbon);
                     break;
                 case 'year':
-                    return $query->whereYear('paid_at', $periodCarbon['start'])
-                        ->orWhereYear('due_at', $periodCarbon['start']);
+                    return $query->whereYear('paid_at', $periodCarbon)
+                        ->orWhereYear('due_at', $periodCarbon);
                     break;
                 case 'selected':
                     return $query->whereBetween('paid_at', $periodCarbon)

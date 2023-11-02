@@ -26,7 +26,7 @@ class InstallmentReport extends Report
                     return $query->whereBetween('due_at', $periodCarbon);
                     break;
                 case 'year':
-                    return $query->whereYear('due_at', $periodCarbon['start']);
+                    return $query->whereYear('due_at', $periodCarbon);
                     break;
                 case 'selected':
                     return $query->whereBetween('due_at', $periodCarbon);
