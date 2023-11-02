@@ -220,7 +220,7 @@
                                             @endif
 
                                             <td>
-                                                @if ($item instanceof App\Models\Installment && $item->status == 'billed')
+                                                @if ($item instanceof App\Models\Installment && $item->status == 'billed' &&  $item->due_at <= jdate()->format('Y/m/d', now())  )
                                                     <span>
                                                         {{ $receiveService->getDetail($item->contract)['creditor_title'] }}:
                                                     </span>
@@ -234,8 +234,9 @@
                                             </td>
 
                                             <td>
-                                                @if ($item instanceof App\Models\Installment && $item->status == 'billed')
+                                                @if ($item instanceof App\Models\Installment && $item->status == 'billed' &&  $item->due_at <= jdate()->format('Y/m/d', now()) )
                                                     <span>
+
                                                         {{ $receiveService->getDetail($item->contract)['debtor'] }}
                                                         <small>تومان</small>
                                                     </span>
