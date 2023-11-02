@@ -40,6 +40,7 @@ Route::group([], function () {
     Route::get('reports/{type}/{period?}', [ReportController::class, 'getReports'])->name('reports.list');
 
     Route::get('details/{type}/{id}', [DetailController::class, 'getDetail'])->name('details.list');
+    Route::get('details-filled/{type}/{id}', [DetailController::class, 'getFilledDetail'])->name('details.filled');
 
     Route::post('archive/{contract}/add', [ArchiveController::class, 'archive'])->name('archive.toggle');
 });

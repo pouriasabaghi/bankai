@@ -7,7 +7,7 @@ class DetailFactory{
         try{
             return new $detail($data, $view);
         }catch(Throwable $e){
-              dd('Error Message: did not find related detail class. class name must be singular');
+              dd('Error Message: did not find related detail class. class name must be singular', $e->getMessage());
         }
     }
 }

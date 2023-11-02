@@ -128,7 +128,8 @@
                                             <td>
                                                 @if ($contract->id)
                                                     <a href="{{ route('receives.create', $contract->id) }}">
-                                                        {{ number_format($contract->debtorInstallments()->sum('amount')) }}
+                                                        {{ $receiveService->getDetail($contract)['debtor'] }}
+                                                        {{-- $contract->debtorInstallments()->sum('amount') --}}
                                                         <small>تومان</small>
                                                     </a>
                                                 @else
@@ -159,6 +160,49 @@
 
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <h5 class="card-title mb-0">تجمیعی</h5>
+                        </div>
+                        <div class="card-body">
+                            <x-ui.table.Table :header="['قرارداد', 'مبلغ', 'تاریخ‌دریافت', 'نوع‌پرداخت', 'حساب‌مقصد']">
+                                <x-slot name="tbody">
+                                    @foreach ($receivesForAllContracts as $receive)
+                                        <tr >
+                                            <td>
+                                                @empty($receive->contract->name)
+                                                    <span>{{ $receive->contract->name }}</span>
+                                                @else
+                                                    <a href="{{ route('contracts.edit', $receive->contract->id) }}">{{ $receive->contract->name }}</a>
+                                                @endempty
+                                            </td>
+                                            <td>
+                                                <a href="#receive-{{ $receive->id }}">{{ $receive->amount_str }}</a>
+                                            </td>
+                                            <td >
+                                                <span>{{ $receive->date }}</span>
+                                            </td>
+                                            <td class="{{ $receive->status_class }} text-white">
+                                                <span>{{ $receive->type_str }}</span>
+                                            </td>
+                                            <td>
+                                                @empty($receive->card->id)
+                                                    {{ $receive->card->name }}
+                                                @else
+                                                    <a
+                                                        href="{{ route('details.list', ['type' => 'card', 'id' => $receive->card->id, 'directory' => 'cards']) }}">
+                                                        {{ $receive->card->name }}
+                                                    </a>
+                                                @endempty
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+                                </x-slot>
+                            </x-ui.table.Table>
                         </div>
                     </div>
                 </div>

@@ -12,6 +12,10 @@
                 'total' => number_format($total),
                 'text' => 'جمع کل وصولی‌ها',
             ])
+
+            @include('admin.reports.layouts.cards-sum-detail', compact('cards', 'periodTitle'))
+
+
             <x-ui.table.Table :header="['#', 'عنوان', 'مدیریت', 'مبلغ', 'تاریخ واریز', 'حساب‌مقصد', 'نوع‌پرداخت', 'توضیحات']">
                 <x-slot name="tbody">
                     @foreach ($data as $receive)

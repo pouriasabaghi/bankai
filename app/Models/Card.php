@@ -12,6 +12,8 @@ class Card extends Model
     use HasFactory;
 
     protected $fillable= ['name', 'number', 'amount'] ;
+
+
     protected function amount(): Attribute
     {
         return Attribute::make(
@@ -29,5 +31,7 @@ class Card extends Model
     public function receives()  {
         return $this->hasMany(Receive::class);
     }
+
+
 
 }

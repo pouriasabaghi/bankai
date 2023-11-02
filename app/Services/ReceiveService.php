@@ -182,6 +182,7 @@ class ReceiveService
 
         return [
             'debtor'            => number_format($debtorTillNow),
+            'rawDebtor'         => $debtorTillNow,
             'creditor'          => number_format($creditor),
             'creditor_title'    => $creditorTitle,
             'contract_receives' => $contractReceives,
