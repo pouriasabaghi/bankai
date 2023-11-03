@@ -1,6 +1,6 @@
 <x-ui.card.Card class="dashboard-cards shadow-lg ">
     <x-slot name='header'>
-        قراردادهای بلاتکلیف نشده
+        قراردادهای بلاتکلیف
     </x-slot>
 
     <x-slot name='body'>

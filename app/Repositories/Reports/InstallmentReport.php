@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Reports;
 
+use App\Models\Contract;
 use App\Models\Installment;
 use App\Traits\PeriodType;
 
@@ -35,7 +36,8 @@ class InstallmentReport extends Report
                     throw new \Exception('Date period is not valid');
                     break;
             }
-        })->with('notArchivedContract');
+        });
+
         $this->total = $installments->sum('amount');
         $this->data = $installments->paginate(50);
     }

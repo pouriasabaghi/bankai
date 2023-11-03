@@ -44,7 +44,7 @@ class ReceiveReport extends Report
                     throw new \Exception('Date period is not valid');
                     break;
             }
-        })->with('notArchivedContract');
+        });
 
 
         $receivesGroupedByCard = $receives->get()->groupBy('card_id');
