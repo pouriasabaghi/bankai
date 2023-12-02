@@ -50,7 +50,7 @@ if (!function_exists('is_url_active')) {
 
 
 
-// ? convert arabic and persian number to english
+// ? convert arabic and persian number to english.
 if (!function_exists('fix_number')) {
     function fix_number($number)
     {
