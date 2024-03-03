@@ -5,6 +5,9 @@
 
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav navbar-align">
+
+            <livewire:search />
+
             <li class="nav-item dropdown">
                 @include('admin.layouts.template.notifications')
             </li>

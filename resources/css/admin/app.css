@@ -17,3 +17,23 @@
 .pdp-default .day.cell, .pdp-default .dow.cell, .php-default .goToday {
     font-family: 'shabnam';
 }
+/* Search result */
+.search {
+    position: relative;
+}
+.search__result {
+    position: absolute;
+    top: 69px;
+    right: 0px;
+    background-color: white;
+    max-height: 300px;
+    z-index: 10;
+    width: 300px;
+    overflow: auto;
+    text-overflow: ellipsis;
+}
+@media only screen and (min-width: 1200px) {
+    .search__result {
+        width: 400px;
+    }
+}
