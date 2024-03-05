@@ -15,7 +15,7 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->is_admin == 1 && in_array(auth()->user()->role, ['manager', 'developer', 'accountant'])) {
+        if (auth()->check() && auth()->user()->is_admin == 1 ) {
             return $next($request);
         }
 
