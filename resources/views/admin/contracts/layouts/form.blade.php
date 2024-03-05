@@ -21,7 +21,8 @@
                 --}}
             @if ($formAttributes['isUpdate'])
                 @if ($contract->type)
-                    <x-ui.form.Option value="{{ old('type', $contract->type) }}">{{ $contract->type }}</x-ui.form.Option>
+                    <x-ui.form.Option
+                        value="{{ old('type', $contract->type) }}">{{ $contract->type }}</x-ui.form.Option>
                 @endif
             @endif
             @forelse ($types as $type)
@@ -101,11 +102,12 @@
         <x-ui.form.Input label='توضیحات' name='desc' col=' col'
             value="{{ old('desc', $contract->desc ?? '') }}" />
 
-
-        <div class="col-md-12">
-            <x-ui.button.Button>
-                ذخیره
-            </x-ui.button.Button>
-        </div>
+        @if (auth()->user()->role != 'user')
+            <div class="col-md-12">
+                <x-ui.button.Button>
+                    ذخیره
+                </x-ui.button.Button>
+            </div>
+        @endif
     </x-ui.form.InputLayout>
 </x-ui.form.Form>

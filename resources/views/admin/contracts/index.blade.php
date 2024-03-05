@@ -10,7 +10,9 @@
         </x-slot>
 
         <x-slot name='body'>
-            <x-ui.button.Button href="{{ route('contracts.create') }}" btn='success' class="mb-3">افزودن قرارداد جدید
+            @if (auth()->user()->role != 'user')
+                <x-ui.button.Button href="{{ route('contracts.create') }}" btn='success' class="mb-3">افزودن قرارداد جدید
+            @endif
             </x-ui.button.Button>
             <div class="row">
                 <div class="col-lg-6">
@@ -78,22 +80,24 @@
                             </x-ui.button.Link>
                         </td>
                         <td>
-                            <div class="d-flex">
-                                <form method="post" action='{{ route('contracts.destroy', $contract->id) }}'>
-                                    @csrf
-                                    @method('DELETE')
-                                    <x-ui.button.Delete />
-                                </form>
+                            @if (auth()->user()->role != 'user')
+                                <div class="d-flex">
+                                    <form method="post" action='{{ route('contracts.destroy', $contract->id) }}'>
+                                        @csrf
+                                        @method('DELETE')
+                                        <x-ui.button.Delete />
+                                    </form>
 
-                                <form method="post" action='{{ route('archive.toggle', $contract->id) }}'>
-                                    @csrf
-                                    @method('POST')
-                                    <x-ui.button.Archive title="{{ $contract->archived
-                                        ? 'خروج از آرشیو'
-                                        : 'افزون به آرشیو'   }}" archived="{{ $contract->archived }}" />
+                                    <form method="post" action='{{ route('archive.toggle', $contract->id) }}'>
+                                        @csrf
+                                        @method('POST')
+                                        <x-ui.button.Archive
+                                            title="{{ $contract->archived ? 'خروج از آرشیو' : 'افزون به آرشیو' }}"
+                                            archived="{{ $contract->archived }}" />
 
-                                </form>
-                            </div>
+                                    </form>
+                                </div>
+                            @endif
                         </td>
                     </tr>
                 @empty

@@ -8,7 +8,10 @@
     <div class="row">
         <x-ui.loader.Loader livewire="wire:loading.flex"
             style="right: 0;background: #00000040;z-index: 999;height: 100%;position: fixed;" />
-        @include('admin.dashboard.layouts.overal')
+
+        @if (auth()->user()->role != 'user')
+            @include('admin.dashboard.layouts.overal')
+        @endif
 
         <div class="col-xl-6 mb-3 ">
             {{-- Debtor contract to call --}}

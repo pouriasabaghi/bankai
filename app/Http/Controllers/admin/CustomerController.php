@@ -29,6 +29,9 @@ class CustomerController extends Controller
 
     public function create()
     {
+        if (!in_array(auth()->user()->role, ['manager', 'developer', 'accountant']))
+            abort('403');
+
         $formAttributes = (new CustomerService())->formAttributes();
         return view('admin.customers.create', compact('formAttributes'));
     }

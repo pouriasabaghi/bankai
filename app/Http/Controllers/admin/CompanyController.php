@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class CompanyController extends Controller
 {
     use Alert, Redirect;
-    protected CompanyService  $service;
+    protected CompanyService $service;
 
     public function __construct()
     {
@@ -30,9 +30,12 @@ class CompanyController extends Controller
 
     public function create()
     {
-        $service = $this->service;
+        if (!in_array(auth()->user()->role, ['manager', 'developer', 'accountant']))
+            abort('403');
+
+        $service        = $this->service;
         $formAttributes = $service->formAttributes();
-        $customers = Customer::query()->get();
+        $customers      = Customer::query()->get();
         return view('admin.companies.create', compact('formAttributes', 'customers'));
     }
 
@@ -48,9 +51,9 @@ class CompanyController extends Controller
 
     public function edit(Company $company)
     {
-        $service = $this->service;
+        $service        = $this->service;
         $formAttributes = $service->formAttributes($company);
-        $customers = Customer::query()->get();
+        $customers      = Customer::query()->get();
         return view('admin.companies.edit', compact('company', 'formAttributes', 'customers'));
     }
 

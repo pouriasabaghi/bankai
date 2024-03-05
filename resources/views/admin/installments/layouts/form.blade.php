@@ -25,7 +25,7 @@
     'installments_price_str' => $contract->installments_total_price_str,
     'advance_payment' => $contract->advance_payment_str,
     'period' => $contract->period,
-    'payable'=>$contract->payable_str,
+    'payable' => $contract->payable_str,
 ])
 
 
@@ -68,11 +68,16 @@
                             <x-ui.form.Input name="installment[{{ $loop->index }}][desc]"
                                 value="{{ $installment->desc ?? '' }}" placeholder="توضیحات" col='4' />
 
-                            <x-ui.form.Select name="installment[{{ $loop->index }}][kind]"  script='no' col="2" class="form-select form-select-sm" >
-                                <x-ui.form.Option selected="{{ !empty($installment->kind) && $installment->kind == 'deposit'  || !empty(request()['kind']) && request()['kind'] == 'deposit' }}" value="deposit">
+                            <x-ui.form.Select name="installment[{{ $loop->index }}][kind]" script='no'
+                                col="2" class="form-select form-select-sm">
+                                <x-ui.form.Option
+                                    selected="{{ (!empty($installment->kind) && $installment->kind == 'deposit') || (!empty(request()['kind']) && request()['kind'] == 'deposit') }}"
+                                    value="deposit">
                                     واریز
                                 </x-ui.form.Option>
-                                <x-ui.form.Option selected="{{ !empty($installment->kind) && $installment->kind == 'check'  || !empty(request()['kind']) && request()['kind'] == 'check' }}" value="check">
+                                <x-ui.form.Option
+                                    selected="{{ (!empty($installment->kind) && $installment->kind == 'check') || (!empty(request()['kind']) && request()['kind'] == 'check') }}"
+                                    value="check">
                                     چک
                                 </x-ui.form.Option>
 
@@ -93,11 +98,14 @@
                         </div>
                     </div>
                 @endforeach
-                <div class="col-12 text-end mt-3">
-                    <x-ui.button.Button type='button' class="btn-sm manage-row__button" btn='success'>
-                        افزودن
-                    </x-ui.button.Button>
-                </div>
+
+                @if (auth()->user()->role != 'user')
+                    <div class="col-12 text-end mt-3">
+                        <x-ui.button.Button type='button' class="btn-sm manage-row__button" btn='success'>
+                            افزودن
+                        </x-ui.button.Button>
+                    </div>
+                @endif
             </div>
 
             <hr>
@@ -144,10 +152,11 @@
             </x-ui.collapse.Collapse>
         </div>
         <div class="col-md-6">
-
-            <x-ui.button.Button class="submit-form">
-                ذخیره
-            </x-ui.button.Button>
+            @if (auth()->user()->role != 'user')
+                <x-ui.button.Button class="submit-form">
+                    ذخیره
+                </x-ui.button.Button>
+            @endif
         </div>
     </x-ui.form.InputLayout>
 </x-ui.form.Form>

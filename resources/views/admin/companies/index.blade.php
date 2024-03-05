@@ -12,8 +12,11 @@
             لیست بنگاه‌ها و مجموعه‌های مشتریان
         </x-slot>
         <x-slot name='body'>
-            <x-ui.button.Button href="{{ route('companies.create') }}" btn='success' class="mb-3">افزودن مجموعه جدید</x-ui.button.Button>
-            <x-ui.table.Table :attr="['id' => 'companies-table']" :header="['#', 'نام', 'صاحب(های)مجموعه','اقدامات']">
+            @if (auth()->user()->role != 'user')
+                <x-ui.button.Button href="{{ route('companies.create') }}" btn='success' class="mb-3">افزودن مجموعه
+                    جدید</x-ui.button.Button>
+            @endif
+            <x-ui.table.Table :attr="['id' => 'companies-table']" :header="['#', 'نام', 'صاحب(های)مجموعه', 'اقدامات']">
                 <x-slot name="tbody">
                     @forelse($companies as $company)
                         <tr>
@@ -26,12 +29,13 @@
                             <td>{{ $company->customers_str }}</td>
                             <td>
                                 <div class="d-flex">
-                                    <form method="post" action='{{ route('companies.destroy', $company->id) }}'>
-                                        @csrf
-                                        @method('DELETE')
-                                        <x-ui.button.Delete />
-                                    </form>
-
+                                    @if (auth()->user()->role != 'user')
+                                        <form method="post" action='{{ route('companies.destroy', $company->id) }}'>
+                                            @csrf
+                                            @method('DELETE')
+                                            <x-ui.button.Delete />
+                                        </form>
+                                    @endif
                                     <x-ui.button.Edit href="{{ route('companies.edit', $company->id) }}" />
                                 </div>
                             </td>

@@ -10,8 +10,11 @@
         </x-slot>
 
         <x-slot name='body'>
-            <x-ui.button.Button href="{{ route('customers.create') }}" btn='success' class="mb-3">افزودن مشتری
-                جدید</x-ui.button.Button>
+            @if (auth()->user()->role != 'user')
+                <x-ui.button.Button href="{{ route('customers.create') }}" btn='success' class="mb-3">افزودن مشتری
+                    جدید</x-ui.button.Button>
+            @endif
+
             <x-ui.table.Table :attr="['id' => 'customers-table']" :header="['#', 'نام', 'موبایل', 'تلفن', 'اقدامات']">
                 <x-slot name="tbody">
                     @forelse($customers as $customer)
@@ -27,11 +30,13 @@
                             <td>{{ $customer->phone }}</td>
                             <td>
                                 <div class="d-flex">
-                                    <form method="post" action='{{ route('customers.destroy', $customer->id) }}'>
-                                        @csrf
-                                        @method('DELETE')
-                                        <x-ui.button.Delete />
-                                    </form>
+                                    @if (auth()->user()->role != 'user')
+                                        <form method="post" action='{{ route('customers.destroy', $customer->id) }}'>
+                                            @csrf
+                                            @method('DELETE')
+                                            <x-ui.button.Delete />
+                                        </form>
+                                    @endif
 
                                     <x-ui.button.Edit href="{{ route('customers.edit', $customer->id) }}" />
                                 </div>

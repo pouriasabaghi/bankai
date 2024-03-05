@@ -16,9 +16,12 @@
             @if ($formAttributes['form'] == 'store')
                 <x-ui.form.InputCheckbox name='stay_in_page' label='ماندن در صفحه' value='true' />
             @endif
-            <x-ui.button.Button>
-                ذخیره
-            </x-ui.button.Button>
+
+            @if (auth()->user()->role != 'user')
+                <x-ui.button.Button>
+                    ذخیره
+                </x-ui.button.Button>
+            @endif
         </div>
     </x-ui.form.InputLayout>
 </x-ui.form.Form>

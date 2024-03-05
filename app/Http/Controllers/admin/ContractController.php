@@ -23,7 +23,7 @@ class ContractController extends Controller
 
     public function index(Request $request)
     {
-        $filters = $request->filters ;
+        $filters   = $request->filters;
         $contracts = Contract::query()->when($filters, function ($query) use ($filters) {
             if ($filters['archived'] != "") {
                 $query->where('archived', filter_var($filters['archived'], FILTER_VALIDATE_BOOLEAN));
@@ -34,6 +34,9 @@ class ContractController extends Controller
 
     public function create(ContractService $service)
     {
+        if (!in_array(auth()->user()->role, ['manager', 'developer', 'accountant']))
+            abort('403');
+
         $formAttributes   = $service->formAttributes();
         $types            = Type::query()->latest()->get();
         $services         = Service::query()->latest()->get();

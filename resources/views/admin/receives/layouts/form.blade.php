@@ -1,10 +1,10 @@
-@include('admin.layouts.messages', ['class'=>'mb-5'])
+@include('admin.layouts.messages', ['class' => 'mb-5'])
 
 @include('admin.receives.layouts.detail', [
     'debtor' => $detail['debtor'],
     'creditor' => $detail['creditor'],
     'creditorTitle' => $detail['creditor_title'],
-    'rest'=>$detail['rest'],
+    'rest' => $detail['rest'],
     'contractReceives' => $detail['contract_receives'],
 ])
 
@@ -81,33 +81,37 @@
                         </div>
                     </div>
                 @endforeach
-                <div class="col-12 text-end mt-3">
-                    <div class="btn-group add-receive-toggle-type-container">
-                        <div class="btn-group " role="group">
-                            <button type="button" class="btn btn-outline-success dropdown-toggle"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="type-label">چک</span>
-                            </button>
-                            <div class="dropdown-menu text-start ">
-                                <span role="button" class="dropdown-item toggle-type-buttons"
-                                    data-toggle-type='deposit'>واریز</span>
-                                <span role="button" class="dropdown-item toggle-type-buttons"
-                                    data-toggle-type='check'>چک</span>
+
+                @if (auth()->user()->role != 'user')
+                    <div class="col-12 text-end mt-3">
+                        <div class="btn-group add-receive-toggle-type-container">
+                            <div class="btn-group " role="group">
+                                <button type="button" class="btn btn-outline-success dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="type-label">چک</span>
+                                </button>
+                                <div class="dropdown-menu text-start ">
+                                    <span role="button" class="dropdown-item toggle-type-buttons"
+                                        data-toggle-type='deposit'>واریز</span>
+                                    <span role="button" class="dropdown-item toggle-type-buttons"
+                                        data-toggle-type='check'>چک</span>
+                                </div>
                             </div>
+                            <x-ui.button.Button type='button' class="btn-sm manage-row__button no-rounded"
+                                btn='success' :attr="['data-type' => 'check']">
+                                افزودن
+                            </x-ui.button.Button>
                         </div>
-                        <x-ui.button.Button type='button' class="btn-sm manage-row__button no-rounded" btn='success'
-                            :attr="['data-type' => 'check']">
-                            افزودن
-                        </x-ui.button.Button>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
         <div class="col-md-6">
-
-            <x-ui.button.Button class="submit-form">
-                ذخیره
-            </x-ui.button.Button>
+            @if (auth()->user()->role != 'user')
+                <x-ui.button.Button class="submit-form">
+                    ذخیره
+                </x-ui.button.Button>
+            @endif
         </div>
     </x-ui.form.InputLayout>
 </x-ui.form.Form>
