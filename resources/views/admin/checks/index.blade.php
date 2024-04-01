@@ -14,7 +14,7 @@
                     چک‌های تاریخ
                     {{ $date }}
                 </h5>
-                <x-ui.table.Table class="mb-5" :attr="['id' => 'contracts-table']" :header="['نام‌قرارداد', 'بانک', 'شعبه', 'کدشعبه', 'سریال‌جک', 'توضیحات', 'اقدامات']">
+                <x-ui.table.Table class="mb-5" :attr="['id' => 'contracts-table']" :header="['نام‌قرارداد', 'بانک', 'شعبه', 'مبلغ', 'سریال‌جک', 'توضیحات', 'اقدامات']">
                     <x-slot name="tbody">
                         @foreach ($dateChecks as $check)
                             <tr>
@@ -28,7 +28,7 @@
                                     {{ $check->branch_name }}
                                 </td>
                                 <td>
-                                    {{ $check->branch_code }}
+                                    {{ $check->amount_str }}
                                 </td>
                                 <td>
                                     {{ $check->serial_number }}
