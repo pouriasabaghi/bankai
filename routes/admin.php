@@ -5,19 +5,18 @@ use App\Http\Controllers\admin\CardController;
 use App\Http\Controllers\admin\CheckController;
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ContractController;
+use App\Http\Controllers\admin\CostController;
 use App\Http\Controllers\admin\CustomerController;
-use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\DetailController;
 use App\Http\Controllers\admin\InstallmentController;
+use App\Http\Controllers\admin\PaymentController;
 use App\Http\Controllers\admin\ReceiveController;
 use App\Http\Controllers\admin\ReportController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\TypeController;
 use App\Http\Livewire\Dashboard;
-use App\Models\Contract;
 use Illuminate\Support\Facades\Route;
 
-use Illuminate\Cache\CacheManager;
 Route::group([], function () {
     Route::get('/dashboard', Dashboard::class)->name('admin.dashboard');
 
@@ -43,4 +42,8 @@ Route::group([], function () {
     Route::get('details-filled/{type}/{id}', [DetailController::class, 'getFilledDetail'])->name('details.filled');
 
     Route::post('archive/{contract}/add', [ArchiveController::class, 'archive'])->name('archive.toggle');
+
+    Route::resource('costs', CostController::class);
+
+    Route::resource('payments', PaymentController::class);
 });

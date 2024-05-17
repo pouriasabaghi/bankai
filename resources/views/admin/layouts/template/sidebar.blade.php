@@ -42,6 +42,18 @@
                 ]" />
 
 
+            <x-dashboard.SidebarItemMulti icon='shopping-bag' active="{{ is_url_active('admin/costs') }}" id='costs'
+                title="هزینه‌ها" :items="[
+                    'افزودن قرارداد' => 'costs.create',
+                    'مدیریت هزینه‌ها' => 'costs.index',
+                ]" />
+
+            <x-dashboard.SidebarItemMulti icon='dollar-sign' active="{{ is_url_active('admin/payments') }}" id='payments'
+                title="پرداخت‌ و خروج از حساب" :items="[
+                    'ثبت پرداختی' => 'payments.create',
+                    'مدیریت پرداخت‌ها' => 'payments.index',
+                ]" />
+
 
 
             @if (in_array(auth()->user()->role, ['manager', 'developer']))

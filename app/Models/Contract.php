@@ -256,4 +256,8 @@ class Contract extends Model
     {
         return $this->where('archived', '!=', false);
     }
+
+    public function scopeNoArchive(Builder $query) : void{
+        $query->where('archived', '!=', true);
+    }
 }

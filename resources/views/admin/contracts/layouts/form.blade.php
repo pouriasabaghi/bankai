@@ -107,7 +107,34 @@
                 <x-ui.button.Button>
                     ذخیره
                 </x-ui.button.Button>
-            </div>
+
+                @if ($formAttributes['isUpdate'])
+                    @if ($contract->archived)
+                        <button class="btn btn-outline-secondary" form="archive-contract"
+                            onclick="return confirm('آیا مطمئن هستید؟')" title="خارج کردن از آرشیو">
+                            <i data-feather="rotate-ccw"></i>
+                            بازگرداندن از آرشیو
+                        </button>
+                    @else
+                        <button class="btn btn-outline-secondary" form="archive-contract"
+                            onclick="return confirm('آیا مطمئن هستید؟')" title="آرشیو کردن قرارداد">
+                            <i data-feather="archive"></i>
+                            آرشیو
+                        </button>
+                    @endif
+                @endif
         @endif
+        </div>
+
+
+
     </x-ui.form.InputLayout>
 </x-ui.form.Form>
+
+
+@if ($formAttributes['isUpdate'])
+    <form id="archive-contract" method="post" action='{{ route('archive.toggle', $contract->id) }}'>
+        @csrf
+        @method('POST')
+    </form>
+@endif

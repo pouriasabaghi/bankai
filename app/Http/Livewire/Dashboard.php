@@ -56,7 +56,7 @@ class Dashboard extends Component
         $this->customer        = new Customer;
         $this->company         = new Company;
 
-        $debtorContracts = $this->contract::whereHas('installments', function ($query) {
+        $debtorContracts = $this->contract->notArchived()->whereHas('installments', function ($query) {
             $query->where('due_at', '<=', today())->where('status', 'billed')->where('collectible', true);
         })->with('debtorInstallments')->get();
 
