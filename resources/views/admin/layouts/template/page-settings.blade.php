@@ -1,7 +1,6 @@
 <x-ui.collapse.Collapse id="page-settings" parentClass="page-settings d-none d-md-block">
     <div role="button" class="mb-3 btn  bg-white ">
-        تنظیمات صفحه
-        <i class="far fa-angle-down"></i>
+        <i class="far fa-gear"></i>
         <br>
     </div>
 
