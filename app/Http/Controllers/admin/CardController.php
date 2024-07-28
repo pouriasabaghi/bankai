@@ -20,7 +20,8 @@ class CardController extends Controller
 
     public function index()
     {
-        $cards = Card::query()->latest()->paginate(50);
+        $pagination = intval(request()->pagination) ?: get_user_pagination();
+        $cards = Card::query()->latest()->paginate($pagination);
         return view('admin.cards.index', compact('cards'));
     }
 

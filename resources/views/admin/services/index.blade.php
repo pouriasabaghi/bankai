@@ -3,6 +3,7 @@
 
 
 @section('content')
+    @include('admin.layouts.template.page-settings')
     <x-ui.card.Card>
         <x-slot name='header'>
             <span data-feather="star"></span>

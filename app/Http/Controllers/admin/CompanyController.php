@@ -23,7 +23,8 @@ class CompanyController extends Controller
 
     public function index()
     {
-        $companies = Company::query()->with('customers')->latest()->paginate(50);
+        $pagination = intval(request()->pagination) ?: get_user_pagination();
+        $companies = Company::query()->with('customers')->latest()->paginate($pagination);
         return view('admin.companies.index', compact('companies'));
     }
 

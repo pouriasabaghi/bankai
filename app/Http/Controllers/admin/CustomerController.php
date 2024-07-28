@@ -22,7 +22,8 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $customers = Customer::query()->latest()->paginate(50);
+        $pagination = intval(request()->pagination) ?: get_user_pagination();
+        $customers  = Customer::query()->latest()->paginate($pagination);
         return view('admin.customers.index', compact('customers'));
     }
 

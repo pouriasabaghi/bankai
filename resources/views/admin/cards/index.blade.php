@@ -3,6 +3,7 @@
 
 
 @section('content')
+    @include('admin.layouts.template.page-settings')
     <x-ui.card.Card>
         <x-slot name='header'>
             <span data-feather="credit-card"></span>
@@ -18,7 +19,8 @@
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>
-                                <a href="{{ route('details.list', ['type'=>'card','id'=>$card->id, 'directory'=>'cards']) }}">
+                                <a
+                                    href="{{ route('details.list', ['type' => 'card', 'id' => $card->id, 'directory' => 'cards']) }}">
                                     {{ $card->name }}
                                 </a>
                             </td>
