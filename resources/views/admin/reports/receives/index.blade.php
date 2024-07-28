@@ -60,7 +60,7 @@
                                 <span>{{ $receive->type_str }}</span>
                             </td>
                             <td>
-                                {{ $receive->desc }}
+                                {{ $receive->desc ?? $receive->origin }}
                             </td>
                         </tr>
                     @endforeach
