@@ -11,37 +11,40 @@
         </x-slot>
 
         <x-slot name='body'>
-            <x-ui.table.Table :header="['#', 'عنوان', 'مدیریت', 'مبلغ', 'تاریخ', 'حساب‌مقصد', 'نوع‌پرداخت', 'توضیحات']">
+            <x-ui.table.Table :header="['#', 'عنوان', 'مبلغ', 'تاریخ', 'حساب مبدا', 'حساب‌مقصد', 'نوع‌پرداخت', 'توضیحات']">
                 <x-slot name="tbody">
-                    @foreach ($data as $receive)
-                        <tr>
+                    @foreach ($data as $transaction)
+                        <tr >
                             <td>
                                 <span>{{ $loop->index + 1 }}</span>
                             </td>
                             <td>
-                                <span>{{ $receive->contract->name }}</span>
+                                <span>{{ $transaction['contract']}}</span>
                             </td>
-                            <td>
-                                <span>{{ $receive->contract->customer->name }}</span>
+                            <td class="text-white {{ $transaction['isReceive'] ? 'bg-success' : 'bg-danger' }}" >
+                                <span>{{ $transaction['amount'] }}</span>
                             </td>
-                            <td>
-                                @if ($receive->contract->exists)
-                                    <a href="{{ route('receives.create', $receive->contract->id) }}#receive-{{ $receive->id }}">{{ $receive->amount_str }}</a>
+                            {{-- <td>
+                                @if (!empty($transaction->contract->exists))
+                                    <a href="{{ route('receives.create', $transaction->contract->id) }}#receive-{{ $transaction->id }}">{{ $transaction->amount_str }}</a>
                                 @else
-                                    <span class="text-muted">{{ $receive->amount_str }}</span>
+                                    <span class="text-muted">{{ $transaction->amount_str }}</span>
                                 @endif
+                            </td> --}}
+                            <td>
+                                <span>{{ $transaction['date'] }}</span>
                             </td>
                             <td>
-                                <span>{{ $receive->date }}</span>
+                                <span>{{ $transaction['from'] }}</span>
                             </td>
                             <td>
-                                <span>{{ $receive->card->name }}</span>
+                                <span>{{ $transaction['to'] }}</span>
                             </td>
                             <td>
-                                <span>{{ $receive->type_str }}</span>
+                                <span>{{ $transaction['type'] }}</span>
                             </td>
                             <td>
-                                {{ $receive->desc }}
+                                {{ $transaction['desc'] }}
                             </td>
                         </tr>
                     @endforeach

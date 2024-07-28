@@ -15,7 +15,7 @@ class Payment extends Model
         'to',
         'amount',
         'desc',
-        'cost_id'
+        'cost_id',
     ];
 
 
@@ -33,14 +33,33 @@ class Payment extends Model
         );
     }
 
+    public function date(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, $attributes) => jdate($attributes['created_at'])->format('Y/m/d'),
+        );
+    }
+
 
     public function fromCard()
     {
         return $this->belongsTo(Card::class, 'from', 'id');
     }
 
-    public function cost(){
+    public function toCard()
+    {
+        return Card::firstWhere('number', $this->to);
+    }
+
+    public function toName()
+    {
+        return Card::firstWhere('number', $this->to)->name ?? $this->to;
+    }
+
+    public function cost()
+    {
         return $this->belongsTo(Cost::class);
     }
+
 
 }
