@@ -21,18 +21,32 @@ class ContractController extends Controller
     use Alert, Redirect;
 
 
-    public function index(Request $request)
+    public function index(Request $request, ReceiveService $receiveService)
     {
         $filters = $request->filters;
 
         $pagination = intval($request->pagination) ?: get_user_pagination();
 
-        $contracts  = Contract::query()->when($filters, function ($query) use ($filters) {
+        $contractList = Contract::query()->when($filters, function ($query) use ($filters) {
             if ($filters['archived'] != "") {
                 $query->where('archived', filter_var($filters['archived'], FILTER_VALIDATE_BOOLEAN));
             }
-        })->paginate($pagination);
-        return view('admin.contracts.index', compact('contracts'));
+            if (!empty($filters['debtor'])) {
+                $query->whereHas('installments', function ($query) {
+                    $query->where('due_at', '<=', today())->where('status', 'billed')->where('collectible', true);
+                });
+            }
+        });
+
+        $totalDebtor  = '';
+        if (!empty($filters['debtor'])) {
+            $totalDebtor = number_format($contractList->get()->sum(function ($contract) use ($receiveService) {
+                return fix_number($receiveService->getDetail($contract)['debtor']);
+            }));
+        }
+
+        $contracts = $contractList->paginate($pagination);
+        return view('admin.contracts.index', compact('contracts', 'totalDebtor'));
     }
 
     public function create(ContractService $service)
