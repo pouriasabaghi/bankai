@@ -65,7 +65,7 @@
                             {{ number_format($contract->totalReceives) }}
                         </td>
                         <td>
-                            {{ number_format($contract->totalRest) }}
+                            {{ $receiveService->getDetail($contract)['rest'] }}
                         </td>
                         <td>
                             <x-ui.button.Link class="ms-3" href="{{ route('installments.create', $contract->id) }}">

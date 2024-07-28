@@ -41,12 +41,12 @@ class ContractController extends Controller
         $totalDebtor  = '';
         if (!empty($filters['debtor'])) {
             $totalDebtor = number_format($contractList->get()->sum(function ($contract) use ($receiveService) {
-                return fix_number($receiveService->getDetail($contract)['debtor']);
+                return fix_number($receiveService->getDetail($contract)['rest']);
             }));
         }
 
         $contracts = $contractList->paginate($pagination);
-        return view('admin.contracts.index', compact('contracts', 'totalDebtor'));
+        return view('admin.contracts.index', compact('contracts', 'totalDebtor', 'receiveService'));
     }
 
     public function create(ContractService $service)
