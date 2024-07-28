@@ -32,13 +32,13 @@ class CustomerDetail extends Detail
         $this->receives = $customer->receives()->take(5)->get();
 
         // all receives from this customer
-        $contractReceivesLists = $customer->contracts->where('archived', false)->map(function ($contract) {
+        $contractReceivesLists = $customer->contracts->map(function ($contract) {
             return $contract->receives;
         });
         $contractReceivesLists = $contractReceivesLists->collapse();
 
         // all installments from this customer
-        $contractInstallmentsList = $customer->contracts->where('archived', false)->map(function ($contract) {
+        $contractInstallmentsList = $customer->contracts->map(function ($contract) {
             return $contract->installments;
         });
         $contractInstallmentsList = $contractInstallmentsList->collapse();
