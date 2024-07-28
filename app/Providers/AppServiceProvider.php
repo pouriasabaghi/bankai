@@ -30,14 +30,14 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength('190');
         Paginator::useBootstrap();
 
-        View::composer('admin.layouts.template.navbar', function($view){
+        View::composer('admin.layouts.template.navbar', function ($view) {
             $data = [
-                'notifications'=> DatabaseNotification::all(),
+                'notifications' => DatabaseNotification::all(),
             ];
             $view->with($data);
         });
 
-        View::composer('admin.dashboard.layouts.overal', function($view){
+        View::composer('admin.dashboard.layouts.overal', function ($view) {
             $motivationalQuotes = collect([
                 "تلاش بی‌وقفه، کلید موفقیت است.",
                 "تغییرات کوچک می‌توانند به تغییرات بزرگی منجر شوند.",
@@ -90,11 +90,17 @@ class AppServiceProvider extends ServiceProvider
                 "برای چیزی که پنج سال دیگه ارزشی نداره بیشتر از پنج دقیقه غصه نخور.",
                 "زندگی هر چقدر هم بد به نظر برسد، باز هم کاری وجود دارد که می‌توانی انجام دهی و در آن موفق شوی. استیون‌ هاوکینگ",
             ]);
-                $data = [
-                    'motivationalQuote' => $motivationalQuotes->random(),
-                ];
+            $data               = [
+                'motivationalQuote' => $motivationalQuotes->random(),
+            ];
             $view->with($data);
         });
+
+
+        if (!session()->has('pagination')) {
+            session()->put('pagination', 50);
+        }
+
 
         // $this->app->bind(ContractService::class, function ($app) {
         //     return new ContractService(new ContractRepo(new Contract()));

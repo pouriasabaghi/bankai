@@ -39,7 +39,9 @@ class InstallmentReport extends Report
         });
 
         $this->total = $installments->sum('amount');
-        $this->data = $installments->paginate(50);
+
+        $pagination  = intval(request()->pagination) ?: get_user_pagination();
+        $this->data  = $installments->paginate($pagination);
     }
 
     public function renderView(array $mergeData = [])

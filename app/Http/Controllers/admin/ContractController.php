@@ -23,12 +23,15 @@ class ContractController extends Controller
 
     public function index(Request $request)
     {
-        $filters   = $request->filters;
-        $contracts = Contract::query()->when($filters, function ($query) use ($filters) {
+        $filters = $request->filters;
+
+        $pagination = intval($request->pagination) ?: get_user_pagination();
+
+        $contracts  = Contract::query()->when($filters, function ($query) use ($filters) {
             if ($filters['archived'] != "") {
                 $query->where('archived', filter_var($filters['archived'], FILTER_VALIDATE_BOOLEAN));
             }
-        })->paginate(50);
+        })->paginate($pagination);
         return view('admin.contracts.index', compact('contracts'));
     }
 

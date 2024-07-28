@@ -60,7 +60,7 @@
                     </span>
                 </a>
                 <div class="dropdown-menu text-start">
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ route('profile-admin.index') }}">
                         <i class="align-middle me-1" data-feather="user"></i>
                         پروفایل
                     </a>

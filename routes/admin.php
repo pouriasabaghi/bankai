@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\CustomerController;
 use App\Http\Controllers\admin\DetailController;
 use App\Http\Controllers\admin\InstallmentController;
 use App\Http\Controllers\admin\PaymentController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\admin\ReceiveController;
 use App\Http\Controllers\admin\ReportController;
 use App\Http\Controllers\admin\ServiceController;
@@ -46,4 +47,7 @@ Route::group([], function () {
     Route::resource('costs', CostController::class);
 
     Route::resource('payments', PaymentController::class);
+
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile-admin.index');
+    Route::put('profile/{user}', [ProfileController::class, 'update'])->name('profile-admin.update');
 });

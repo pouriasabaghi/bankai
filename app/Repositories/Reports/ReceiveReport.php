@@ -52,16 +52,18 @@ class ReceiveReport extends Report
             $card = Card::firstWhere('id', $index);
             return [
                 $index => [
-                    'amount' => $receives->sum('amount'),
-                    'receives'=>$receives->pluck('id'),
-                    'name'   => Card::firstWhere('id', $index)->name ?? 'نامعتبر',
-                    'link'   => !empty($card->id) ? route('details.filled', ['type' => 'card', 'id' => $index]) : null,
+                    'amount'   => $receives->sum('amount'),
+                    'receives' => $receives->pluck('id'),
+                    'name'     => Card::firstWhere('id', $index)->name ?? 'نامعتبر',
+                    'link'     => !empty($card->id) ? route('details.filled', ['type' => 'card', 'id' => $index]) : null,
                 ],
             ];
         });
 
         $this->total = $receives->sum('amount');
-        $this->data  = $receives->paginate(50);
+
+        $pagination  = intval(request()->pagination) ?: get_user_pagination();
+        $this->data  = $receives->paginate(get_user_pagination());
     }
 
     public function renderView(array $mergeData = [])

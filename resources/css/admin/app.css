@@ -1,21 +1,23 @@
-@import './dashboard/dashboard.css';
-@import './dashboard/custom.css';
-@import './components/components.css';
-@import './plugins/plugins.css';
-@import './receives/receives.css';
+@import "./dashboard/dashboard.css";
+@import "./dashboard/custom.css";
+@import "./components/components.css";
+@import "./plugins/plugins.css";
+@import "./receives/receives.css";
 
-.add-new-service__box{
+.add-new-service__box {
     height: 0;
     overflow: hidden;
     transition: height 500ms;
 }
 
-.add-new-service__box.active{
+.add-new-service__box.active {
     height: 82px;
 }
 
-.pdp-default .day.cell, .pdp-default .dow.cell, .php-default .goToday {
-    font-family: 'shabnam';
+.pdp-default .day.cell,
+.pdp-default .dow.cell,
+.php-default .goToday {
+    font-family: "shabnam";
 }
 /* Search result */
 .search {
@@ -36,4 +38,12 @@
     .search__result {
         width: 400px;
     }
+}
+
+.page-settings {
+    position: absolute;
+    top: 0;
+    right: 48px;
+    z-index: 100;
+    width: calc(100% - 96px);
 }

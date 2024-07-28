@@ -54,14 +54,14 @@ if (!function_exists('is_url_active')) {
 if (!function_exists('fix_number')) {
     function fix_number($number)
     {
-        $number = $number ?? 0;
+        $number  = $number ?? 0;
         $persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        $arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+        $arabic  = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
-        $num = range(0, 9);
-        $removeSeparate = str_replace(',', '', $number);
+        $num                  = range(0, 9);
+        $removeSeparate       = str_replace(',', '', $number);
         $convertedPersianNums = str_replace($persian, $num, $removeSeparate);
-        $englishNumbersOnly = str_replace($arabic, $num, $convertedPersianNums);
+        $englishNumbersOnly   = str_replace($arabic, $num, $convertedPersianNums);
 
         return $englishNumbersOnly;
     }
@@ -74,13 +74,13 @@ if (!function_exists('get_device')) {
         $userAgent = $request->header('User-Agent');
 
         $devices = [
-            'iPhone' => 'iPhone',
-            'iPad' => 'iPad',
-            'Android' => 'Android',
+            'iPhone'        => 'iPhone',
+            'iPad'          => 'iPad',
+            'Android'       => 'Android',
             'Windows Phone' => 'Windows Phone',
-            'Windows' => 'Windows NT',
-            'Macintosh' => 'Macintosh',
-            'Linux' => 'Linux'
+            'Windows'       => 'Windows NT',
+            'Macintosh'     => 'Macintosh',
+            'Linux'         => 'Linux'
         ];
 
         $device = 'Unknown';
@@ -92,5 +92,13 @@ if (!function_exists('get_device')) {
         }
 
         return $device;
+    }
+}
+
+
+if (!function_exists('get_user_pagination')) {
+    function get_user_pagination()
+    {
+        return session()->get('pagination') ?? 50;
     }
 }

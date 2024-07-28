@@ -1,6 +1,7 @@
 @extends('admin.master')
 
 @section('content')
+    @include('admin.layouts.template.page-settings')
     <x-ui.card.Card id='receives'>
         <x-slot name='header'>
             <i class="fa-solid fa-sack-dollar"></i>
@@ -10,7 +11,7 @@
         <x-slot name='body'>
             @include('admin.reports.layouts.sum', [
                 'total' => number_format($total),
-                'text' => 'جمع کل مطالبات',
+                'text'  => 'جمع کل مطالبات',
             ])
             <x-ui.table.Table :header="['#', 'عنوان', 'مدیریت', 'مبلغ', 'تاریخ واریز', 'نوع‌پرداخت', 'توضیحات']">
                 <x-slot name="tbody">
