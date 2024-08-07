@@ -7,19 +7,13 @@
     <x-ui.card.Card>
         <x-slot name='header'>
             <span data-feather="file-text"></span>
-            <span>مدیریت قراردادها</span>
+            <span>لیست قراردادهای
+                {{ $service->name }}
+            </span>
         </x-slot>
 
         <x-slot name='body'>
-            @if (auth()->user()->role != 'user')
-                <x-ui.button.Button href="{{ route('contracts.create') }}" btn='success' class="mb-3">افزودن قرارداد جدید
-                </x-ui.button.Button>
-            @endif
-            <div class="row">
-                <div class="col-lg-6">
-                    @include('admin.contracts.layouts.filters')
-                </div>
-            </div>
+            <x-ui.button.Button href="{{ route('services.index') }}" btn="secondary" class="mb-3">بازگشت به خدمات</x-ui.button.Button>
             <x-ui.table.Table :attr="['id' => 'contracts-table']" :header="[
                 '#',
                 'عنوان‌قرارداد',
@@ -30,7 +24,6 @@
                 'دریافتی',
                 'مانده',
                 'اقساط / دریافتی‌ها',
-                'اقدامات',
             ]">
                 <x-slot name="tbody">
                     @forelse($contracts as $contract)
@@ -79,26 +72,6 @@
                                     <span class="text-success " data-feather="dollar-sign"></span>
                                 </span>
                             </x-ui.button.Link>
-                        </td>
-                        <td>
-                            @if (auth()->user()->role != 'user')
-                                <div class="d-flex">
-                                    <form method="post" action='{{ route('contracts.destroy', $contract->id) }}'>
-                                        @csrf
-                                        @method('DELETE')
-                                        <x-ui.button.Delete />
-                                    </form>
-
-                                    <form method="post" action='{{ route('archive.toggle', $contract->id) }}'>
-                                        @csrf
-                                        @method('POST')
-                                        <x-ui.button.Archive
-                                            title="{{ $contract->archived ? 'خروج از آرشیو' : 'افزون به آرشیو' }}"
-                                            archived="{{ $contract->archived }}" />
-
-                                    </form>
-                                </div>
-                            @endif
                         </td>
                     </tr>
                 @empty

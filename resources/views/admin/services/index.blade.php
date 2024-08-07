@@ -13,14 +13,15 @@
             خدمات هر دسته بندی مثال: بنر صفحه باغ تالار، بنر صفحه اصلی و...
         </x-slot>
         <x-slot name='body'>
-            <x-ui.button.Button href="{{ route('services.create') }}" btn='success' class="mb-3">افزودن خدمت جدید </x-ui.button.Button>
+            <x-ui.button.Button href="{{ route('services.create') }}" btn='success' class="mb-3">افزودن خدمت جدید
+            </x-ui.button.Button>
             <x-ui.table.Table :attr="['id' => 'services-table']" :header="['#', 'نام', 'اقدامات']">
                 <x-slot name="tbody">
                     @forelse($services as $service)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>
-                                <a href="">
+                                <a href="{{ route('services.show', $service->id) }}">
                                     {{ $service->name }}
                                 </a>
                             </td>

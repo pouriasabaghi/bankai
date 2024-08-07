@@ -24,7 +24,7 @@ Route::group([], function () {
     Route::resource('customers', CustomerController::class)->except('show');
     Route::resource('companies', CompanyController::class)->except('show');
     Route::resource('types', TypeController::class)->except('show');
-    Route::resource('services', ServiceController::class)->except('show');
+    Route::resource('services', ServiceController::class);
     Route::resource('cards', CardController::class)->except('show');
     Route::resource('contracts', ContractController::class)->except('show');
 
