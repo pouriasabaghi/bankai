@@ -7,9 +7,11 @@
                 <ol class="list-group ">
                     <li class="list-group-item d-flex justify-content-between align-items-start">
                         <div class="ms-2 me-auto">
-                            <a title="مشاهده قرارداد" href="{{ route('contracts.edit', $result->id) }}" class="d-block fw-bold">{{ $result->name }}</a>
+                            <a title="مشاهده قرارداد" href="{{ route('contracts.edit', $result->id) }}"
+                                class="d-block fw-bold">{{ $result->name }}</a>
                             @if (!empty($result->customer->id))
-                                <a title="مشاهده مشتری" href="{{ route('customers.edit', $result->customer->id) }}">
+                                <a title="مشاهده مشتری"
+                                    href="{{ route('details.list', ['type' => 'customer', 'id' => $result->customer->id, 'directory' => 'customers']) }}">
                                     {{ $result->customer->name }}
                                 </a>
                             @endif
@@ -24,13 +26,13 @@
                     </li>
                 </ol>
             @empty
-            <ol class="list-group ">
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        <span  class="fw-bold">نتیجه‌ای یافت نشد!</س>
-                    </div>
-                </li>
-            </ol>
+                <ol class="list-group ">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <span class="fw-bold">نتیجه‌ای یافت نشد!</س>
+                        </div>
+                    </li>
+                </ol>
             @endforelse
         </div>
     @endif

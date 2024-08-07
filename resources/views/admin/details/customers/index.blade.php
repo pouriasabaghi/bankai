@@ -32,7 +32,11 @@
                                 <tbody>
                                     <tr>
                                         <th class="text-dark">نام</th>
-                                        <td>{{ $customer->name }}</td>
+                                        <td>
+                                            <a href="{{ route('customers.edit', $customer->id) }}">
+                                                {{ $customer->name }}
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>مجموعه‌ها</th>
