@@ -19,7 +19,7 @@
                                 <span>{{ $loop->index + 1 }}</span>
                             </td>
                             <td>
-                                <span>{{ $transaction['contract']}}</span>
+                                <span>{{ $transaction['contract']->name}}</span>
                             </td>
                             <td class="text-white {{ $transaction['isReceive'] ? 'bg-success' : 'bg-danger' }}" >
                                 <span>{{ $transaction['amount'] }}</span>
