@@ -22,7 +22,7 @@
                                 <span>{{ $transaction['contract']->name}}</span>
                             </td>
                             <td class="text-white {{ $transaction['isReceive'] ? 'bg-success' : 'bg-danger' }}" >
-                                <span>{{ $transaction['amount'] }}</span>
+                                <span>{{ $transaction['amount_str'] }}</span>
                             </td>
                             {{-- <td>
                                 @if (!empty($transaction->contract->exists))
